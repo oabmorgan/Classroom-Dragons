@@ -1,13 +1,22 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<HTML>
-   <HEAD>
-      <TITLE>Classroom Dragons</TITLE>
-       <script src="https://apis.google.com/js/platform.js" async defer></script>
-       <meta name="google-signin-client_id" content="962020932017-j6fdspnmagpuj8tloqrc3jcb9q5842s2.apps.googleusercontent.com">
-       <link rel="stylesheet" href="styles.css">
-       <script type="text/javascript" src="scripts.js"></script>
-   </HEAD>
-   <BODY>
-       <div class="g-signin2" data-onsuccess="onSignIn"></div>
-   </BODY>
-</HTML>
+<html>
+  <body>
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
+      <script>
+        function handleCredentialResponse(response) {
+          console.log("Encoded JWT ID token: " + response.credential);
+        }
+        window.onload = function () {
+          google.accounts.id.initialize({
+            client_id: "962020932017-6ievr5uml2qfs8nbfmli3m4vbnvcjqgu.apps.googleusercontent.com",
+            callback: handleCredentialResponse
+          });
+          google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+            { theme: "outline", size: "large" }  // customization attributes
+          );
+          google.accounts.id.prompt(); // also display the One Tap dialog
+        }
+    </script>
+    <div id="buttonDiv"></div> 
+  </body>
+</html>
