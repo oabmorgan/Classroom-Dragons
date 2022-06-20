@@ -1,5 +1,5 @@
 users = {
-"omorgan@seto.ed.jp": {"type":"teacher","name": "Oliver", "class": "1-2"},
-"oabmorgan@gmail.com": {"type":"teacher","name": "Oliver 2", "class": "1-2"},
-"arceleven@gmail.com": {"type":"student","name": "Oliver Student", "class": "1-2"}
+    "omorgan@seto-solan.ed.jp": {"type":"teacher","name": "Oliver", "class": "1-2"},
+    "oabmorgan@gmail.com": {"type":"teacher","name": "Oliver", "class": "1-2"},
+    "arceleven@gmail.com": {"type":"student","name": "Oliver", "class": "1-2"}
 }
