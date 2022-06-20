@@ -16,9 +16,8 @@ function handleCredentialResponse(response) {
     var responsePayload = parseJwt(response.credential);
     email = responsePayload.email;
     alert("Hello " + email);
-    var details = users[email];
-    if(detals != null){
-        alert(details.name+": "+details.class);
+    if(email in users){
+        alert(users[email].name);
     }
 }
 
