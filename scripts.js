@@ -16,9 +16,15 @@ function handleCredentialResponse(response) {
     var responsePayload = parseJwt(response.credential);
     email = responsePayload.email;
     alert("Hello " + email);
+    var details = users[email];
+    if(detals != null){
+        alert(details.name+": "+details.class);
+    }
 }
 
+
 window.onload = function() {
+        
     //Build Login button
     google.accounts.id.initialize({
         client_id: "962020932017-6ievr5uml2qfs8nbfmli3m4vbnvcjqgu.apps.googleusercontent.com",
