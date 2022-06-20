@@ -15,9 +15,10 @@ function parseJwt(token) {
 function handleCredentialResponse(response) {
     var responsePayload = parseJwt(response.credential);
     email = responsePayload.email;
-    alert("Hello " + email);
     if(email in users){
-        alert(users[email].name);
+        alert(users[email].name+" in "+users[email].class+"("+users[email].type+")");
+    } else {
+        alert("Unregistered User");
     }
 }
 
