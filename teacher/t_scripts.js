@@ -2,37 +2,42 @@ var socket = io();
 
 var messages = document.getElementById('messages');
 
-document.getElementById("b_set_q").addEventListener("click", function(){ setQuestion(); });
+document.getElementById("b_set_q").addEventListener("click", function(){ setQuestion(-1); });
+
+document.getElementById("c_0").addEventListener("click", function(){ setQuestion(0); });
+document.getElementById("c_1").addEventListener("click", function(){ setQuestion(1); });
+document.getElementById("c_2").addEventListener("click", function(){ setQuestion(2); });
+document.getElementById("c_3").addEventListener("click", function(){ setQuestion(3); });
+
+document.getElementById("shiftleft").addEventListener("click", function(){ switchTeams(-1); });
+document.getElementById("shiftright").addEventListener("click", function(){ switchTeams(1); });
 
 let userID = prompt("What's your name?", "teacher");
 socket.emit('join', "teacher", userID);
 
 var currentQuestion = {
-  question: "test q?",
+  question: "",
+  correctAnswer: -1,
   answer0:{
-    answer: "test a0",
-    selected: false,
-    correct: false
+    answer: "",
+    IDs: []
   },
   answer1:{
-    answer: "test a1",
-    selected: false,
-    correct: false
+    answer: "",
+    IDs: []
   },
   answer2:{
-    answer: "test a2",
-    selected: false,
-    correct: false
+    answer: "",
+    IDs: []
   },
   answer3:{
-    answer: "test a3",
-    selected: false,
-    correct: false
+    answer: "",
+    IDs: []
   }
 }
 
-function setQuestion() {
-    console.log("Setting a question");
+function setQuestion(correct) {
+    currentQuestion.correctAnswer = correct;
     currentQuestion.question = document.getElementById('input_question').value;
     for(var i=0; i<4; i++){
       var ans = document.getElementById("input_a"+i).value;
@@ -45,15 +50,28 @@ function setQuestion() {
     socket.emit('question', currentQuestion);
 }
 
-socket.on('question', (question, answers) => {
-    console.log(question);
-    for(var i=0; i<answers.length; i++){
-      console.log(answers[i]);
+socket.on('answer', (question) => {
+    currentQuestion = question;
+    for(var i=0; i<4; i++){
+      document.getElementById("response_a"+i).innerHTML = currentQuestion["answer"+i].IDs.length;
     }
+})
+
+socket.on('join', (id) => {
+  var teamlist = document.getElementById("teamlist0");
+  var option = document.createElement("option");
+  option.text = id;
+  teamlist.add(option);
 })
 
 function sendAnswer(button_id) {
     var button = document.getElementById("b_"+button_id);
     console.log("Sending correct answer: "+button.textContent);
     socket.emit('answer', button.textContent, true);
+}
+
+function switchTeams(direction){
+  var teamlist = document.getElementById("teamlist0");
+  teamlist.remove(document.getElementById("teamlist0").value);
+  console.log(document.activeElement);
 }

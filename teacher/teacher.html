@@ -9,21 +9,40 @@
     <div>
       <input type="text" onfocus="this.value=''" value="Test question?" id="input_question"/>
       <div id="answers">
-        <input type="text" value="" id="input_a0"/>
-        <div id="response_a0"></div>
-        <input type="text" value="" id="input_a1"/>
-        <div id="response_a1"></div>
-        <input type="text" value="" id="input_a2"/>
-        <div id="response_a2"></div>
-        <input type="text" value="" id="input_a3"/>
-        <div id="response_a3"></div>
+        <div>
+        <input type="text" value="1" id="input_a0"/><button id="c_0" type="button">✓</button>
+        <div id="response_a0">0</div>
+      </div>
+      <div>
+        <input type="text" value="2" id="input_a1"/><button id="c_1" type="button">✓</button>
+        <div id="response_a1">0</div>
+      </div>
+      <div>
+        <input type="text" value="3" id="input_a2"/><button id="c_2" type="button">✓</button>
+        <div id="response_a2">0</div>
+      </div>
+      <div>
+        <input type="text" value="4" id="input_a3"/><button id="c_3" type="button">✓</button>
+        <div id="response_a3">0</div>
+      </div>
       </div>
       <button id="b_set_q" type="button">Ask a Question</button>
+
+      <div id="teams">
+        <select id="teamlist0" size="10" style="width: 100px; overflow-y:auto">
+        </select>
+        <select id="teamlist1" size="10" style="width: 100px; overflow-y:auto">
+        </select>
+        <select id="teamlist2" size="10" style="width: 100px; overflow-y:auto">
+        </select>
+        <select id="teamlist3" size="10" style="width: 100px; overflow-y:auto">
+
+        </select>
+      </div>
     </div>
     <div id="answerdiv">
-      <button id="b_0" type="button">A</button>
-      <button id="b_1" type="button">B</button>
-      <button id="b_2" type="button">C</button>
+      <button id="shiftleft" type="button"><</button>
+      <button id="shiftright" type="button">></button>
     </div>
     <script src="../socket.io/socket.io.js"></script>
     <script src="t_scripts.js"></script>

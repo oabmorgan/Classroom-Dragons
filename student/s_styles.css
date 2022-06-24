@@ -1,6 +1,10 @@
 button{
-    font-size: 5em;
-    height: 200px;
+    font-size: 2em;
+    height: 100px;
     width: 200px;
-    visibility: hidden;
+}
+
+#questionDiv{
+    background-color: darkseagreen;
+    font-size: 3em;
 }

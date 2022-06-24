@@ -3,10 +3,59 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3000;
 
+const { debug } = require('console');
 const express = require("express");
 app.use(express.static("student"));
 app.use(express.static("teacher"));
 app.use(express.static("screen"));
+
+var teams = {
+  team0:{
+    name:"Team 1",
+    xp:0,
+    level:0,
+    IDs:[]
+  },
+  team1:{
+    name:"Team 2",
+    xp:0,
+    level:0,
+    IDs:[]
+  },
+  team2:{
+    name:"Team 3",
+    xp:0,
+    level:0,
+    IDs:[]
+  },
+  team3:{
+    name:"Team 4",
+    xp:0,
+    level:0,
+    IDs:[]
+  }
+}
+
+var currentQuestion = {
+  question: "",
+  correctAnswer: -1,
+  answer0:{
+    answer: "",
+    IDs: []
+  },
+  answer1:{
+    answer: "",
+    IDs: []
+  },
+  answer2:{
+    answer: "",
+    IDs: []
+  },
+  answer3:{
+    answer: "",
+    IDs: []
+  }
+}
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/student/student.html');
@@ -21,21 +70,28 @@ app.get('/screen', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  socket.on('answer', (answer, correct) => {
-    if(correct){
-      console.log('Correct answer is: ' + answer);
-    } else {
-      console.log('Passing answer: ' + answer);
-      io.sockets.emit('answer', answer);
-    }
+  socket.on('answer', (answer) => {
+    console.log(answer.ID+" answered "+ answer.ansNumber);
+    currentQuestion["answer"+answer.ansNumber].IDs.push(answer.ID);
+    io.emit('answer', currentQuestion);
   });
 
-  socket.on('question', (question, answers) => {
-    console.log(question);
-    for(var i=0; i<answers.length; i++){
-      console.log(answers[i]);
+  socket.on('question', (question) => {
+    currentQuestion = question;
+    console.log(question.question);
+    if(currentQuestion.correctAnswer >= 0){
+      console.log("Answer was: "+currentQuestion.correctAnswer);
+      currentQuestion["answer"+currentQuestion.correctAnswer].IDs.forEach(ID =>{
+        for(var i=0; i<4; i++){
+          teams["team"+i].IDs.forEach(member => console.log(member));
+          if(teams["team"+i].IDs.includes(ID)){
+            console.log("Points for team "+i);
+            giveXP(i, 10);
+          }
+        }
+      });
     }
-    io.emit('question', question, answers);
+    io.emit('question', question);
   });
 
   socket.on('join', function (group, id) {
@@ -45,8 +101,13 @@ io.on('connection', (socket) => {
       case "teacher":
       break;
       case "student":
+        teams["team0"].IDs.push(id);
+        io.to("teacher").emit('join', id);
       break;
       case "screen":
+        console.log("Sending qr code");
+        var ip = require("ip");
+        io.to("screen").emit('qr', ip.address()+":"+port);
       break;
     }
   });
@@ -56,3 +117,8 @@ http.listen(port, () => {
   var ip = require("ip");
   console.log(ip.address()+`:${port}`);
 });
+
+function giveXP(team, count){
+  teams["team"+team].xp += count;
+  console.log("Team " + team + " has " + teams["team"+team].xp + "xp");
+}
