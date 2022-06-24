@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Teacher</title>
+    <link rel="stylesheet" type="text/css" href="t_styles.css">
+  </head>
+  <body>
+    <div>Teachers Page</div>
+    <div>
+      <input type="text" onfocus="this.value=''" value="Test question?" id="input_question"/>
+      <div id="answers">
+        <input type="text" value="" id="input_a0"/>
+        <div id="response_a0"></div>
+        <input type="text" value="" id="input_a1"/>
+        <div id="response_a1"></div>
+        <input type="text" value="" id="input_a2"/>
+        <div id="response_a2"></div>
+        <input type="text" value="" id="input_a3"/>
+        <div id="response_a3"></div>
+      </div>
+      <button id="b_set_q" type="button">Ask a Question</button>
+    </div>
+    <div id="answerdiv">
+      <button id="b_0" type="button">A</button>
+      <button id="b_1" type="button">B</button>
+      <button id="b_2" type="button">C</button>
+    </div>
+    <script src="../socket.io/socket.io.js"></script>
+    <script src="t_scripts.js"></script>
+  </body>
+</html>
