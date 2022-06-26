@@ -1,7 +1,70 @@
+body{
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+#logincontainer{
+    display: block;
+    text-align: center;
+    width: 100%;
+    border: 1px solid;
+}
+
+#loginForm{
+    padding: 50px 0px 50px 0px;
+    display: inline-block;
+    width: 410px;
+}
+
+input[type=text], select {
+    font-size: 1.5em;
+    width: 200px;
+    padding: 2px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: right;
+  }
+  
+  label {
+      font-size: 1.5em;
+      width: 200px;
+  }
+
+  input[type=submit] {
+    width: 404px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  
+
 button{
     font-size: 2em;
     height: 100px;
     width: 200px;
+}
+
+#loginContainer{
+    width: 1000px;
+    font-size: 2em;
+}
+
+.login{
+    font-size: 2em;
+    text-align: right;
+}
+
+.row{
+    float: left;
+    width: 300px;
 }
 
 #questionDiv{

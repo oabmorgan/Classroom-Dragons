@@ -5,16 +5,38 @@
     <link rel="stylesheet" type="text/css" href="sc_styles.css">
   </head>
   <body>
-    <script src="../socket.io/socket.io.js"></script>
-    <script src="sc_scripts.js"></script>
-    <div id="teamContainer">
-      <div id="team0" style="background-color:bisque" class="team"></div>
-      <div id="team1" style="background-color:antiquewhite" class="team"></div>
-      <div id="team2" style="background-color:burlywood" class="team"></div>
-      <div id="team3" style="background-color:blanchedalmond" class="team"></div>
+    
+    <div id="teamsContainer">
+      <div class="teamContainer" id="team0Container">
+        <div class="teamxpContainer" id="team0xpContainer">
+          <div class="teamxpFill" id="team0xpFill"></div>
+        </div>
+      </div>
+
+      <div class="teamContainer" id="team1Container">
+        <div class="teamxpContainer" id="team1xpContainer">
+          <div class="teamxpFill" id="team1xpFill"></div>
+        </div>
+      </div>
+
+      <div class="teamContainer" id="team2Container">
+        <div class="teamxpContainer" id="team2xpContainer">
+          <div class="teamxpFill" id="team2xpFill"></div>
+        </div>
+      </div>
+
+      <div class="teamContainer" id="team3Container">
+        <div class="teamxpContainer" id="team3xpContainer">
+          <div class="teamxpFill" id="team3xpFill"></div>
+        </div>
+      </div>
     </div>
+
+
     <div id="qrholder">
       <img id="qr" src="https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=">
     </div>
+    <script src="../socket.io/socket.io.js"></script>
+    <script src="sc_scripts.js"></script>
   </body>
 </html>
