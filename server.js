@@ -16,7 +16,6 @@ app.use(express.static("screen"));
 var users = {
     "teacher@seto-solan.ed.jp": {
        "socket": "",
-       "userType": "teacher",
        "realName": "Mr. Oliver",
        "class": "1-2",
        "team": 0,
@@ -29,7 +28,6 @@ var users = {
     },
     "omorgan@seto-solan.ed.jp": {
        "socket": "",
-       "userType": "student",
        "realName": "Oliver",
        "class": "1-2",
        "team": 1,
@@ -42,7 +40,6 @@ var users = {
     },
     "student@seto-solan.ed.jp": {
        "socket": "",
-       "userType": "student",
        "realName": "MORG",
        "class": "1-2",
        "team": 2,
@@ -86,8 +83,15 @@ function socketToEmail(socket){
     }
 }
 
+function isConnected(email){
+    return !users[email].socket == "";
+}
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/student/student.html');
+});
+app.get('/teacher', (req, res) => {
+    res.sendFile(__dirname + '/teacher/teacher.html');
 });
 app.get('/screen', (req, res) => {
     res.sendFile(__dirname + '/screen/screen.html');
@@ -100,9 +104,14 @@ io.on('connection', (socket) => {
             console.error("New Screen Connected");
             socket.join("screens");
             io.to(socket.id).emit('qr', address);
-            for(let i=0; i<Object.keys(teams).length; i++){
-                io.to(socket.id).emit('updatexp', i, teams[i].xp);
-            }
+            updateXP();
+            return;   
+        }
+        if(email == "teacher"){
+            console.error("New Teacher Connected");
+            socket.join("teachers");
+            updateTeams();
+            updateXP();
             return;   
         }
         //Catch unregistered emails
@@ -115,6 +124,8 @@ io.on('connection', (socket) => {
         console.log(users[email].realName + " connected. ("+email+")");
         io.to(socket.id).emit("login", true);
         socket.join("students");
+        console.log(users[email].team);
+        updateTeams();
     });
 
     //User disconnects, clear socket
@@ -144,10 +155,26 @@ io.on('connection', (socket) => {
             let team = teams[user.team];
             team.xp += amount;
             console.log(team.name + " team got "+amount + "xp!");
-            io.emit('updatexp', user.team, team.xp);
+            updateXP();
         }
     });
 });
+
+function updateXP(){
+    console.log("Updating XP");
+    for(let i=0; i<Object.keys(users).length; i++){
+        io.emit('updatexp', i, teams[i].xp);
+    }
+}
+
+function updateTeams(){
+    console.log("Updating Teams");
+    for (const user in users) {
+        if(isConnected(user)){
+            io.emit('updateTeams', user, users[user].realName, users[user].team);
+        }
+    }
+}
 
 http.listen(port, () => {
     address = ip.address()+':'+port;

@@ -1,3 +1,12 @@
-button{
-    font-size: 1em;
+.selectGroupContainer {
+    display: inline-block;
+    position: relative;
+    font-family: Arial;
+    width: 200px;
+  }
+
+.selectGroup{
+    width: 200px;
+    overflow-y: auto;
+    font-size: 1.5em;
 }
