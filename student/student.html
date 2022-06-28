@@ -6,11 +6,43 @@
   <body>
     <div id='logincontainer'>
       <form id="loginForm" action="#">
-        <input id="email" type="text" value="omorgan" placeholder="email">
+        <input id="email" type="text" value="2022000" placeholder="email">
         <label for="email">@seto-solan.ed.jp</label>
         <input type="submit" id="sumbitButton">
         <label id="loginfeedback" style="font-size: 1em; color: red; visibility: hidden;" >Email not Registered</label>
-      </form>    
+      </form>
+    </div>
+
+    <div id="teamsContainer">
+      <div class="teamContainer" id="MyteamContainer">
+        <div class="teamLevel" id="MyteamLevel">0</div>
+        <div class="teamxpContainer" id="MyteamxpContainer">
+          <div class="teamxpFill" id="MyteamxpFill"></div>
+        </div>
+        <img class="char" id="teamChar" src="">
+      </div>
+      <div id="infoContainer">
+        <div id="myName">My Name</div>
+        <div class="cardContainer">
+          <div class="card" id="greenCards" style="background-color: rgb(114, 175, 83)">0</div>
+          <div class="card" id="yellowCards" style="background-color: rgb(245, 225, 53)">0</div>
+          <div class="card" id="redCards" style="background-color: rgb(254, 61, 27);">0</div>
+        </div>
+        <div id="questLog">
+          <div class="quest" id="quest0">
+            <div class="questReward" id="questReward0">9</div>
+            <div class="questDescription" id="questDescription0"></div>
+          </div>
+          <div class="quest" id="quest1">
+            <div class="questReward" id="questReward1">9</div>
+            <div class="questDescription" id="questDescription1"></div>
+          </div>
+          <div class="quest" id="quest2">
+            <div class="questReward" id="questReward2">9</div>
+            <div class="questDescription" id="questDescription2"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="../socket.io/socket.io.js"></script>
     <script src="s_scripts.js"></script>

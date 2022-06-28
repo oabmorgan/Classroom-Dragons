@@ -7,50 +7,343 @@ const { connect } = require('http2');
 const port = process.env.PORT || 3000;
 const ip = require("ip");
 
+const xpMultiplier = 1.3;
+const xpTeamMultiplier = 5;
+
 var address;
 
 app.use(express.static("student"));
+app.use(express.static("images"));
 app.use(express.static("teacher"));
 app.use(express.static("screen"));
 
+//https://www.convertcsv.com/csv-to-json.htm
 var users = {
-    "teacher@seto-solan.ed.jp": {
+    "2022000@seto-solan.ed.jp": {
+        "realName": "Test Student",
+        "socket": "",
+        "class": "1-2",
+        "team": 1,
+        "quests": [],
+        "xp": 0,
+        "green": 0,
+        "yellow": 0,
+        "red": 0,
+        "answers": ""
+     },
+    "2022003@seto-solan.ed.jp": {
+       "realName": "Ema",
        "socket": "",
-       "realName": "Mr. Oliver",
-       "class": "1-2",
-       "team": 0,
-       "quest": "",
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answers": ""
-    },
-    "omorgan@seto-solan.ed.jp": {
-       "socket": "",
-       "realName": "Oliver",
        "class": "1-2",
        "team": 1,
-       "quest": "",
+       "quests": [],
        "xp": 0,
        "green": 0,
        "yellow": 0,
        "red": 0,
        "answers": ""
     },
-    "student@seto-solan.ed.jp": {
+    "2022010@seto-solan.ed.jp": {
+       "realName": "Toma",
        "socket": "",
-       "realName": "MORG",
+       "class": "1-2",
+       "team": 1,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022076@seto-solan.ed.jp": {
+       "realName": "Koshi",
+       "socket": "",
+       "class": "1-2",
+       "team": 3,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022004@seto-solan.ed.jp": {
+       "realName": "Chihiro",
+       "socket": "",
+       "class": "1-2",
+       "team": 0,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022013@seto-solan.ed.jp": {
+       "realName": "Yutaro",
+       "socket": "",
+       "class": "1-2",
+       "team": 0,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022045@seto-solan.ed.jp": {
+       "realName": "Fuma",
+       "socket": "",
+       "class": "1-2",
+       "team": 3,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022038@seto-solan.ed.jp": {
+       "realName": "Takumi",
+       "socket": "",
        "class": "1-2",
        "team": 2,
-       "quest": "",
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022002@seto-solan.ed.jp": {
+       "realName": "Ryotaro",
+       "socket": "",
+       "class": "1-2",
+       "team": 2,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022009@seto-solan.ed.jp": {
+       "realName": "Fuku",
+       "socket": "",
+       "class": "1-2",
+       "team": 1,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022016@seto-solan.ed.jp": {
+       "realName": "Yuta",
+       "socket": "",
+       "class": "1-2",
+       "team": 0,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022025@seto-solan.ed.jp": {
+       "realName": "Ruriju",
+       "socket": "",
+       "class": "1-2",
+       "team": 3,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022069@seto-solan.ed.jp": {
+       "realName": "Kippei",
+       "socket": "",
+       "class": "1-2",
+       "team": 0,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022077@seto-solan.ed.jp": {
+       "realName": "Mio",
+       "socket": "",
+       "class": "1-2",
+       "team": 3,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022054@seto-solan.ed.jp": {
+       "realName": "Wako",
+       "socket": "",
+       "class": "1-2",
+       "team": 2,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022022@seto-solan.ed.jp": {
+       "realName": "Yua",
+       "socket": "",
+       "class": "1-2",
+       "team": 2,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022070@seto-solan.ed.jp": {
+       "realName": "Andy",
+       "socket": "",
+       "class": "1-2",
+       "team": 1,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022062@seto-solan.ed.jp": {
+       "realName": "Taisei",
+       "socket": "",
+       "class": "1-2",
+       "team": 0,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022046@seto-solan.ed.jp": {
+       "realName": "Koga",
+       "socket": "",
+       "class": "1-2",
+       "team": 0,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022059@seto-solan.ed.jp": {
+       "realName": "Mariya",
+       "socket": "",
+       "class": "1-2",
+       "team": 1,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022049@seto-solan.ed.jp": {
+       "realName": "Ichiro",
+       "socket": "",
+       "class": "1-2",
+       "team": 3,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022072@seto-solan.ed.jp": {
+       "realName": "Kenji",
+       "socket": "",
+       "class": "1-2",
+       "team": 1,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022034@seto-solan.ed.jp": {
+       "realName": "Umeka",
+       "socket": "",
+       "class": "1-2",
+       "team": 2,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022047@seto-solan.ed.jp": {
+       "realName": "Kengo",
+       "socket": "",
+       "class": "1-2",
+       "team": 2,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022044@seto-solan.ed.jp": {
+       "realName": "Leo",
+       "socket": "",
+       "class": "1-2",
+       "team": 0,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022048@seto-solan.ed.jp": {
+       "realName": "Yuito",
+       "socket": "",
+       "class": "1-2",
+       "team": 3,
+       "quests": [],
+       "xp": 0,
+       "green": 0,
+       "yellow": 0,
+       "red": 0,
+       "answers": ""
+    },
+    "2022073@seto-solan.ed.jp": {
+       "realName": "Wataru",
+       "socket": "",
+       "class": "1-2",
+       "team": 1,
+       "quests": [],
        "xp": 0,
        "green": 0,
        "yellow": 0,
        "red": 0,
        "answers": ""
     }
-}
+ }
 
 var teams = {
     0:{
@@ -74,6 +367,8 @@ var teams = {
         "level":0
     }
 }
+var qid = 0;
+var quests = [];
 
 function socketToEmail(socket){
     for (const email in users) {
@@ -112,20 +407,27 @@ io.on('connection', (socket) => {
             socket.join("teachers");
             updateTeams();
             updateXP();
+            updateQuests();
             return;   
         }
         //Catch unregistered emails
         if(users[email] == undefined){
             console.error("Unregistered email: "+email);
-            io.to(socket.id).emit("login", false);
+            io.to(socket.id).emit("login", -1);
             return;
         }
+        let socket_old = io.sockets.sockets.get(users[email].socket);
+        if(socket_old != undefined){
+            io.to(users[email].socket).emit("login", -2);
+            socket_old.disconnect();
+        }
         users[email].socket = socket.id;
-        console.log(users[email].realName + " connected. ("+email+")");
-        io.to(socket.id).emit("login", true);
+        console.log(users[email].realName + " connected. ("+email+", "+users[email].team+")");
+        io.to(socket.id).emit("login", users[email].team, users[email].realName);
+        io.to(socket.id).emit("updatecard", users[email].green, users[email].yellow, users[email].red);
+        updateXP();
+        updateQuests();
         socket.join("students");
-        console.log(users[email].team);
-        updateTeams();
     });
 
     //User disconnects, clear socket
@@ -139,44 +441,146 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('xp', (email, amount) => {
-        if(users[email] != undefined){
-            let user = users[email];
-            //dont let xp go negative
-            if(user.xp < 0){ user.xp = 0};
+    socket.on('setQuest', (setReward, setDescription) => {
+        quests.push({id:qid++, description:setDescription, reward:setReward});
+        console.log("added a new quest");
+        updateQuests();
+    });
 
-            //give user xp
-            user.xp += amount;
-            console.log(user.realName + " got "+amount + "xp! ("+user.xp+")");
-            io.to(user.socket).emit('xp', amount, user.xp);
+    socket.on('giveCard', (email, card) => {
+        giveCard(email, card);
+        console.log("Giving a "+card+" card");
+    });
 
-            //give users team xp
-            if(user.team == null){return};
-            let team = teams[user.team];
-            team.xp += amount;
-            console.log(team.name + " team got "+amount + "xp!");
-            updateXP();
+    socket.on('cancelQuest', (id) => {
+        quests.splice(id, 1); 
+        console.log("clearning quest");
+        updateQuests();
+    });
+
+    socket.on('completeQuest', (email, questid) => {
+        let user = users[email];
+        for(let i=0; i<quests.length; i++){
+            if(quests[i].qid == questid){
+                user.quests.push(quests[i].qid);
+                let xpReward = quests[i].reward * xpMultiplier;
+                users[email].xp += xpReward;
+                teams[users[email].team].xp += xpReward;
+                updateXP();
+            }
+        }
+    });
+
+    socket.on('xp', (id, amount) => {
+        if(teams[id] != undefined){
+            giveTeamXP(id, amount);
+            return;
+        }
+        if(users[id] != undefined){
+            giveUserXP(id, amount);
         }
     });
 });
 
+function giveTeamXP(id, amount){
+    console.log("teamXP");
+    let team = teams[id];
+
+    //multipier for positive xp
+    amount = Math.max(amount, amount*xpTeamMultiplier);
+
+    //add xp - keep positive
+    team.xp = Math.max(amount + team.xp, 0);
+    console.log(team.name + " team got "+amount + "xp! (x5 bonus)");
+        
+    //Check for level up
+    if(team.xp > team.level*100){
+        team.level++;
+        console.log(team.name + " is now level "+team.level);
+    }
+
+    updateXP();
+}
+
+function giveUserXP(id, amount){
+    let user = users[id];
+    let team = teams[users[id].team];
+
+    //multipier for positive xp
+    amount = Math.max(amount, amount*xpMultiplier);
+
+    //add xp - keep positive
+    team.xp = Math.max(amount + team.xp, 0);
+    user.xp = Math.max(amount + user.xp, 0);
+
+    console.log(user.realName + " got "+amount + "xp!");
+    console.log(team.name + " team got "+amount + "xp!");
+
+    //Check for level up
+    if(team.xp > team.level*100){
+        team.level++;
+        console.log(team.name + " is now level "+team.level);
+    }
+
+    updateXP();
+}
+
+function giveCard(email, card){
+    if(users[email] == undefined){
+        console.log("givecard to team "+teams[email].name);
+        switch(card){
+            case "green":
+                giveTeamXP(email, 10);
+                break;
+            case "yellow":
+                giveTeamXP(email, -5);
+                break;
+            case "red":
+                giveTeamXP(email, -10);
+                break;
+        }
+        return;
+    }
+    console.log("givecard "+email,card);
+    let user = users[email];
+    switch(card){
+        case "green":
+            user.green ++;
+            giveUserXP(email, 10);
+            break;
+        case "yellow":
+            user.yellow ++;
+            giveUserXP(email, -5);
+            break;
+        case "red":
+            user.red ++;
+            giveUserXP(email, -10);
+            break;
+    }
+    io.to(user.socket).emit("updatecard", user.green, user.yellow, user.red);
+}
+
+function updateQuests(){
+    console.log("Updating Quests");
+    io.emit('updateQuests', quests);
+}
+
 function updateXP(){
     console.log("Updating XP");
-    for(let i=0; i<Object.keys(users).length; i++){
+    for(let i=0; i<Object.keys(teams).length; i++){
         io.emit('updatexp', i, teams[i].xp);
     }
 }
 
 function updateTeams(){
     console.log("Updating Teams");
-    for (const user in users) {
-        if(isConnected(user)){
-            io.emit('updateTeams', user, users[user].realName, users[user].team);
-        }
+    for (const email in users) {
+        io.emit('updateTeams', email, users[email].realName, users[email].team);
     }
 }
 
 http.listen(port, () => {
     address = ip.address()+':'+port;
+    console.log('Server Started');
     console.log('listening on '+address);
 });

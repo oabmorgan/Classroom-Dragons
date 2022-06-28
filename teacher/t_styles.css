@@ -1,12 +1,137 @@
+body{
+  font-family: Arial;
+  background-color: cornflowerblue;
+}
+
+div{
+  background-color: white;
+}
+
 .selectGroupContainer {
-    display: inline-block;
     position: relative;
-    font-family: Arial;
-    width: 200px;
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 20px;
+    text-align: center;
   }
 
+.selectBox{
+  display: inline-block;
+  width: 45%;
+  margin: 10px;
+  font-size: 2em;
+}
+
 .selectGroup{
-    width: 200px;
-    overflow-y: auto;
-    font-size: 1.5em;
+  width: 100%;
+  overflow-y: auto;
+  font-size: 2em;
+}
+
+#buttonsContainer{
+  position: relative;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: center;
+  overflow-y: auto;
+  font-size: 2em;
+}
+
+#selectedStudent{
+  height: 2em;
+}
+
+button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  padding: 10px;
+  width: 25%;
+  margin: 20px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.5em;
+}
+
+#setQuestContainer{
+  text-align: center;
+  width: 95%;
+  margin: 30px auto;
+}
+
+
+input[type=button]{
+  font-size: 2em;
+  border: none;
+  color: white;
+  height: 50px;
+  width: 50px;
+  border-radius: 30px;
+  text-align: center;
+}
+
+input[type=text] {
+  font-size: 2em;
+  height: 80px;
+}
+
+input[type=number]{
+  font-size: 2em;
+  width: 70px;
+  height: 80px;
+}
+
+
+#questLog{
+  display: block;
+  text-align: center;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.questDescription{
+  display: inline-flex;
+  font-size: 1.5em;
+  width: 65%;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.questReward{
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  padding: 5px;
+  font-size: 2em;
+  border: none;
+  border-radius: 40px;
+  background-color: rgb(152, 248, 104);
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+.quest{
+  visibility: visible;
+  border: none;
+  border-radius: 12px;
+  margin: 8px;
+  min-height: 80px;
+  background-color:whitesmoke;
+}
+
+#setQuestButton{
+  background-color: rgb(100, 225, 28);
+}
+
+.questComplete{
+  background-color: rgb(100, 225, 28);
+}
+
+.questCancel{
+  background-color: rgb(254, 61, 27);
 }

@@ -6,20 +6,63 @@
   </head>
   <body>
     <div class="selectGroupContainer">
-      <select class="selectGroup" id="selectGroup0" size="8">
+      <div class="selectBox">
+        Group 1
+      <select class="selectGroup" id="selectGroup0">
+        <option value=0>Team 1</option>
       </select>
     </div>
-    <div class="selectGroupContainer">
-      <select class="selectGroup" id="selectGroup1" size="8">
+    <div class="selectBox">
+      Group 2
+      <select class="selectGroup" id="selectGroup1">
+        <option value=1>Team 2</option>
       </select>
     </div>
-    <div class="selectGroupContainer">
-      <select class="selectGroup" id="selectGroup2" size="8">
+    <div class="selectBox">
+      Group 3
+      <select class="selectGroup" id="selectGroup2">
+        <option value=2>Team 3</option>
       </select>
     </div>
-    <div class="selectGroupContainer">
-      <select class="selectGroup" id="selectGroup3" size="8">
+    <div class="selectBox">
+      Group 4
+      <select class="selectGroup" id="selectGroup3">
+        <option value=3>Team 4</option>
       </select>
+    </div>
+    </div>
+    <div id="buttonsContainer">
+      <div id="selectedUser"">Select a student</div>
+      <button id="greenCard">Green<br>(+10)</button>
+      <button id="yellowCard" style="background-color: rgb(245, 225, 53)">Yellow<br>(-5)</button>
+      <button id="redCard" style="background-color: rgb(254, 61, 27)">Red<br>(-10)</button>
+    </div>
+    <div id="setQuestContainer">
+      <form  autocomplete="off" id="setQuest">
+        <input id="setQuestReward" type="number" placeholder="XP">
+        <input id="setQuestDescription" type="text" placeholder="Quest Description">
+        <input id="setQuestButton" type="button" value="Set Quest">
+      </form>
+      <div id="questLog">
+        <div class="quest" id="quest0">
+          <div class="questReward" id="questReward0"></div>
+          <div class="questDescription" id="questDescription0"></div>
+          <input class="questComplete" id="completeQuest0"0 type="button" value="✓">
+          <input class="questCancel" id="cancelQuest0" type="button" value="X">
+        </div>
+        <div class="quest" id="quest1">
+          <div class="questReward" id="questReward1"></div>
+          <div class="questDescription" id="questDescription1"></div>
+          <input class="questComplete" id="completeQuest1" type="button" value="✓">
+          <input class="questCancel" id="cancelQuest1" type="button" value="X">
+        </div>
+        <div class="quest" id="quest2">
+          <div class="questReward" id="questReward2"></div>
+          <div class="questDescription" id="questDescription2"></div>
+          <input class="questComplete" id="completeQuest2" type="button" value="✓">
+          <input class="questCancel" id="cancelQuest2" type="button" value="X">
+        </div>
+      </div>
     </div>
     <script src="../socket.io/socket.io.js"></script>
     <script src="t_scripts.js"></script>
