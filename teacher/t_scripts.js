@@ -3,16 +3,6 @@ var selectedUser = "";
 
 window.onload = function(){
     socket.emit('join', "teacher", "teacher");
-    for(let i=0; i<4; i++){
-        document.getElementById("selectGroup"+i).addEventListener("click", function() {
-            let selectedGroup = document.getElementById("selectGroup"+i);
-            selectUser(selectedGroup.value, selectedGroup.options[selectedGroup.selectedIndex].text);
-        });
-        document.getElementById("selectGroup"+i).addEventListener("change", function() {
-            let selectedGroup = document.getElementById("selectGroup"+i);
-            selectUser(selectedGroup.value, selectedGroup.options[selectedGroup.selectedIndex].text);
-        });
-    }
 
     document.getElementById("greenCard").onclick = function(){giveCard("green")};
     document.getElementById("yellowCard").onclick = function(){giveCard("yellow")};
@@ -27,25 +17,45 @@ window.onload = function(){
     document.getElementById("completeQuest0").onclick = function(){completeQuest(0)};
     document.getElementById("completeQuest1").onclick = function(){completeQuest(1)};
     document.getElementById("completeQuest2").onclick = function(){completeQuest(2)};
+
+    document.getElementById("teamSelect").onchange = function(){changeTeam()};
 };
 
 socket.on('updateTeams', (email, realName, team) => {
-    for(let i=0; i<4; i++){
-        var select = document.getElementById('selectGroup'+i);
-        var options = select.options;
-        for (let i = 0; i < options.length; i++) { 
-            if(options[i].value == email){
-                select.remove(options[i]);
+    if(email == "clear"){
+        for(let i=0; i<4; i++){
+            let currentTeam = document.getElementById("TeamContainer"+i);
+            while (currentTeam.firstChild) {
+                currentTeam.removeChild(currentTeam.firstChild);
             }
+            createStudentButton(i+1, "Team "+(i+1), i);
         }
-        if(i == team){
-            var opt = document.createElement('option');
-            opt.value = email;
-            opt.text = realName;
-            select.appendChild(opt);
-        }
+        return;
     }
+    createStudentButton(email, realName, team);
+    //io.emit('updateTeams', email, users[email].realName, users[email].team);
 })
+
+function changeTeam(){
+    let newTeam = document.getElementById("teamSelect").value;
+    if(selectedUser != "" && newTeam > 0){
+        socket.emit('setTeam', selectedUser, newTeam-1);
+        document.getElementById("teamSelect").value = 0;
+        selectUser("","");
+        document.getElementById('selectedUser').innerHTML += " moved to team "+newTeam;
+    }
+}
+
+function createStudentButton(email, realName, team){
+    let currentTeam = document.getElementById("TeamContainer"+team);
+    var newButton = document.createElement("button");
+    newButton.onclick = function(){
+        selectUser(email, realName);
+      };
+    newButton.className = "selectStudentButton";
+    newButton.innerText = realName;
+	currentTeam.appendChild(newButton);
+}
 
 function setQuest(){
     let reward = document.getElementById("setQuestReward").value;

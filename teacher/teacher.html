@@ -5,37 +5,30 @@
     <link rel="stylesheet" type="text/css" href="t_styles.css">
   </head>
   <body>
-    <div class="selectGroupContainer">
-      <div class="selectBox">
-        Group 1
-      <select class="selectGroup" id="selectGroup0">
-        <option value=0>Team 1</option>
-      </select>
-    </div>
-    <div class="selectBox">
-      Group 2
-      <select class="selectGroup" id="selectGroup1">
-        <option value=1>Team 2</option>
-      </select>
-    </div>
-    <div class="selectBox">
-      Group 3
-      <select class="selectGroup" id="selectGroup2">
-        <option value=2>Team 3</option>
-      </select>
-    </div>
-    <div class="selectBox">
-      Group 4
-      <select class="selectGroup" id="selectGroup3">
-        <option value=3>Team 4</option>
-      </select>
-    </div>
+    <div class="selectTeamContainer">
+      <div id="selectedUser"">Select a student</div>
+      <div class="selectTeam" id="TeamContainer0">
+      </div>
+      <div class="selectTeam" id="TeamContainer1">
+      </div>
+      <div class="selectTeam" id="TeamContainer2">
+      </div>
+      <div class="selectTeam" id="TeamContainer3">
+      </div>
     </div>
     <div id="buttonsContainer">
-      <div id="selectedUser"">Select a student</div>
       <button id="greenCard">Green<br>(+10)</button>
       <button id="yellowCard" style="background-color: rgb(245, 225, 53)">Yellow<br>(-5)</button>
       <button id="redCard" style="background-color: rgb(254, 61, 27)">Red<br>(-10)</button>
+      <div id="setTeamContainer">
+        <select name="teams" id="teamSelect">
+          <option value=0>Change Teams...</option>
+          <option value=1>Team 1</option>
+          <option value=2>Team 2</option>
+          <option value=3>Team 3</option>
+          <option value=4>Team 4</option>
+        </select>
+      </div>
     </div>
     <div id="setQuestContainer">
       <form  autocomplete="off" id="setQuest">

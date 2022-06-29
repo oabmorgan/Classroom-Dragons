@@ -6,7 +6,10 @@ var myName;
 var myQuests;
 
 window.onload = function(){
-  document.getElementById("loginForm").addEventListener('submit', functSubmit);
+  document.getElementById("sumbitButton").addEventListener('click', function(){
+    email = document.getElementById("email").value+"@seto-solan.ed.jp";
+    socket.emit('join', email);
+  });
 }
 
 function selectQuest(id){
@@ -17,11 +20,6 @@ function selectQuest(id){
       document.getElementById("quest"+i).style.opacity = .2;
     }
   }
-}
-
-function functSubmit(event) {
-  email = document.getElementById("email").value+"@seto-solan.ed.jp";
-  socket.emit('join', email);
 }
 
 socket.on('login', (newTeam, newName) => {

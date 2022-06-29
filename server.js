@@ -378,10 +378,6 @@ function socketToEmail(socket){
     }
 }
 
-function isConnected(email){
-    return !users[email].socket == "";
-}
-
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/student/student.html');
 });
@@ -445,6 +441,14 @@ io.on('connection', (socket) => {
         quests.push({id:qid++, description:setDescription, reward:setReward});
         console.log("added a new quest");
         updateQuests();
+    });
+
+    socket.on('setTeam', (email, team) => {
+        if(users[email] != undefined){
+            console.log("setting "+email+" to team "+team);
+            users[email].team = team;
+            updateTeams();
+        }
     });
 
     socket.on('giveCard', (email, card) => {
@@ -527,16 +531,16 @@ function giveUserXP(id, amount){
 
 function giveCard(email, card){
     if(users[email] == undefined){
-        console.log("givecard to team "+teams[email].name);
+        console.log("givecard to team "+teams[email-1].name);
         switch(card){
             case "green":
-                giveTeamXP(email, 10);
+                giveTeamXP(email-1, 10);
                 break;
             case "yellow":
-                giveTeamXP(email, -5);
+                giveTeamXP(email-1, -5);
                 break;
             case "red":
-                giveTeamXP(email, -10);
+                giveTeamXP(email-1, -10);
                 break;
         }
         return;
@@ -574,6 +578,7 @@ function updateXP(){
 
 function updateTeams(){
     console.log("Updating Teams");
+    io.emit('updateTeams', "clear");
     for (const email in users) {
         io.emit('updateTeams', email, users[email].realName, users[email].team);
     }

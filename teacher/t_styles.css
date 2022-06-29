@@ -7,14 +7,6 @@ div{
   background-color: white;
 }
 
-.selectGroupContainer {
-    position: relative;
-    width: 95%;
-    margin: 0 auto;
-    margin-top: 20px;
-    text-align: center;
-  }
-
 .selectBox{
   display: inline-block;
   width: 45%;
@@ -55,12 +47,55 @@ button {
   font-size: 1.5em;
 }
 
-#setQuestContainer{
+#setQuestContainer, #setTeamContainer{
   text-align: center;
   width: 95%;
   margin: 30px auto;
 }
 
+.selectTeamContainer {
+  position: relative;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.selectTeam{
+  width: 24.6%;
+  display: inline-block;
+  margin: 0px;
+}
+
+#selectedUser{
+  font-size: 3em;
+  margin: 0 auto;
+  background-color:rgb(139, 149, 255);
+  color: white;
+  border: none;
+  padding: 20px;
+}
+
+.selectStudentButton{
+  width: 100%;
+  margin: 0 auto;
+  background-color:rgb(152, 248, 104);
+  color: black;
+  height: 80px;
+  border: none;
+  border-radius: 30px;
+  margin: 5px;
+}
+
+#teamSelect{
+  width: 90%;
+  font-size: 1em;
+  height: 60px;
+}
+
+.selectStudentButton:focus{
+  background-color:rgb(255, 252, 75);
+}
 
 input[type=button]{
   font-size: 2em;
@@ -82,7 +117,6 @@ input[type=number]{
   width: 70px;
   height: 80px;
 }
-
 
 #questLog{
   display: block;
