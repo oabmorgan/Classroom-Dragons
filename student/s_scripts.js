@@ -3,36 +3,64 @@ var email;
 var team;
 var xp;
 var myName;
-var myQuests;
+var myGoals;
+
+var tickInterval;
+
+var questionID = -1;
 
 window.onload = function(){
-  document.getElementById("sumbitButton").addEventListener('click', function(){
-    email = document.getElementById("email").value+"@seto-solan.ed.jp";
+  let savedEmail = document.cookie;
+  if(savedEmail.length){
+    email = savedEmail;
     socket.emit('join', email);
-  });
+    console.log("Saved Email: "+email);
+  } else {
+    document.getElementById("sumbitButton").addEventListener('click', function(){
+      email = document.getElementById("email").value+"@seto-solan.ed.jp";
+      socket.emit('join', email);
+    });
+  }
 }
 
-function selectQuest(id){
+function tick(){
+  let bigCard = document.getElementById("bigCard");
+  if(bigCard.style.opacity > 0){
+    bigCard.style.opacity -= 0.1;
+  } else {
+    clearInterval(tickInterval);
+  }
+}
+
+function selectGoal(id){
   for(let i=0; i<3; i++){
     if(id == i){
-      document.getElementById("quest"+i).style.opacity = 1;
+      document.getElementById("goal"+i).style.opacity = 1;
     } else {
-      document.getElementById("quest"+i).style.opacity = .2;
+      document.getElementById("goal"+i).style.opacity = .2;
     }
   }
 }
 
 socket.on('login', (newTeam, newName) => {
   if(newTeam > 0){
-    document.getElementById("logincontainer").style.visibility = 'hidden';
+    document.getElementById("loginContainer").style.visibility = 'hidden';
     document.getElementById("loginfeedback").style.visibility = 'hidden';
     team = newTeam;
     myName = newName;
     document.getElementById("myName").innerHTML = newName;
     console.log("My name is "+myName +" and I am on team "+team)
-    document.getElementById("quest0").addEventListener('click', function(){ selectQuest(0)});
-    document.getElementById("quest1").addEventListener('click', function(){ selectQuest(1)});
-    document.getElementById("quest2").addEventListener('click', function(){ selectQuest(2)});
+    document.getElementById("goal0").addEventListener('click', function(){ selectGoal(0)});
+    document.getElementById("goal1").addEventListener('click', function(){ selectGoal(1)});
+    document.getElementById("goal2").addEventListener('click', function(){ selectGoal(2)});
+
+    document.getElementById("answer0").addEventListener('click', function(){ sendAnswer(0)});
+    document.getElementById("answer1").addEventListener('click', function(){ sendAnswer(1)});
+    document.getElementById("answer2").addEventListener('click', function(){ sendAnswer(2)});
+    document.getElementById("answer3").addEventListener('click', function(){ sendAnswer(3)});
+
+    document.cookie = email;
+
   } else {
     switch(newTeam){
       case -1:
@@ -43,10 +71,31 @@ socket.on('login', (newTeam, newName) => {
         window.location.reload();
       break;
     }
-    document.getElementById("logincontainer").style.visibility = 'visible';
+    document.getElementById("loginContainer").style.visibility = 'visible';
     document.getElementById("loginfeedback").style.visibility = 'visible';
   }
 })
+
+function sendAnswer(answerID){
+  socket.emit('sendAnswer', email, questionID, answerID);
+  console.log("answering question: "+answerID);
+  document.getElementById("questionContainer").style.visibility = 'hidden';
+}
+
+socket.on('askQuestion', (QID, question, answers) => {
+  console.log("New question: "+question);
+  quesitonID = QID;
+
+  document.getElementById("question").innerHTML = question;
+
+  document.getElementById("answer0").innerText = answers[0];
+  document.getElementById("answer1").innerText = answers[1];
+  document.getElementById("answer2").innerText = answers[2];
+  document.getElementById("answer3").innerText = answers[3];
+
+  document.getElementById("questionContainer").style.visibility = 'visible';
+})
+
 
 socket.on('xp', (gain, total) => {
   console.log("Yay I got xp! "+gain);
@@ -54,20 +103,20 @@ socket.on('xp', (gain, total) => {
   console.log("Now I have "+total);
 })
 
-socket.on('updateQuests', (quests) => {
-  myQuests = quests;
+socket.on('updateGoals', (goals) => {
+  myGoals = goals;
   for(var i=0; i<3; i++){
-    let quest=myQuests[i];
-    if(quest == undefined){
-      document.getElementById("quest"+i).style.visibility = "hidden";
+    let goal=myGoals[i];
+    if(goal == undefined){
+      document.getElementById("goal"+i).style.visibility = "hidden";
       break;
     }
-    document.getElementById("questReward"+i).innerHTML = quest.reward;
-    document.getElementById("questDescription"+i).innerHTML = quest.description;
-    if(quest.reward > 0){
-      document.getElementById("quest"+i).style.visibility = "visible";
+    document.getElementById("goalReward"+i).innerHTML = goal.reward;
+    document.getElementById("goalDescription"+i).innerHTML = goal.description;
+    if(goal.reward > 0){
+      document.getElementById("goal"+i).style.visibility = "visible";
     } else {
-      document.getElementById("quest"+i).style.visibility = "hidden";
+      document.getElementById("goal"+i).style.visibility = "hidden";
     }
   }
 })
@@ -76,6 +125,27 @@ socket.on('updatecard', (green, yellow, red) => {
   document.getElementById("greenCards").innerHTML = green;
   document.getElementById("yellowCards").innerHTML = yellow;
   document.getElementById("redCards").innerHTML = red;
+});
+
+socket.on('cardAlert', (color, teamname, realName = "") => {
+  let bigCard = document.getElementById("bigCard");
+  bigCard.style.opacity = 6;
+  clearInterval(tickInterval);
+  tickInterval = setInterval(tick, 50);
+  switch(color){
+    case "green":
+      bigCard.style.backgroundColor = 'rgb(133, 255, 96)';
+      bigCard.innerHTML = teamname + "<br> "+ realName + " got a green card!";
+    break;
+    case "yellow":
+      bigCard.style.backgroundColor = 'rgb(245, 225, 53)';
+      bigCard.innerHTML = teamname + "<br> "+ realName + " got a yellow card";
+    break;
+    case "red":
+      bigCard.style.backgroundColor = 'rgb(254, 61, 27)';
+      bigCard.innerHTML = teamname + "<br> "+ realName + " got a red card...";
+    break;
+  }
 });
 
 socket.on('updatexp', (updateTeam, xp) => {

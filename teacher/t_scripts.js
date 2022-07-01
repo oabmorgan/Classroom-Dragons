@@ -1,5 +1,6 @@
 var socket = io();
 var selectedUser = "";
+var currentPage = "main";
 
 window.onload = function(){
     socket.emit('join', "teacher", "teacher");
@@ -8,17 +9,28 @@ window.onload = function(){
     document.getElementById("yellowCard").onclick = function(){giveCard("yellow")};
     document.getElementById("redCard").onclick = function(){giveCard("red")};
 
-    document.getElementById("setQuestButton").onclick = function(){setQuest()};
+    
+    document.getElementById("setGoalButton").onclick = function(){setGoal()};
 
-    document.getElementById("cancelQuest0").onclick = function(){cancelQuest(0)};
-    document.getElementById("cancelQuest1").onclick = function(){cancelQuest(1)};
-    document.getElementById("cancelQuest2").onclick = function(){cancelQuest(2)};
+    document.getElementById("cancelGoal0").onclick = function(){cancelGoal(0)};
+    document.getElementById("cancelGoal1").onclick = function(){cancelGoal(1)};
+    document.getElementById("cancelGoal2").onclick = function(){cancelGoal(2)};
 
-    document.getElementById("completeQuest0").onclick = function(){completeQuest(0)};
-    document.getElementById("completeQuest1").onclick = function(){completeQuest(1)};
-    document.getElementById("completeQuest2").onclick = function(){completeQuest(2)};
+    //document.getElementById("completeGoal0").onclick = function(){completeGoal(0)};
+    //document.getElementById("completeGoal1").onclick = function(){completeGoal(1)};
+    //document.getElementById("completeGoal2").onclick = function(){completeGoal(2)};
 
     document.getElementById("teamSelect").onchange = function(){changeTeam()};
+
+    document.getElementById("correctSelect").onchange = function(){setCorrect()};
+
+    document.getElementById("setQuestionButton").onclick = function(){setQuestion()};
+    
+    document.getElementById("pageSelectMain").onclick = function(){changePage("main", true)};
+    document.getElementById("pageSelectTeam").onclick = function(){changePage("team", true)};
+    document.getElementById("pageSelectGoal").onclick = function(){changePage("goal", false)};
+    document.getElementById("pageSelectQuiz").onclick = function(){changePage("quiz", false)};
+    document.getElementById("pageSelectTimer").onclick = function(){changePage("timer", false)};
 };
 
 socket.on('updateTeams', (email, realName, team) => {
@@ -33,8 +45,29 @@ socket.on('updateTeams', (email, realName, team) => {
         return;
     }
     createStudentButton(email, realName, team);
-    //io.emit('updateTeams', email, users[email].realName, users[email].team);
 })
+
+socket.on('setConnectionState', (email, isConnected) => {
+    if(isConnected){
+        document.getElementById("selectStudentButton"+email).style.color = 'lightgreen';
+        document.getElementById("selectStudentButton"+email).style.fontWeight = 'bold';
+    } else {
+        document.getElementById("selectStudentButton"+email).style.color = 'grey';
+        document.getElementById("selectStudentButton"+email).style.fontWeight = 'light';
+    }
+})
+
+function changePage(page, showStudents){
+    console.log("Switching to page: "+page);
+    document.getElementById("page"+currentPage).style.visibility = "hidden";
+    currentPage = page;
+    document.getElementById("page"+currentPage).style.visibility = "visible ";
+    if(showStudents){
+        document.getElementById("selectTeamContainer").style.height = "auto";
+    } else {
+        document.getElementById("selectTeamContainer").style.height = "0px";
+    }
+}
 
 function changeTeam(){
     let newTeam = document.getElementById("teamSelect").value;
@@ -42,8 +75,32 @@ function changeTeam(){
         socket.emit('setTeam', selectedUser, newTeam-1);
         document.getElementById("teamSelect").value = 0;
         selectUser("","");
-        document.getElementById('selectedUser').innerHTML += " moved to team "+newTeam;
+        document.getElementById('selectedUser').innerHTML += " moved to team "+newTeam  ;
     }
+}
+
+function setQuestion(){
+    let question = document.getElementById('setQuestion').value;
+    let answers = [document.getElementById('setAnswer0').value,
+                    document.getElementById('setAnswer1').value,
+                    document.getElementById('setAnswer2').value,
+                    document.getElementById('setAnswer3').value];
+    for(let i=0; i<4; i++){
+        if(answers[i] == ""){
+            answers[i] = i;
+        }
+    }
+    document.getElementById("correctSelect").options[1].innerText = answers[0];
+    document.getElementById("correctSelect").options[2].innerText = answers[1];
+    document.getElementById("correctSelect").options[3].innerText = answers[2];
+    document.getElementById("correctSelect").options[4].innerText = answers[3];
+    socket.emit('setQuestion', question, answers);
+}
+
+function setCorrect(){
+    console.log("Sending correct answer: "+document.getElementById("correctSelect").value);
+    socket.emit('setCorrect', document.getElementById("correctSelect").value);
+    document.getElementById("correctSelect").value = -1;
 }
 
 function createStudentButton(email, realName, team){
@@ -53,49 +110,50 @@ function createStudentButton(email, realName, team){
         selectUser(email, realName);
       };
     newButton.className = "selectStudentButton";
+    newButton.id = "selectStudentButton"+email;
     newButton.innerText = realName;
 	currentTeam.appendChild(newButton);
 }
 
-function setQuest(){
-    let reward = document.getElementById("setQuestReward").value;
-    let description = document.getElementById("setQuestDescription").value;
+function setGoal(){
+    let reward = document.getElementById("setGoalReward").value;
+    let description = document.getElementById("setGoalDescription").value;
     if(reward > 0 && description != ""){
-        socket.emit('setQuest', reward, description);
-        console.log("Sending new quest");
-        document.getElementById("setQuest").reset();
+        socket.emit('setGoal', reward, description);
+        console.log("Sending new goal");
+        document.getElementById("setGoal").reset();
     }
 }
 
-function cancelQuest(id){
-    if(myQuests[id] != undefined){
-        socket.emit('cancelQuest', myQuests[id].qid);
+function cancelGoal(id){
+    if(myGoals[id] != undefined){
+        socket.emit('cancelGoal', myGoals[id].qid);
     }
 }
 
-function completeQuest(id){
-    if(selectedUser != "" && document.getElementById("questReward"+id).innerHTML > 0){
-        socket.emit('completeQuest', selectedUser, myQuests[id].qid);
+function completeGoal(id){
+    if(selectedUser != "" && document.getElementById("goalReward"+id).innerHTML > 0){
+        socket.emit('completeGoal', selectedUser, myGoals[id].qid);
     }
 }
 
-var myQuests;
-socket.on('updateQuests', (quests) => {
-    myQuests = quests;
+var myGoals;
+socket.on('updateGoals', (goals) => {
+    myGoals = goals;
     for(var i=0; i<3; i++){
-        if(i>= myQuests.length){
-            document.getElementById("quest"+i).style.visibility = "hidden";
+        if(i>= myGoals.length){
+            document.getElementById("goal"+i).style.opacity = "0";
         } else{
-      let quest=myQuests[i];
-      if(quest == undefined){
-        document.getElementById("quest"+i).style.visibility = "hidden";
+      let goal=myGoals[i];
+      if(goal == undefined){
+        document.getElementById("goal"+i).style.opacity = "0";
       } else 
-        document.getElementById("questReward"+i).innerHTML = quest.reward;
-        document.getElementById("questDescription"+i).innerHTML = quest.description;
-        if(quest.reward > 0){
-            document.getElementById("quest"+i).style.visibility = "visible";
+        document.getElementById("goalReward"+i).innerHTML = goal.reward;
+        document.getElementById("goalDescription"+i).innerHTML = goal.description;
+        if(goal.reward > 0){
+            document.getElementById("goal"+i).style.opacity = "1";
         } else {
-            document.getElementById("quest"+i).style.visibility = "hidden";
+            document.getElementById("goal"+i).style.opacity = "0";
         }
         }
     }
@@ -113,7 +171,7 @@ function giveCard(color){
     if(selectedUser != ""){
         console.log("Giving "+selectedUser+" a "+color+" card");
         socket.emit('giveCard', selectedUser, color);
-        document.getElementById('selectedUser').innerHTML += " got a "+color + " card.";
+        document.getElementById('selectedUser').innerHTML += " got a "+color + " card!";
         selectUser("", "");
     } else {
         document.getElementById('selectedUser').innerHTML = "Select a student";

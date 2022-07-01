@@ -36,8 +36,8 @@ var teams = {
   }
 }
 
-var currentQuestion = {
-  question: "",
+var currentGoalion = {
+  goalion: "",
   correctAnswer: -1,
   answer0:{
     answer: "",
@@ -72,16 +72,16 @@ app.get('/screen', (req, res) => {
 io.on('connection', (socket) => {
   socket.on('answer', (answer) => {
     console.log(answer.ID+" answered "+ answer.ansNumber);
-    currentQuestion["answer"+answer.ansNumber].IDs.push(answer.ID);
-    io.emit('answer', currentQuestion);
+    currentGoalion["answer"+answer.ansNumber].IDs.push(answer.ID);
+    io.emit('answer', currentGoalion);
   });
 
-  socket.on('question', (question) => {
-    currentQuestion = question;
-    console.log(question.question);
-    if(currentQuestion.correctAnswer >= 0){
-      console.log("Answer was: "+currentQuestion.correctAnswer);
-      currentQuestion["answer"+currentQuestion.correctAnswer].IDs.forEach(ID =>{
+  socket.on('goalion', (goalion) => {
+    currentGoalion = goalion;
+    console.log(goalion.goalion);
+    if(currentGoalion.correctAnswer >= 0){
+      console.log("Answer was: "+currentGoalion.correctAnswer);
+      currentGoalion["answer"+currentGoalion.correctAnswer].IDs.forEach(ID =>{
         for(var i=0; i<4; i++){
           teams["team"+i].IDs.forEach(member => console.log(member));
           if(teams["team"+i].IDs.includes(ID)){
@@ -91,7 +91,7 @@ io.on('connection', (socket) => {
         }
       });
     }
-    io.emit('question', question);
+    io.emit('goalion', goalion);
   });
 
   socket.on('join', function (group, id) {

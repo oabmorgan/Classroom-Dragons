@@ -4,13 +4,27 @@
     <link rel="stylesheet" type="text/css" href="s_styles.css">
   </head>
   <body>
-    <div id='logincontainer'>
+    <div id='loginContainer'>
       <form id="loginForm" action="#">
-        <input id="email" type="text" value="2022000" placeholder="email">
+        <input id="email" type="text" value="" placeholder="email">
         <label for="email">@seto-solan.ed.jp</label>
-        <input type="button" id="sumbitButton">
+        <input type="button" id="sumbitButton" value="Login">
         <label id="loginfeedback" style="font-size: 1em; color: red; visibility: hidden;" >Email not Registered</label>
       </form>
+    </div>
+  
+    <div id="questionContainer" style="visibility: hidden">
+      <div id="question">Test question</div>
+      <div id="answerContainer">
+        <button class="answerButton" id="answer0">1</button>
+        <button class="answerButton" id="answer1">2</button>
+        <button class="answerButton" id="answer2">3</button>
+        <button class="answerButton" id="answer3">4</button>
+      </div>
+    </div>
+
+    <div id="bigCardContainer">
+      <div class="bigCard" id="bigCard"></div>
     </div>
 
     <div id="teamsContainer">
@@ -28,18 +42,18 @@
           <div class="card" id="yellowCards" style="background-color: rgb(245, 225, 53)">0</div>
           <div class="card" id="redCards" style="background-color: rgb(254, 61, 27);">0</div>
         </div>
-        <div id="questLog">
-          <div class="quest" id="quest0">
-            <div class="questReward" id="questReward0">9</div>
-            <div class="questDescription" id="questDescription0"></div>
+        <div id="goalLog">
+          <div class="goal" id="goal0">
+            <div class="goalReward" id="goalReward0">9</div>
+            <div class="goalDescription" id="goalDescription0"></div>
           </div>
-          <div class="quest" id="quest1">
-            <div class="questReward" id="questReward1">9</div>
-            <div class="questDescription" id="questDescription1"></div>
+          <div class="goal" id="goal1">
+            <div class="goalReward" id="goalReward1">9</div>
+            <div class="goalDescription" id="goalDescription1"></div>
           </div>
-          <div class="quest" id="quest2">
-            <div class="questReward" id="questReward2">9</div>
-            <div class="questDescription" id="questDescription2"></div>
+          <div class="goal" id="goal2">
+            <div class="goalReward" id="goalReward2">9</div>
+            <div class="goalDescription" id="goalDescription2"></div>
           </div>
         </div>
       </div>

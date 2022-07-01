@@ -1,6 +1,37 @@
 var socket = io();
+var tickInterval;
 
 socket.emit('join', "screen", "screen");
+
+function tick(){
+    let bigCard = document.getElementById("bigCard");
+    if(bigCard.style.opacity > 0){
+      bigCard.style.opacity -= 0.1;
+    } else {
+      clearInterval(tickInterval);
+    }
+  }
+
+  socket.on('cardAlert', (color, teamname, realName = "") => {
+    let bigCard = document.getElementById("bigCard");
+    bigCard.style.opacity = 6;
+    clearInterval(tickInterval);
+    tickInterval = setInterval(tick, 50);
+    switch(color){
+      case "green":
+        bigCard.style.backgroundColor = 'rgb(133, 255, 96)';
+        bigCard.innerHTML = teamname + "<br> "+ realName + " got a green card!";
+      break;
+      case "yellow":
+        bigCard.style.backgroundColor = 'rgb(245, 225, 53)';
+        bigCard.innerHTML = teamname + "<br> "+ realName + " got a yellow card";
+      break;
+      case "red":
+        bigCard.style.backgroundColor = 'rgb(254, 61, 27)';
+        bigCard.innerHTML = teamname + "<br> "+ realName + " got a red card...";
+      break;
+    }
+  });
 
 socket.on('qr', (ip) => {
     console.log("showing qr for "+ip);

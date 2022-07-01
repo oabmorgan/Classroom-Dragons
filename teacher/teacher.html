@@ -5,21 +5,32 @@
     <link rel="stylesheet" type="text/css" href="t_styles.css">
   </head>
   <body>
-    <div class="selectTeamContainer">
+    <div id="pageSelectContainer">
+      <input class="pageSelectButton" id="pageSelectMain" type="button" value="Main">
+      <input class="pageSelectButton" id="pageSelectTeam" type="button" value="Team">
+      <input class="pageSelectButton" id="pageSelectGoal" type="button" value="Goal">
+      <input class="pageSelectButton" id="pageSelectQuiz" type="button" value="Quiz">
+      <input class="pageSelectButton" id="pageSelectTimer" type="button" value="Timer">
+    </div>
+    <div id="selectTeamContainer">
       <div id="selectedUser"">Select a student</div>
-      <div class="selectTeam" id="TeamContainer0">
+      <div class="teamContainer" id="TeamContainer0">
       </div>
-      <div class="selectTeam" id="TeamContainer1">
+      <div class="teamContainer" id="TeamContainer1">
       </div>
-      <div class="selectTeam" id="TeamContainer2">
+      <div class="teamContainer" id="TeamContainer2">
       </div>
-      <div class="selectTeam" id="TeamContainer3">
+      <div class="teamContainer" id="TeamContainer3">
       </div>
     </div>
-    <div id="buttonsContainer">
-      <button id="greenCard">Green<br>(+10)</button>
-      <button id="yellowCard" style="background-color: rgb(245, 225, 53)">Yellow<br>(-5)</button>
-      <button id="redCard" style="background-color: rgb(254, 61, 27)">Red<br>(-10)</button>
+    <div class="page" id="pagemain" style="visibility: visible">
+      <div id="cardsContainer">
+        <button class="card" id="greenCard" style="background-color: rgb(133, 255, 96)">Green<br>(+10)</button>
+        <button class="card" id="yellowCard" style="background-color: rgb(245, 225, 53)">Yellow<br>(-5)</button>
+        <button class="card" id="redCard" style="background-color: rgb(254, 61, 27)">Red<br>(-10)</button>
+      </div>
+    </div>
+    <div class="page" id="pageteam" style="visibility: hidden">
       <div id="setTeamContainer">
         <select name="teams" id="teamSelect">
           <option value=0>Change Teams...</option>
@@ -30,33 +41,51 @@
         </select>
       </div>
     </div>
-    <div id="setQuestContainer">
-      <form  autocomplete="off" id="setQuest">
-        <input id="setQuestReward" type="number" placeholder="XP">
-        <input id="setQuestDescription" type="text" placeholder="Quest Description">
-        <input id="setQuestButton" type="button" value="Set Quest">
-      </form>
-      <div id="questLog">
-        <div class="quest" id="quest0">
-          <div class="questReward" id="questReward0"></div>
-          <div class="questDescription" id="questDescription0"></div>
-          <input class="questComplete" id="completeQuest0"0 type="button" value="✓">
-          <input class="questCancel" id="cancelQuest0" type="button" value="X">
-        </div>
-        <div class="quest" id="quest1">
-          <div class="questReward" id="questReward1"></div>
-          <div class="questDescription" id="questDescription1"></div>
-          <input class="questComplete" id="completeQuest1" type="button" value="✓">
-          <input class="questCancel" id="cancelQuest1" type="button" value="X">
-        </div>
-        <div class="quest" id="quest2">
-          <div class="questReward" id="questReward2"></div>
-          <div class="questDescription" id="questDescription2"></div>
-          <input class="questComplete" id="completeQuest2" type="button" value="✓">
-          <input class="questCancel" id="cancelQuest2" type="button" value="X">
+    <div class="page" id="pagequiz" style="visibility: hidden">
+      <input class="setAnswer" id="setQuestion" type="text" placeholder="Question?">
+      <div id="answersDiv">
+      <input class = "setAnswer" id="setAnswer0" type="text" placeholder="Answer">
+      <input class = "setAnswer" id="setAnswer1" type="text" placeholder="Answer">
+      <input class = "setAnswer" id="setAnswer2" type="text" placeholder="Answer">
+      <input class = "setAnswer" id="setAnswer3" type="text" placeholder="Answer">
+    </div>
+      <button id="setQuestionButton">Set Question</button>
+      <select name="answers" id="correctSelect">
+        <option>Correct Answer...</option>
+        <option value=0></option>
+        <option value=1></option>
+        <option value=2></option>
+        <option value=3></option>
+      </select>
+    </div>
+    <div class="page" id="pagegoal" style="visibility: hidden">
+      <div id="setGoalContainer">
+        <form  autocomplete="off" id="setGoal">
+          <input id="setGoalReward" type="number" placeholder="XP">
+          <input id="setGoalDescription" type="text" placeholder="Goal Description">
+          <input id="setGoalButton" type="button" value="Set Goal">
+        </form>
+        <div id="goalLog">
+          <div class="goal" id="goal0">
+            <div class="goalReward" id="goalReward0"></div>
+            <div class="goalDescription" id="goalDescription0"></div>
+            <input class="goalButton" id="cancelGoal0" type="button" value="X" style="background-color: rgb(228, 37, 37)">
+          </div>
+          <div class="goal" id="goal1">
+            <div class="goalReward" id="goalReward1"></div>
+            <div class="goalDescription" id="goalDescription1"></div>
+            <input class="goalButton" id="cancelGoal1" type="button" value="X" style="background-color: rgb(228, 37, 37)">
+          </div>
+          <div class="goal" id="goal2">
+            <div class="goalReward" id="goalReward2"></div>
+            <div class="goalDescription" id="goalDescription2"></div>
+            <input class="goalButton" id="cancelGoal2" type="button" value="X" style="background-color: rgb(228, 37, 37)">
+          </div>
         </div>
       </div>
     </div>
+    <div class="page" id="pagetimer" style="visibility: hidden">timer</div>
+  </div>
     <script src="../socket.io/socket.io.js"></script>
     <script src="t_scripts.js"></script>
   </body>

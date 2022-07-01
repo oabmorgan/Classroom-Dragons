@@ -1,21 +1,12 @@
 body{
     font-family:Arial, Helvetica, sans-serif;
-}
-
-#logincontainer{
-    position: fixed;
-    z-index: 20;
-    display: block;
-    text-align: center;
-    width: 100%;
-    border: 1px solid;
-    background-color: white;
+    margin: 0px;
 }
 
 #loginForm{
     padding: 40px 0px 40px 0px;
     display: inline-block;
-    width: 500px;
+    width: 50%;
 }
 
 input[type=text], select {
@@ -31,24 +22,28 @@ input[type=text], select {
   label {
       font-size: 2em;
       width: 200px;
-  }
+}
 
-  input[type=submit] {
-    width: 500px;
-    font-size: 1.5em;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
+#bigCardContainer{
+    margin: 120px auto;
+    position: fixed;
+    z-index: 30;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+}
+
+.bigCard{
+    display: inline-block;
+    width: 280px;
+    height: 220px;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  input[type=submit]:hover {
-    background-color: #45a049;
-  }
-  
+    opacity: 0;
+    font-size: 1.4em;
+    box-shadow: 15px 15px 30px grey;
+    border-radius: 15px;
+    padding-top: 150px;
+}
 
 button{
     font-size: 2em;
@@ -56,8 +51,8 @@ button{
     width: 200px;
 }
 
-#loginContainer{
-    width: 1000px;
+#sumbitButton{
+    width: 100%;
     font-size: 2em;
 }
 
@@ -69,11 +64,6 @@ button{
 .row{
     float: left;
     width: 300px;
-}
-
-#questionDiv{
-    background-color: darkseagreen;
-    font-size: 3em;
 }
 
 #teamsContainer{
@@ -144,11 +134,11 @@ button{
     border-radius: 30px;
 }
 
-#questLog{
+#goalLog{
     padding: 10px;
 }
 
-.questDescription{
+.goalDescription{
     display: inline-flex;
     font-size: 1.5em;
     width: 80%;
@@ -156,7 +146,7 @@ button{
     padding-left: 10px;
 }
 
-.questReward{
+.goalReward{
     display: inline-block;
     position: relative;
     text-align: center;
@@ -172,7 +162,7 @@ button{
     margin-bottom: 15px;
     margin-top: 15px;
 }
-.quest{
+.goal{
     visibility: hidden;
     border: none;
     border-radius: 12px;
@@ -185,5 +175,38 @@ button{
     position: relative;
     z-index: 5;
     margin-top: -100%;
-    height: 25%;
+    height: 15%;
+}
+
+#loginContainer{
+    position: fixed;
+    z-index: 30;
+    height: 100vh;
+    display: block;
+    text-align: center;
+    width: 100%;
+    border: 1px solid;
+    background-color: white;
+}
+
+#questionContainer{
+    position: fixed;
+    z-index: 20;
+    height: 100vh;
+    display: block;
+    text-align: center;
+    width: 100%;
+    border: 1px solid;
+    background-color: white;
+}
+
+#question{
+    font-size: 2em;
+}
+
+.answerButton{
+    font-size: 2em;
+    width: 40%;
+    height: 30vh;
+    margin: 10px;
 }

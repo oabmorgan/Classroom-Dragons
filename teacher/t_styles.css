@@ -1,171 +1,152 @@
 body{
   font-family: Arial;
-  background-color: cornflowerblue;
-}
-
-div{
-  background-color: white;
-}
-
-.selectBox{
-  display: inline-block;
-  width: 45%;
-  margin: 10px;
-  font-size: 2em;
-}
-
-.selectGroup{
-  width: 100%;
-  overflow-y: auto;
-  font-size: 2em;
-}
-
-#buttonsContainer{
-  position: relative;
-  width: 95%;
-  margin: 0 auto;
-  margin-top: 20px;
-  text-align: center;
-  overflow-y: auto;
-  font-size: 2em;
-}
-
-#selectedStudent{
-  height: 2em;
-}
-
-button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  padding: 10px;
-  width: 25%;
-  margin: 20px;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1.5em;
-}
-
-#setQuestContainer, #setTeamContainer{
-  text-align: center;
-  width: 95%;
-  margin: 30px auto;
-}
-
-.selectTeamContainer {
-  position: relative;
-  width: 95%;
-  margin: 0 auto;
-  margin-top: 20px;
-  text-align: center;
-}
-
-.selectTeam{
-  width: 24.6%;
-  display: inline-block;
   margin: 0px;
 }
 
-#selectedUser{
-  font-size: 3em;
-  margin: 0 auto;
-  background-color:rgb(139, 149, 255);
-  color: white;
+input {
+  -webkit-appearance: none;
+}
+
+#pageSelectContainer{
+  border-bottom: 2px solid;
+}
+
+.pageSelectButton{
+  font-size: 1em;
+  width: 15%;
+  padding: 1%;
+  margin: 1% 1% 0% 1%;
   border: none;
-  padding: 20px;
+  border-radius: 10px 10px 0px 0px;
+}
+.pageSelectButton:focus{
+  background-color: rgb(255, 220, 106);
+}
+
+.teamContainer{
+  display: inline-block;
+  vertical-align: top;
+  width: 20%;
+  margin: 10px 5px;
+  padding: 10px;
+  background-color: white;
+  height: 65vh;
+  overflow-y: scroll;
+}
+
+#selectTeamContainer{
+  display: block;
+  background-color: rgb(143, 207, 255);
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
 }
 
 .selectStudentButton{
   width: 100%;
-  margin: 0 auto;
-  background-color:rgb(152, 248, 104);
-  color: black;
-  height: 80px;
-  border: none;
-  border-radius: 30px;
-  margin: 5px;
-}
-
-#teamSelect{
-  width: 90%;
-  font-size: 1em;
-  height: 60px;
+  padding: 12px;
+  font-size: 1.2em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .selectStudentButton:focus{
-  background-color:rgb(255, 252, 75);
+  background-color: rgb(255, 220, 106);
 }
 
-input[type=button]{
-  font-size: 2em;
+#cardsContainer, #setTeamContainer{
+  width: 100%;
+  text-align: center;
+}
+
+.card{
   border: none;
-  color: white;
-  height: 50px;
-  width: 50px;
-  border-radius: 30px;
-  text-align: center;
+  width: 150px;
+  height: 200px;
+  margin: 4px 20px;
+  border-radius: 10px;
 }
 
-input[type=text] {
-  font-size: 2em;
-  height: 80px;
-}
-
-input[type=number]{
-  font-size: 2em;
-  width: 70px;
-  height: 80px;
-}
-
-#questLog{
-  display: block;
-  text-align: center;
-  padding: 10px;
-  margin: 0 auto;
-}
-
-.questDescription{
-  display: inline-flex;
+#selectedUser{
   font-size: 1.5em;
-  width: 65%;
-  text-align: left;
-  padding-left: 10px;
+  background-color: white;
+  padding: 2px;
 }
 
-.questReward{
+#teamSelect, #correctSelect{
+  font-size: 1em;
+  width: 60%;
+  border: 1px solid black;
+  margin: 10px;
+  padding: 20px;
+}
+
+.page{
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+}
+
+#goalLog{
   display: inline-block;
-  position: relative;
+}
+
+#setGoalContainer{
+  background-color: rgb(143, 207, 255);
   text-align: center;
-  padding: 5px;
+  width: 100%;
+}
+
+.goal{
+  display: flex;
+  background-color: white;
+}
+
+#setGoalReward{
   font-size: 2em;
-  border: none;
-  border-radius: 40px;
-  background-color: rgb(152, 248, 104);
+  padding: 20px;
   width: 60px;
-  height: 60px;
-  text-align: center;
-  line-height: 60px;
-  margin-bottom: 15px;
-  margin-top: 15px;
 }
-.quest{
-  visibility: visible;
+
+#setGoalDescription{
+  font-size: 2em;
+  padding: 20px;
+}
+
+#setGoalButton, #setQuestionButton{
+  font-size: 2em;
+  padding: 20px;
+}
+
+.goalReward{
+  padding: 10px;
+  font-size: 1.2em;
+  width: 50px;
+  background-color: lightgoldenrodyellow;
+}
+
+.goalDescription{
+  padding: 10px;
+  font-size: 1.2em;
+  width: 80%;
+}
+
+.goalButton{
+  width: 50px;
+  height: 50px;
   border: none;
-  border-radius: 12px;
-  margin: 8px;
-  min-height: 80px;
-  background-color:whitesmoke;
+  border-radius: 15px;
+  font-size: 2em;
+  color: white;
 }
 
-#setQuestButton{
-  background-color: rgb(100, 225, 28);
+.setAnswer{
+  padding: 5px;
+  font-size: 1.2em;
+  width: 100%;
 }
 
-.questComplete{
-  background-color: rgb(100, 225, 28);
-}
-
-.questCancel{
-  background-color: rgb(254, 61, 27);
+#answersDiv{
+  margin: 20px 0;
 }
