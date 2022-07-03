@@ -11,7 +11,7 @@ body{
 
 input[type=text], select {
     font-size: 2em;
-    width: 200px;
+    width: 130px;
     padding: 2px;
     margin: 8px 0;
     border: 1px solid #ccc;
@@ -25,24 +25,27 @@ input[type=text], select {
 }
 
 #bigCardContainer{
-    margin: 120px auto;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
     position: fixed;
-    z-index: 30;
+    z-index: 15;
     width: 100%;
     height: 100vh;
-    text-align: center;
 }
 
 .bigCard{
-    display: inline-block;
-    width: 280px;
-    height: 220px;
+    padding-top: 3%;
+    text-align: center;
+    align-items: center; 
+    justify-content: center;
+    min-width: 200px;
+    min-height: 240px;
     border: none;
     opacity: 0;
-    font-size: 1.4em;
+    font-size: 1em;
     box-shadow: 15px 15px 30px grey;
     border-radius: 15px;
-    padding-top: 150px;
 }
 
 button{
@@ -128,10 +131,16 @@ button{
 .card{
     display: inline-block;
     font-size: 1.5em;
-    width: 60px;
-    padding: 10px;
+    width: 52px;
+    padding: 20px 0;
     border: none;
-    border-radius: 30px;
+    border-radius: 5px;
+    box-shadow: 4px 4px 10px grey;
+}
+
+#teamName{
+    margin-top: -15px;
+    font-size: 1.6em;
 }
 
 #goalLog{
@@ -176,6 +185,7 @@ button{
     z-index: 5;
     margin-top: -100%;
     height: 15%;
+    visibility: hidden;
 }
 
 #loginContainer{

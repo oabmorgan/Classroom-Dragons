@@ -33,14 +33,14 @@ window.onload = function(){
     document.getElementById("pageSelectTimer").onclick = function(){changePage("timer", false)};
 };
 
-socket.on('updateTeams', (email, realName, team) => {
+socket.on('updateTeams', (email, realName, team, teamName) => {
     if(email == "clear"){
         for(let i=0; i<4; i++){
             let currentTeam = document.getElementById("TeamContainer"+i);
             while (currentTeam.firstChild) {
                 currentTeam.removeChild(currentTeam.firstChild);
             }
-            createStudentButton(i+1, "Team "+(i+1), i);
+            createStudentButton(i+1, i, i);
         }
         return;
     }
@@ -49,11 +49,9 @@ socket.on('updateTeams', (email, realName, team) => {
 
 socket.on('setConnectionState', (email, isConnected) => {
     if(isConnected){
-        document.getElementById("selectStudentButton"+email).style.color = 'lightgreen';
-        document.getElementById("selectStudentButton"+email).style.fontWeight = 'bold';
+        document.getElementById("selectStudentButton"+email).style.borderRight = '20px solid lightgreen';
     } else {
-        document.getElementById("selectStudentButton"+email).style.color = 'grey';
-        document.getElementById("selectStudentButton"+email).style.fontWeight = 'light';
+        document.getElementById("selectStudentButton"+email).style.borderRight = '20px solid silver';
     }
 })
 
@@ -109,6 +107,10 @@ function createStudentButton(email, realName, team){
     newButton.onclick = function(){
         selectUser(email, realName);
       };
+    if(email < 5){
+        newButton.style.fontWeight = 'bold';
+        newButton.style.borderBottom = '4px solid silver';
+    }
     newButton.className = "selectStudentButton";
     newButton.id = "selectStudentButton"+email;
     newButton.innerText = realName;
@@ -160,8 +162,8 @@ socket.on('updateGoals', (goals) => {
   })
 
 function selectUser(email, realName){
-    console.log(email, realName);
     if(realName != ""){
+        console.log("select: ", realName);
         document.getElementById('selectedUser').innerHTML = realName;
     }
     selectedUser = email;

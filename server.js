@@ -6,6 +6,7 @@ const express = require("express");
 const { connect } = require('http2');
 const port = process.env.PORT || 3000;
 const ip = require("ip");
+const fs = require('fs');
 
 const xpMultiplier = 2.2;
 const xpTeamMultiplier = 5.2;
@@ -18,320 +19,9 @@ app.use(express.static("teacher"));
 app.use(express.static("screen"));
 
 //https://www.convertcsv.com/csv-to-json.htm
-var users = {
-    "2022003@seto-solan.ed.jp": {
-       "realName": "Ema",
-       "socket": "",
-       "class": "1-2",
-       "team": 1,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022010@seto-solan.ed.jp": {
-       "realName": "Toma",
-       "socket": "",
-       "class": "1-2",
-       "team": 1,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022076@seto-solan.ed.jp": {
-       "realName": "Koshi",
-       "socket": "",
-       "class": "1-2",
-       "team": 3,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022004@seto-solan.ed.jp": {
-       "realName": "Chihiro",
-       "socket": "",
-       "class": "1-2",
-       "team": 0,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022013@seto-solan.ed.jp": {
-       "realName": "Yutaro",
-       "socket": "",
-       "class": "1-2",
-       "team": 0,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022045@seto-solan.ed.jp": {
-       "realName": "Fuma",
-       "socket": "",
-       "class": "1-2",
-       "team": 3,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022038@seto-solan.ed.jp": {
-       "realName": "Takumi",
-       "socket": "",
-       "class": "1-2",
-       "team": 2,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022002@seto-solan.ed.jp": {
-       "realName": "Ryotaro",
-       "socket": "",
-       "class": "1-2",
-       "team": 2,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022009@seto-solan.ed.jp": {
-       "realName": "Fuku",
-       "socket": "",
-       "class": "1-2",
-       "team": 1,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022016@seto-solan.ed.jp": {
-       "realName": "Yuta",
-       "socket": "",
-       "class": "1-2",
-       "team": 0,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022025@seto-solan.ed.jp": {
-       "realName": "Ruriju",
-       "socket": "",
-       "class": "1-2",
-       "team": 3,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022069@seto-solan.ed.jp": {
-       "realName": "Kippei",
-       "socket": "",
-       "class": "1-2",
-       "team": 0,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022077@seto-solan.ed.jp": {
-       "realName": "Mio",
-       "socket": "",
-       "class": "1-2",
-       "team": 3,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022054@seto-solan.ed.jp": {
-       "realName": "Wako",
-       "socket": "",
-       "class": "1-2",
-       "team": 2,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022022@seto-solan.ed.jp": {
-       "realName": "Yua",
-       "socket": "",
-       "class": "1-2",
-       "team": 2,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022070@seto-solan.ed.jp": {
-       "realName": "Andy",
-       "socket": "",
-       "class": "1-2",
-       "team": 1,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022062@seto-solan.ed.jp": {
-       "realName": "Taisei",
-       "socket": "",
-       "class": "1-2",
-       "team": 0,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022046@seto-solan.ed.jp": {
-       "realName": "Koga",
-       "socket": "",
-       "class": "1-2",
-       "team": 0,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022059@seto-solan.ed.jp": {
-       "realName": "Mariya",
-       "socket": "",
-       "class": "1-2",
-       "team": 1,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022049@seto-solan.ed.jp": {
-       "realName": "Ichiro",
-       "socket": "",
-       "class": "1-2",
-       "team": 3,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022072@seto-solan.ed.jp": {
-       "realName": "Kenji",
-       "socket": "",
-       "class": "1-2",
-       "team": 1,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022034@seto-solan.ed.jp": {
-       "realName": "Umeka",
-       "socket": "",
-       "class": "1-2",
-       "team": 2,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022047@seto-solan.ed.jp": {
-       "realName": "Kengo",
-       "socket": "",
-       "class": "1-2",
-       "team": 2,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022044@seto-solan.ed.jp": {
-       "realName": "Leo",
-       "socket": "",
-       "class": "1-2",
-       "team": 0,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022048@seto-solan.ed.jp": {
-       "realName": "Yuito",
-       "socket": "",
-       "class": "1-2",
-       "team": 3,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    },
-    "2022073@seto-solan.ed.jp": {
-       "realName": "Wataru",
-       "socket": "",
-       "class": "1-2",
-       "team": 1,
-       "goals": [],
-       "xp": 0,
-       "green": 0,
-       "yellow": 0,
-       "red": 0,
-       "answer": -1
-    }
- }
+
+let rawdata = fs.readFileSync('users.json');
+let users = JSON.parse(rawdata);
 
 var teams = {
     0:{
@@ -378,6 +68,7 @@ app.get('/screen', (req, res) => {
 io.on('connection', (socket) => {
     //User joins, save their socket
     socket.on('join', function (email) {
+        console.log("attempted connection: ",email);
         if(email == "screen"){
             console.error("New Screen Connected");
             socket.join("screens");
@@ -402,7 +93,6 @@ io.on('connection', (socket) => {
         let socket_old = io.sockets.sockets.get(users[email].socket);
         if(socket_old != undefined){
             io.to(users[email].socket).emit("login", -2);
-            socket_old.disconnect();
         }
         users[email].socket = socket.id;
         console.log(users[email].realName + " connected. ("+email+", "+users[email].team+")");
@@ -566,7 +256,7 @@ function giveCard(email, card){
                 giveTeamXP(email-1, -10);
                 break;
         }
-        io.emit('cardAlert', card, teams[email-1].name);
+        io.emit('cardAlert', card, email-1, teams[email-1].name);
         return;
     }
     console.log("givecard "+email,card);
@@ -585,7 +275,7 @@ function giveCard(email, card){
             giveUserXP(email, -10);
             break;
     }
-    io.emit('cardAlert', card, teams[user.team].name, user.realName);
+    io.emit('cardAlert', card, user.team, teams[user.team].name, user.realName);
     io.to(user.socket).emit("updatecard", user.green, user.yellow, user.red);
 }
 
@@ -605,8 +295,11 @@ function updateTeams(){
     console.log("Updating Teams");
     io.emit('updateTeams', "clear");
     for (const email in users) {
-        io.emit('updateTeams', email, users[email].realName, users[email].team);
+        io.emit('updateTeams', email, users[email].realName, users[email].team, teams[users[email].team].name);
     }
+    updateXP();
+    let data = JSON.stringify(users);
+    fs.writeFileSync('users.json', data);
 }
 
 http.listen(port, () => {

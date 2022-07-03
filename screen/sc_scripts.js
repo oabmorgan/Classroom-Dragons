@@ -1,34 +1,69 @@
 var socket = io();
 var tickInterval;
+var teamXP = [0,0,0,0];
 
 socket.emit('join', "screen", "screen");
 
-function tick(){
-    let bigCard = document.getElementById("bigCard");
-    if(bigCard.style.opacity > 0){
-      bigCard.style.opacity -= 0.1;
-    } else {
-      clearInterval(tickInterval);
-    }
-  }
+for(let i=0; i<4; i++){
+  document.getElementById("team"+i+"xpFill").style.height = 0+"%";
+}
 
-  socket.on('cardAlert', (color, teamname, realName = "") => {
+
+function tick(){
+  let bigCard = document.getElementById("bigCard");
+  for(let i=0; i<4; i++){
+    let xpFill = document.getElementById("team"+i+"xpFill");
+    let xpFillPct = parseInt(xpFill.style.height);
+    let xpTargetPct = teamXP[i]%100;
+    let xpDifference = xpTargetPct - xpFillPct;
+    if (Math.abs(xpTargetPct - xpFillPct) > 3){
+      let newPct = xpFillPct + Math.ceil(xpDifference*0.3);
+      if(newPct >= 100){
+        newPct -= 100;
+      }
+      xpFill.style.height = newPct + "%";      
+      return;
+    }
+  }  
+  if(bigCard.style.opacity > 0){
+    bigCard.style.opacity -= 0.1;
+    return;
+  }
+  clearInterval(tickInterval);
+}
+
+  socket.on('cardAlert', (color, teamID, teamname, realName = "") => {
     let bigCard = document.getElementById("bigCard");
     bigCard.style.opacity = 6;
     clearInterval(tickInterval);
     tickInterval = setInterval(tick, 50);
+    switch(teamID){
+      case 0:
+        bigCard.style.marginRight = '60%';
+        break;
+      case 1:
+        bigCard.style.marginRight = '20%';
+        break;
+      case 2:
+        bigCard.style.marginRight = '-20%';
+        break;
+      case 3:
+        bigCard.style.marginRight = '-60%';
+        break;
+    }
+    //bigCard.style.marginLeft = 60+'%';
     switch(color){
       case "green":
         bigCard.style.backgroundColor = 'rgb(133, 255, 96)';
-        bigCard.innerHTML = teamname + "<br> "+ realName + " got a green card!";
+        bigCard.innerHTML = "<p><h3>"+teamname+"</h3></p><p><h1>" + realName + "</h1></p><p>" + " got a <b>green</b> card!</p>";
       break;
       case "yellow":
         bigCard.style.backgroundColor = 'rgb(245, 225, 53)';
-        bigCard.innerHTML = teamname + "<br> "+ realName + " got a yellow card";
+        bigCard.innerHTML = "<p><h3>"+teamname+"</h3></p><p><h1>" + realName + "</h1></p><p>" + " got a <b>yellow</b> card</p>";
       break;
       case "red":
         bigCard.style.backgroundColor = 'rgb(254, 61, 27)';
-        bigCard.innerHTML = teamname + "<br> "+ realName + " got a red card...";
+        bigCard.innerHTML = "<p><h3>"+teamname+"</h3></p><p><h1>" + realName + "</h1></p><p>" + " got a <b>red</b> card...</p>";
       break;
     }
   });
@@ -40,7 +75,9 @@ socket.on('qr', (ip) => {
 
 socket.on('updatexp', (team, xp) => {
     console.log("updating xp for team "+team);
-    document.getElementById("team"+team+"xpFill").style.height = xp%100+"%";
+    teamXP[team] = xp;
+    clearInterval(tickInterval);
+    tickInterval = setInterval(tick, 50);
     let level = Math.floor(xp/100);
     switch(level){
         case 0:
