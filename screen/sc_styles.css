@@ -102,3 +102,51 @@ body{
     font-size: 2em;
     border: 2px solid;
 }
+
+#quizContainer{
+}
+#quizQuestion{
+    text-align: center;
+    font-size: 4em;
+}
+.quizAnswer{
+    display: flex;
+    align-items: center;
+    height: 20vh;
+    width: 100%;
+    background-color:bisque;
+}
+.quizAnswerText{
+    padding: 20px;
+    margin: 10px;
+    width: 300px;
+    font-size: 100%;
+    text-align: center;
+    border: none;
+    background-color: white;
+}
+.quizAnswerBar{
+    width: 100%;
+    padding: 5px;
+    height: 30%;
+    background-color: white;
+    margin: 10px;
+}
+
+.quizAnswerBarFill{
+    background-color: red;
+    width: 80%;
+    height: 100%;
+    border: none;
+    border-radius: 0px 15px 15px 0px;
+}
+
+#quizTimerContainer{
+    height: 5vh;
+    background-color: white;
+}
+#quizTimerFill{
+    width: 80%;
+    height: 100%;
+    background-color: green;
+}

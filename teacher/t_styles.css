@@ -30,7 +30,7 @@ input {
   margin: 10px 5px;
   padding: 10px;
   background-color: white;
-  height: 65vh;
+  height: 75vh;
   overflow-y: scroll;
 }
 
@@ -44,8 +44,9 @@ input {
 
 .selectStudentButton{
   width: 100%;
-  padding: 12px;
-  font-size: 1.2em;
+  height: 10%;
+  min-height: 40px;
+  font-size: 1.5em;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -63,8 +64,9 @@ input {
 
 .card{
   border: none;
-  width: 150px;
-  height: 200px;
+  font-size: 2em;
+  width: 250px;
+  height: 400px;
   margin: 4px 20px;
   border-radius: 10px;
   box-shadow: 4px 4px 10px grey;

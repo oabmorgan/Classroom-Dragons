@@ -4,10 +4,11 @@ var teamXP = [0,0,0,0];
 
 socket.emit('join', "screen", "screen");
 
+question("test Question", ["answer 1","answer B","next answer"], 30);
+
 for(let i=0; i<4; i++){
   document.getElementById("team"+i+"xpFill").style.height = 0+"%";
 }
-
 
 function tick(){
   let bigCard = document.getElementById("bigCard");
@@ -30,6 +31,10 @@ function tick(){
     return;
   }
   clearInterval(tickInterval);
+}
+
+function question(questionText, answers, duration){
+  console.log("Asking a question: "+questionText);
 }
 
   socket.on('cardAlert', (color, teamID, teamname, realName = "") => {
