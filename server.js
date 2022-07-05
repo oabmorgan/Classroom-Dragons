@@ -23,6 +23,17 @@ app.use(express.static("screen"));
 let rawdata = fs.readFileSync('users.json');
 let users = JSON.parse(rawdata);
 
+var question = {
+    questionText: "",
+    answers:[
+        {answer: "A", count:0},
+        {answer: "B", count:0},
+        {answer: "C", count:0},
+        {answer: "D", count:0}],
+    start:0,
+    duration:10
+}
+
 var teams = {
     0:{
         "name":"Team 0",
@@ -69,6 +80,9 @@ io.on('connection', (socket) => {
     //User joins, save their socket
     socket.on('join', function (email) {
         console.log("attempted connection: ",email);
+        if(isQuestionActive()){
+            updateQuestion();
+        }
         if(email == "screen"){
             console.error("New Screen Connected");
             socket.join("screens");
@@ -122,9 +136,16 @@ io.on('connection', (socket) => {
         updateGoals();
     });
 
-    socket.on('setQuestion', (question, answers) => {
-        console.log("new question: "+question, answers);
-        io.emit("askQuestion", -1, question, answers);
+    socket.on('setQuestion', (newQuestion, answers) => {
+        question.questionText = newQuestion;
+        question.start = Date.now();
+        for(let i=0; i<4; i++){
+            if(answers[i] != undefined){
+                question.answers[i].answer = answers[i];
+                question.answers[i].count = 0;
+            }
+        }
+        updateQuestion();
     });
 
     socket.on('setTeam', (email, team) => {
@@ -206,6 +227,15 @@ function giveTeamXP(id, amount){
     }
 
     updateXP();
+}
+
+function updateQuestion(){
+    console.log("Updating Question");
+    io.emit('updateQuestion', question.questionText, question.answers, Date.now(), question.duration);
+}
+
+function isQuestionActive(){
+    return question.start + question.duration*1000 > Date.now();
 }
 
 function updateConnections(){

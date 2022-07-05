@@ -1,10 +1,14 @@
 var socket = io();
 var tickInterval;
+
+var timerInterval;
+var timerStart;
+var timerEnd;
+
 var teamXP = [0,0,0,0];
+var currentQuestion = "";
 
 socket.emit('join', "screen", "screen");
-
-question("test Question", ["answer 1","answer B","next answer"], 30);
 
 for(let i=0; i<4; i++){
   document.getElementById("team"+i+"xpFill").style.height = 0+"%";
@@ -33,11 +37,55 @@ function tick(){
   clearInterval(tickInterval);
 }
 
-function question(questionText, answers, duration){
+socket.on('updateQuestion', (questionText, answers, startTime, duration) => {
+  console.log(startTime, duration);
+  timerStart = startTime;
+  timerEnd = startTime + (duration*1000);
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(questionTimer, 10);
+
   console.log("Asking a question: "+questionText);
+  let quizQuestion = document.getElementById("quizQuestion");
+  quizQuestion.innerHTML = questionText;
+  let responses = 0;
+  for(let i=0; i<4; i++){
+    if(answers[i] != undefined){
+      responses+= answers[i].count;
+    }
+  }
+  for(let i=0; i<4; i++){
+    let quizAnswer = document.getElementById("quizAnswer"+i);
+    let quizAnswerText = document.getElementById("quizAnswerText"+i);
+    let quizAnswerBarFill = document.getElementById("quizAnswerBarFill"+i);
+    quizAnswerBarFill.style.width = '3px';
+    if(answers[i] != undefined){
+      quizAnswer.style.visibility = 'inherit';
+      quizAnswerText.innerHTML = answers[i].answer;
+      quizAnswerBarFill.style.width = (answers[i].count/responses)*100+"%";
+    } else {
+      quizAnswer.style.visibility = 'hidden';
+    }
+  }
+})
+
+
+function questionTimer(){
+  let duration = timerEnd - timerStart;
+  let remaining = timerEnd - Date.now();
+  let timerPct = (remaining/duration)*100;
+  let quizTimerFill = document.getElementById("quizTimerFill");
+  let quiz = document.getElementById("quizContainer");
+  quiz.style.visibility = 'visible';
+  quizTimerFill.style.width = timerPct+"%";
+  if(remaining <= 0){
+    quiz.style.visibility = 'hidden';
+    clearInterval(timerInterval);
+    console.log("Timer Ended");
+  }
 }
 
-  socket.on('cardAlert', (color, teamID, teamname, realName = "") => {
+socket.on('cardAlert', (color, teamID, teamname, realName = "") => {
     let bigCard = document.getElementById("bigCard");
     bigCard.style.opacity = 6;
     clearInterval(tickInterval);

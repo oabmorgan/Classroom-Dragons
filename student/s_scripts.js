@@ -1,7 +1,7 @@
 var socket = io();
 var email;
 var team;
-var myXP = 0;
+var xp;
 var myName;
 var myGoals;
 
@@ -11,39 +11,25 @@ var questionID = -1;
 
 window.onload = function(){
   let savedEmail = document.cookie;
-  document.getElementById("MyteamxpFill").style.height = 0+"%";
   if(savedEmail.length){
     email = savedEmail;
     socket.emit('join', email);
     console.log("Saved Email: "+email);
+  } else {
+    document.getElementById("sumbitButton").addEventListener('click', function(){
+      email = document.getElementById("email").value+"@seto-solan.ed.jp";
+      socket.emit('join', email);
+    });
   }
-  document.getElementById("sumbitButton").addEventListener('click', function(){
-    email = document.getElementById("email").value+"@seto-solan.ed.jp";
-    socket.emit('join', email);
-  });
 }
 
 function tick(){
   let bigCard = document.getElementById("bigCard");
-  let xpFill = document.getElementById("MyteamxpFill");
-
-  let xpFillPct = parseInt(xpFill.style.height);
-  let xpTargetPct = myXP%100;
-  let xpDifference = xpTargetPct - xpFillPct;
-
-  if (Math.abs(xpTargetPct - xpFillPct) > 3){
-    let newPct = xpFillPct + Math.ceil(xpDifference*0.3);
-    if(newPct >= 100){
-      newPct -= 100;
-    }
-    xpFill.style.height = newPct + "%";
-    return;
-  }
   if(bigCard.style.opacity > 0){
     bigCard.style.opacity -= 0.1;
-    return;
+  } else {
+    clearInterval(tickInterval);
   }
-  clearInterval(tickInterval);
 }
 
 function selectGoal(id){
@@ -57,7 +43,7 @@ function selectGoal(id){
 }
 
 socket.on('login', (newTeam, newName) => {
-  if(newTeam >= 0){
+  if(newTeam > 0){
     document.getElementById("loginContainer").style.visibility = 'hidden';
     document.getElementById("loginfeedback").style.visibility = 'hidden';
     team = newTeam;
@@ -73,20 +59,16 @@ socket.on('login', (newTeam, newName) => {
     document.getElementById("answer2").addEventListener('click', function(){ sendAnswer(2)});
     document.getElementById("answer3").addEventListener('click', function(){ sendAnswer(3)});
 
-    var now = new Date();
-    now.setTime(now.getTime() + 12 * 60 * 60 * 1000);
-    document.cookie = email+"; expires=" + now.toUTCString() + ";path=/";
+    document.cookie = email;
 
   } else {
-    document.cookie = "";
     switch(newTeam){
       case -1:
         document.getElementById("loginfeedback").innerHTML = "Error: Email not registered";
       break;
       case -2:
-        document.getElementById("loginfeedback").innerHTML = "Error: Logged in somewhere else";
-        email = "";
-        document.cookie = "logged out";
+        alert("Disconnected: Email logged in somewhere else");
+        window.location.reload();
       break;
     }
     document.getElementById("loginContainer").style.visibility = 'visible';
@@ -100,25 +82,25 @@ function sendAnswer(answerID){
   document.getElementById("questionContainer").style.visibility = 'hidden';
 }
 
-socket.on('askQuestion', (QID, question, answers) => {
-  console.log("New question: "+question);
-  quesitonID = QID;
+socket.on('updateQuestion', (questionText, answers, startTime, duration) => {
+  console.log("New question: "+questionText);
 
-  document.getElementById("question").innerHTML = question;
+  document.getElementById("question").innerHTML = questionText;
 
-  document.getElementById("answer0").innerText = answers[0];
-  document.getElementById("answer1").innerText = answers[1];
-  document.getElementById("answer2").innerText = answers[2];
-  document.getElementById("answer3").innerText = answers[3];
+  console.log(answers);
+  document.getElementById("answer0").innerText = answers[0].answer;
+  document.getElementById("answer1").innerText = answers[1].answer;
+  document.getElementById("answer2").innerText = answers[2].answer;
+  document.getElementById("answer3").innerText = answers[3].answer;
 
   document.getElementById("questionContainer").style.visibility = 'visible';
 })
 
-socket.on('updateTeams', (updateEmail, realName, updateTeam, updateteam = 0) => {
-  if(updateEmail == email){
-    team = updateTeam;
-    document.getElementById("teamName").innerHTML = updateteam;
-  }
+
+socket.on('xp', (gain, total) => {
+  console.log("Yay I got xp! "+gain);
+  xp = total; 
+  console.log("Now I have "+total);
 })
 
 socket.on('updateGoals', (goals) => {
@@ -145,44 +127,32 @@ socket.on('updatecard', (green, yellow, red) => {
   document.getElementById("redCards").innerHTML = red;
 });
 
-socket.on('cardAlert', (color, teamID, teamName, realName = "") => {
-  if(team != teamID){
-    return;
-  }
-  if(realName == ""){
-    realName = teamName;
-  }
+socket.on('cardAlert', (color, teamname, realName = "") => {
   let bigCard = document.getElementById("bigCard");
   bigCard.style.opacity = 6;
   clearInterval(tickInterval);
-  tickInterval = setInterval(tick, 40);
+  tickInterval = setInterval(tick, 50);
   switch(color){
     case "green":
       bigCard.style.backgroundColor = 'rgb(133, 255, 96)';
-      bigCard.innerHTML = "<p><h1>" + realName + "</h1></p><p>" + " got a <b>green</b> card!</p>";
+      bigCard.innerHTML = teamname + "<br> "+ realName + " got a green card!";
     break;
     case "yellow":
       bigCard.style.backgroundColor = 'rgb(245, 225, 53)';
-      bigCard.innerHTML = "<p><h1>" + realName + "</h1></p><p>" + " got a <b>yellow</b> card</p>";
+      bigCard.innerHTML = teamname + "<br> "+ realName + " got a yellow card";
     break;
     case "red":
       bigCard.style.backgroundColor = 'rgb(254, 61, 27)';
-      bigCard.innerHTML = "<p><h1>" + realName + "</h1></p><p>" + " got a <b>red</b> card...</p>";
+      bigCard.innerHTML = teamname + "<br> "+ realName + " got a red card...";
     break;
   }
 });
 
-socket.on('updatexp', (updateTeam, setXP) => {
-  updateXP(updateTeam, setXP);
-});
-
-function updateXP(updateTeam, setXP){  
+socket.on('updatexp', (updateTeam, xp) => {
   if(updateTeam == team){
-    console.log("My team got xp! "+team, myXP);
-    clearInterval(tickInterval);
-    tickInterval = setInterval(tick, 40);
-    myXP = setXP;
-    let level = Math.floor(myXP/100);
+    console.log("My team got xp! "+team);
+    document.getElementById("MyteamxpFill").style.height = xp%100+"%";
+    let level = Math.floor(xp/100);
     switch(level){
         case 0:
             document.getElementById("MyteamLevel").style.backgroundColor = 'rgb(185, 248, 225)';
@@ -227,4 +197,4 @@ function updateXP(updateTeam, setXP){
     }
     document.getElementById("MyteamLevel").innerHTML = level;
   }
-}
+});
