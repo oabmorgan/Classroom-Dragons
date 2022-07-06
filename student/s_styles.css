@@ -1,37 +1,100 @@
 body{
-    margin: 0px;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
 #content{
     display: flex;
     width: 100%;
     height: 100vh;
-    background-color: red;
 }
 
 .panel{
     width: 25%;
     height: 100%;
-    border: 2px solid black;
 }
 
 #panel_mid{
     width: 50%;
+    background-image: url("../images/background_grass.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
 }
 
-#content_cards{
+.content_icons{
+    position: relative;
     display: flex;
+    z-index: 2;
     justify-content: center;
+    background-color: whitesmoke;
 }
 
-.content_card{
-    display: flex;
-    border: 2px solid white;
-    width: 15%;
+#name{
+    position: relative;
+    z-index: 2;
+    font-size: 2.8em;
     text-align: center;
+    background-color: antiquewhite;
+}
+
+.content_icon{
+    display: flex;
+    width: auto;
+    height: 50px;
+    line-height: 30px;
 }
 
 .icon{
-    height: 30px;
-    width: 30px;   
+    height: 100%;
+}
+
+.spacing_dragon{
+    position: relative;
+    width: 100%;
+}
+
+.content_dragon{
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    bottom: 15%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.dragon{
+    width: 250px;
+}
+
+#dragon_name{
+    font-size: 2em;
+    margin-top: 20px;
+    background-color: white;
+}
+
+#content_shop{
+    height: 100%;
+    background-color: aquamarine;
+}
+
+.shop_item{
+    width: 100%;
+    background-color: white;
+}
+
+.item_cost{
+    width: 100px;
+    line-height: 50px;
+    text-align: center;
+    background-color: aquamarine;
+}
+
+.item_desc{
+    line-height: 50px;
+    overflow: hidden;
+    width: 100%;
+    background-color: aquamarine;
 }
