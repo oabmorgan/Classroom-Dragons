@@ -1,65 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="s_styles.css">
-  </head>
-  <body>
-    <div id='loginContainer'>
-      <form id="loginForm" action="#">
-        <input id="email" type="text" value="" placeholder="2022000">
-        <label for="email">@seto-solan.ed.jp</label>
-        <input type="button" id="sumbitButton" value="Login">
-        <label id="loginfeedback" style="font-size: 1em; color: red; visibility: hidden;" >Email not Registered</label>
-      </form>
-    </div>
-  
-    <div id="questionContainer" style="visibility: hidden">
-      <div id="question">Test question</div>
-      <div id="answerContainer">
-        <button class="answerButton" id="answer0">1</button>
-        <button class="answerButton" id="answer1">2</button>
-        <button class="answerButton" id="answer2">3</button>
-        <button class="answerButton" id="answer3">4</button>
-      </div>
-    </div>
-
-    <div id="bigCardContainer">
-      <div class="bigCard" id="bigCard"></div>
-    </div>
-
-    <div id="teamsContainer">
-      <div class="teamContainer" id="MyteamContainer">
-        <div class="teamLevel" id="MyteamLevel">0</div>
-        <div class="teamxpContainer" id="MyteamxpContainer">
-          <div class="teamxpFill" id="MyteamxpFill"></div>
+    <head>
+        <link rel="stylesheet" type="text/css" href="s_styles.css">
+    </head>
+    <body>
+        <div id='content'>
+            <div class="panel" id='panel_left'></div>
+            <div class="panel" id='panel_mid'>
+                <div id="name"></div>
+                <div id="content_cards">
+                    <div class="content_card">
+                        <img class="icon" src="green">
+                        <div class="CardCount" id="cardCount_green">1</div>
+                    </div>
+                    <div class="content_card">
+                        <img class="icon" src="yellow">
+                        <div id="cardCount_yellow">5</div>
+                    </div>
+                    <div class="content_card">
+                        <img class="icon" src="red">
+                        <div id="cardCount_red">3</div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel" id='panel_right'></div>
         </div>
-        <img class="char" id="teamChar" src="">
-        <div id="teamName"></div>
-      </div>
-      <div id="infoContainer">
-        <div id="myName">My Name</div>
-        <div class="cardContainer">
-          <div class="card" id="greenCards" style="background-color: rgb(123, 235, 90)">0</div>
-          <div class="card" id="yellowCards" style="background-color: rgb(255, 236, 61)">0</div>
-          <div class="card" id="redCards" style="background-color: rgb(254, 61, 27)">0</div>
-        </div>
-        <div id="goalLog">
-          <div class="goal" id="goal0">
-            <div class="goalReward" id="goalReward0">9</div>
-            <div class="goalDescription" id="goalDescription0"></div>
-          </div>
-          <div class="goal" id="goal1">
-            <div class="goalReward" id="goalReward1">9</div>
-            <div class="goalDescription" id="goalDescription1"></div>
-          </div>
-          <div class="goal" id="goal2">
-            <div class="goalReward" id="goalReward2">9</div>
-            <div class="goalDescription" id="goalDescription2"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="../socket.io/socket.io.js"></script>
-    <script src="s_scripts.js"></script>
-  </body>
+    </body>
 </html> 
