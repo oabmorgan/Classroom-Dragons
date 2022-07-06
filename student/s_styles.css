@@ -15,6 +15,7 @@ body{
 }
 
 #panel_mid{
+    z-index: 0;
     width: 50%;
     background-image: url("../images/background_grass.png");
     background-position: center;
@@ -46,7 +47,7 @@ body{
     line-height: 30px;
 }
 
-.icon{
+.icon, item_icon{
     height: 100%;
 }
 
@@ -81,6 +82,7 @@ body{
 }
 
 .shop_item{
+    z-index: 1;
     width: 100%;
     background-color: white;
 }
