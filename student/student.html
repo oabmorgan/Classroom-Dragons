@@ -3,36 +3,51 @@
     <head>
         <link rel="stylesheet" type="text/css" href="s_styles.css">
         <style>@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');</style>
-        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-        <script src="s_scripts.js"></script>
     </head>
     <body>
+        <div id="content_login">
+            <div contenteditable="true" id="login_email"></div>@seto-solan.ed.jp
+            <div class="round_button" id="login_submit">Login</div>
+            </div>
+        </div>
+        <div id="content_draw">
+            <canvas id="whiteboard"></canvas>
+            <div class="round_button" id="draw_clear"></div>
+            <div class="round_button" id="draw_color0"></div>
+            <div class="round_button" id="draw_color1"></div>
+        </div>
+        <div id="content_quiz">
+            <div id="question">Test Question</div>
+            <div class="answer" id="answer0">Test Answer 1</div>
+            <div class="answer" id="answer1">Test Answer 2</div>
+            <div class="answer" id="answer2">Test Answer 3</div>
+            <div class="answer" id="answer3">Test Answer 4</div>
+        </div>
         <div id='content'>
             <div class="panel" id='panel_left'>
-                <div class="content_icons">
-                    <div class="content_icon">
-                        <img class="icon" src="../images/point.png">
-                        <div class="cardCount" id="cardCount_red">000</div>
-                    </div>
-                </div>
                 <div id="content_shop">
+                    <div class="content_cards">
+                        <div class="content_card">
+                            <img class="icon" src="../images/point.png">
+                            <div class="cardCount" id="cardCount_red">000</div>
+                        </div>
+                    </div>
                     <div class="shop_item" >
-                        <div class="content_icon">
+                        <div class="content_card">
                             <div class="item_cost">1</div>
                             <div class="item_desc">test item 1</div>
                             <img class="item_icon" src="../images/point.png">
                         </div>
                     </div>
                     <div class="shop_item">
-                        <div class="content_icon">
+                        <div class="content_card">
                             <div class="item_cost">2</div>
                             <div class="item_desc">test item 2</div>
                             <img class="item_icon" src="../images/point.png">
                         </div>
                     </div>
                     <div class="shop_item">
-                        <div class="content_icon">
+                        <div class="content_card">
                             <div class="item_cost">5</div>
                             <div class="item_desc">test item 3</div>
                             <img class="item_icon" src="../images/point.png">
@@ -42,29 +57,51 @@
             </div>
             <div class="panel" id='panel_mid'>
                 <div id="name">Oliver</div>
-                <div class="content_icons">
-                    <div class="content_icon">
+                <div class="content_cards">
+                    <div class="content_card">
                         <img class="icon" src="../images/card_small_green.png">
                         <div id="cardCount_green">000</div>
                     </div>
-                    <div class="content_icon">
+                    <div class="content_card">
                         <img class="icon" src="../images/card_small_yellow.png">
                         <div id="cardCount_yellow">000</div>
                     </div>
-                    <div class="content_icon">
+                    <div class="content_card">
                         <img class="icon" src="../images/card_small_red.png">
                         <div id="cardCount_red">000</div>
                     </div>
                 </div>
-
-                <div id="spacing_dragon">
-                    <div class="content_dragon">
-                        <img class="dragon" src="../images/dragons/placeholder.png">
-                        <div id="dragon_name">Fire Dragon</div>
+                <div id="content_xp">
+                    <div id="xp_fill">
                     </div>
                 </div>
+                <div class="spacing_dragon">
+                  <div class="content_dragon" id="content_dragon1">
+                    <img class="dragon" src="../images/dragons/placeholder.png">
+                  </div>
+                </div>
+                <div class="dragon_name">
+                  Fire Dragon
+                </div>
             </div>
-            <div class="panel" id='panel_right'></div>
+            <div class="panel" id='panel_right'>
+                <div id="content_team_items">
+                    <img class="icon" src="../images/card_small_red.png">
+                    <img class="icon" src="../images/card_small_red.png">
+                    <img class="icon" src="../images/card_small_red.png">
+                </div>
+                <div id="content_team">
+                    <div id="content_xp">
+                        <div id="xp_fill">
+                        </div>
+                    </div>                    
+                </div>
+            </div>
         </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+        <script src="s_scripts.js"></script>
+        <script src="draw.js"></script>
     </body>
 </html> 

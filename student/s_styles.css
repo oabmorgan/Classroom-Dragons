@@ -12,91 +12,214 @@ body{
 .panel{
     width: 25%;
     height: 100%;
+    background-color: white;
 }
 
+.icon, item_icon{
+    height: 50px;
+}
+
+.round_button{
+    background-color: rgb(1, 255, 158);
+    border: 5px solid black;
+    border-radius: 60px;
+    margin: 10px;
+    padding: 30px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.round_button:hover{
+    background-color: rgb(179, 255, 1);
+}
+
+.round_button:active{
+    background-color: rgb(1, 255, 213);
+}
+
+/*
+    Left Panel
+*/
+
+#content_shop{
+    background-color: aquamarine;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.shop_item{
+    width: 100%;
+    background-color: white;    
+}
+
+.item_desc{
+    overflow: hidden;
+    width: 100%;
+    background-color: aquamarine;
+}
+
+/*
+    Middle Panel
+*/
 #panel_mid{
-    z-index: 0;
     width: 50%;
     background-image: url("../images/background_grass.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    border-left: 5px solid black;
+    border-right: 5px solid black;
 }
 
-.content_icons{
+.content_cards{
     position: relative;
     display: flex;
-    z-index: 2;
     justify-content: center;
     background-color: whitesmoke;
 }
 
 #name{
     position: relative;
-    z-index: 2;
     font-size: 2.8em;
     text-align: center;
     background-color: antiquewhite;
 }
 
-.content_icon{
+.content_card{
     display: flex;
     width: auto;
-    height: 50px;
-    line-height: 30px;
-}
-
-.icon, item_icon{
-    height: 100%;
 }
 
 .spacing_dragon{
+    width: 100%;
+    height: 30%;
+    display: flex;
+  }
+  
+  .content_dragon{
+    width: 100%;
     position: relative;
-    width: 100%;
-}
-
-.content_dragon{
-    z-index: 1;
-    position: absolute;
-    left: 50%;
-    bottom: 15%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
+    align-self: flex-end;
     text-align: center;
-}
-
-.dragon{
-    width: 250px;
-}
-
-#dragon_name{
+    background-image: url("../images/background_grass.png");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .dragon{
+    max-width: 100%;
+    width: 60%;
+  }
+  
+  .dragon_name{
+    height: 10%;
+    text-align: center;
     font-size: 2em;
-    margin-top: 20px;
     background-color: white;
-}
+  }
 
-#content_shop{
-    height: 100%;
+/*
+    Right Panel
+*/
+
+#content_team{
     background-color: aquamarine;
-}
-
-.shop_item{
-    z-index: 1;
-    width: 100%;
-    background-color: white;
-}
-
-.item_cost{
-    width: 100px;
-    line-height: 50px;
     text-align: center;
-    background-color: aquamarine;
+    width: 100%;
+    height: 100%;
 }
 
-.item_desc{
-    line-height: 50px;
-    overflow: hidden;
+#content_xp{
     width: 100%;
-    background-color: aquamarine;
+    height: 100%;
+    display:flex;
+}
+
+#xp_fill{
+    width: 100%;
+    height: 25%;
+    background-color: red;
+    position: relative;
+    align-self: flex-end;
+    border-top: 8px solid white;
+}
+
+#content_team_items{
+    position: absolute;
+}
+
+
+/*
+    Quiz Panel
+*/
+
+#content_quiz{
+    z-index: -1;
+    position: fixed;
+    height: 100vh;
+    width: 75%;
+    background-color: white;
+}
+
+#question{
+    text-align: center;
+    font-size: 3em;
+    line-height: 2em;
+    margin: 2%;
+    padding: 1%;
+}
+
+.answer{
+    background-color: cornflowerblue;
+    font-size: 1.4em;
+    margin: 2%;
+    padding: 5%;
+}
+
+/*
+    Drawing Panel
+*/
+
+#content_draw{
+    z-index: -10;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+}
+
+#whiteboard{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 90%;
+    background-color: cadetblue;
+}
+
+/*
+    Login Panel
+*/
+
+#content_login{
+    z-index: -10;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    background-color: white;
+    font-size: 2em;
+    text-align: center;
+}
+
+#login_email{
+    display: inline-block;
+    text-align: right;
+    border: 1px;
+    width: 200px;
+    border: 1px solid;
 }

@@ -1,161 +1,132 @@
 body{
-  font-family: Arial;
-  margin: 0px;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: rgb(179, 229, 252);
 }
 
-input {
-  -webkit-appearance: none;
-}
-
-#pageSelectContainer{
-  border-bottom: 2px solid;
-}
-
-.pageSelectButton{
-  font-size: 1em;
-  width: 15%;
-  padding: 1%;
-  margin: 1% 1% 0% 1%;
-  border: none;
-  border-radius: 10px 10px 0px 0px;
-}
-.pageSelectButton:focus{
-  background-color: rgb(255, 220, 106);
-}
-
-.teamContainer{
-  display: inline-block;
-  vertical-align: top;
-  width: 20%;
-  margin: 10px 5px;
-  padding: 10px;
-  background-color: white;
-  height: 75vh;
-  overflow-y: scroll;
-}
-
-#selectTeamContainer{
-  display: block;
-  background-color: rgb(143, 207, 255);
-  text-align: center;
-  width: 100%;
-  overflow: hidden;
-}
-
-.selectStudentButton{
-  width: 100%;
-  height: 10%;
-  min-height: 40px;
-  font-size: 1.5em;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border: none;
-}
-
-.selectStudentButton:focus{
-  background-color: rgb(255, 220, 106);
-}
-
-#cardsContainer, #setTeamContainer{
-  width: 100%;
-  text-align: center;
-}
-
-.card{
-  border: none;
-  font-size: 2em;
-  width: 250px;
-  height: 400px;
-  margin: 4px 20px;
-  border-radius: 10px;
-  box-shadow: 4px 4px 10px grey;
-}
-
-.card:hover{
-  border: 3px solid white;
-  box-shadow: 2px 2px 5px grey;
-}
-
-#selectedUser{
-  font-size: 1.5em;
-  background-color: white;
-  padding: 2px;
-}
-
-#teamSelect, #correctSelect{
-  font-size: 1em;
-  width: 60%;
-  border: 1px solid black;
-  margin: 10px;
-  padding: 20px;
-}
-
-.page{
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-}
-
-#goalLog{
-  display: inline-block;
-}
-
-#setGoalContainer{
-  background-color: rgb(143, 207, 255);
-  text-align: center;
-  width: 100%;
-}
-
-.goal{
+#content{
   display: flex;
-  background-color: white;
-}
-
-#setGoalReward{
-  font-size: 2em;
-  padding: 20px;
-  width: 60px;
-}
-
-#setGoalDescription{
-  font-size: 2em;
-  padding: 20px;
-}
-
-#setGoalButton, #setQuestionButton{
-  font-size: 2em;
-  padding: 20px;
-}
-
-.goalReward{
-  padding: 10px;
-  font-size: 1.2em;
-  width: 50px;
-  background-color: lightgoldenrodyellow;
-}
-
-.goalDescription{
-  padding: 10px;
-  font-size: 1.2em;
-  width: 80%;
-}
-
-.goalButton{
-  width: 50px;
-  height: 50px;
-  border: none;
-  border-radius: 15px;
-  font-size: 2em;
-  color: white;
-}
-
-.setAnswer{
-  padding: 5px;
-  font-size: 1.2em;
   width: 100%;
+  height: 100vh;  
 }
 
-#answersDiv{
-  margin: 20px 0;
+.panel{
+  flex: 1;
+  margin: 6px;
+  background-color: white;
+  padding: 8px;
+  box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, .2);
+}
+
+#content_team{
+  width: 100%;
+  height: 100%;
+}
+
+/*
+  members
+*/
+
+.content_members{
+  z-index: 10;
+  position: relative;
+  visibility: hidden;
+  width: 100%;
+  height: 0;
+}
+
+.member{
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(179, 229, 252);
+  font-size: 1.4em;
+  padding: 10px 0;
+  width: 100%;
+  outline: 1px solid black;
+  box-shadow: 0px 8px 4px 0px rgba(0, 0, 0, .3);
+}
+
+.member_g{
+  background-color: rgb(252, 228, 236);
+}
+
+/*
+  items
+*/
+#content_team_items{
+  position: absolute;
+}
+
+/*
+  XP
+*/
+#content_xp{
+  height: 60%;
+  width: 100%;
+  display: flex;
+  background-color: #E0F7FA;
+}
+
+.xp_fill{
+  width: 100%;
+  height: 0%;
+  align-self: flex-end;
+  background-color: red;
+  border-top: 10px solid pink;
+}
+
+/*
+  Level
+*/
+.team_level{
+  position: relative;
+  background-color: white;
+  text-align: center;
+  margin: -33px auto -33px;
+  height: 60px;
+  width: 60px;
+  line-height: 60px;
+  border: 3px solid black;
+  border-radius: 50px;
+  font-size: 2.5em;
+}
+
+
+/*
+  Dragon
+*/
+.spacing_dragon{
+  width: 100%;
+  height: 30%;
+  display: flex;
+  background-image: url("../images/background_grass.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.content_dragon{
+  width: 100%;
+  position: relative;
+  align-self: flex-end;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.dragon{
+  max-width: 100%;
+  width: 50%;
+  pointer-events: none;
+}
+
+.dragon_name{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10%;
+  font-size: 2em;
+  background-color: #E8F5E9;
+  overflow: hidden;
 }

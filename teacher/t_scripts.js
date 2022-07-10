@@ -1,181 +1,146 @@
-var socket = io();
-var selectedUser = "";
-var currentPage = "main";
+var giveCard = 0;
+let pink = "rgb(255, 204, 213)";
 
-window.onload = function(){
-    socket.emit('join', "teacher", "teacher");
-
-    document.getElementById("greenCard").onclick = function(){giveCard("green")};
-    document.getElementById("yellowCard").onclick = function(){giveCard("yellow")};
-    document.getElementById("redCard").onclick = function(){giveCard("red")};
-
-    
-    document.getElementById("setGoalButton").onclick = function(){setGoal()};
-
-    document.getElementById("cancelGoal0").onclick = function(){cancelGoal(0)};
-    document.getElementById("cancelGoal1").onclick = function(){cancelGoal(1)};
-    document.getElementById("cancelGoal2").onclick = function(){cancelGoal(2)};
-
-    //document.getElementById("completeGoal0").onclick = function(){completeGoal(0)};
-    //document.getElementById("completeGoal1").onclick = function(){completeGoal(1)};
-    //document.getElementById("completeGoal2").onclick = function(){completeGoal(2)};
-
-    document.getElementById("teamSelect").onchange = function(){changeTeam()};
-
-    document.getElementById("correctSelect").onchange = function(){setCorrect()};
-
-    document.getElementById("setQuestionButton").onclick = function(){setQuestion()};
-    
-    document.getElementById("pageSelectMain").onclick = function(){changePage("main", true)};
-    document.getElementById("pageSelectTeam").onclick = function(){changePage("team", true)};
-    document.getElementById("pageSelectGoal").onclick = function(){changePage("goal", false)};
-    document.getElementById("pageSelectQuiz").onclick = function(){changePage("quiz", false)};
-    document.getElementById("pageSelectTimer").onclick = function(){changePage("timer", false)};
+let teams = {
+    0:{
+        name: "Team 1",
+        primary: 'rgb(230, 55, 70)',
+        secondary: 'rgb(255, 224, 102)'
+    },
+    1:{
+        name: "Team 2",
+        primary: 'rgb(5, 214, 158)',
+        secondary: 'hsl(195, 83%, 38%)'
+    },
+    2:{
+        name: "Team 3",
+        primary: 'hsl(264, 25%, 63%)',
+        secondary: 'hsl(331, 71%, 80%)'
+    },
+    3:{
+        name: "Team 4",
+        primary: 'hsl(89, 30%, 60%)',
+        secondary: 'hsl(61, 90%, 77%)'
+    },
 };
 
-socket.on('updateTeams', (email, realName, team, teamName) => {
-    if(email == "clear"){
-        for(let i=0; i<4; i++){
-            let currentTeam = document.getElementById("TeamContainer"+i);
-            while (currentTeam.firstChild) {
-                currentTeam.removeChild(currentTeam.firstChild);
-            }
-            createStudentButton(i+1, i, i);
-        }
-        return;
-    }
-    createStudentButton(email, realName, team);
-})
+window.onload = function() {    
 
-socket.on('setConnectionState', (email, isConnected) => {
-    if(isConnected){
-        document.getElementById("selectStudentButton"+email).style.borderRight = '20px solid lightgreen';
-    } else {
-        document.getElementById("selectStudentButton"+email).style.borderRight = '20px solid silver';
-    }
-})
-
-function changePage(page, showStudents){
-    console.log("Switching to page: "+page);
-    document.getElementById("page"+currentPage).style.visibility = "hidden";
-    currentPage = page;
-    document.getElementById("page"+currentPage).style.visibility = "visible ";
-    if(showStudents){
-        document.getElementById("selectTeamContainer").style.height = "auto";
-    } else {
-        document.getElementById("selectTeamContainer").style.height = "0px";
-    }
-}
-
-function changeTeam(){
-    let newTeam = document.getElementById("teamSelect").value;
-    if(selectedUser != "" && newTeam > 0){
-        socket.emit('setTeam', selectedUser, newTeam-1);
-        document.getElementById("teamSelect").value = 0;
-        selectUser("","");
-        document.getElementById('selectedUser').innerHTML += " moved to team "+newTeam  ;
-    }
-}
-
-function setQuestion(){
-    let question = document.getElementById('setQuestion').value;
-    let answers = [document.getElementById('setAnswer0').value,
-                    document.getElementById('setAnswer1').value,
-                    document.getElementById('setAnswer2').value,
-                    document.getElementById('setAnswer3').value];
     for(let i=0; i<4; i++){
-        if(answers[i] == ""){
-            answers[i] = i;
-        }
+        let team = teams[i];
+
+        //addMember(team, id, name, color){
+        addMember(i, 0, team.name, team.primary);
+        //updateDragon(team, name, type, size, primaryColor, secondayColor){
+        updateDragon(i, team.name, 1, 80, team.primary, team.secondary);
+
+        document.getElementById("panel_team"+i).addEventListener("click", function(){toggleMembers(i);});
     }
-    document.getElementById("correctSelect").options[1].innerText = answers[0];
-    document.getElementById("correctSelect").options[2].innerText = answers[1];
-    document.getElementById("correctSelect").options[3].innerText = answers[2];
-    document.getElementById("correctSelect").options[4].innerText = answers[3];
-    socket.emit('setQuestion', question, answers);
+
+    addMember(0,202203,"Ema", pink);
+    addMember(1,202204,"Umeka", pink);
+    addMember(1,202212,"Toma");
+    addMember(1,202205,"Andy");
+    addMember(1,202212,"Wako", pink);
+    addMember(1,202206,"Ruriju", pink);
+    addMember(2,202209,"Yutaro");
+    addMember(3,202275,"Yuito");
+    addMember(2,202246,"Mio", pink);
+    addMember(3,202273,"Kippei");
+    addMember(3,202202,"Ichiro");
 }
 
-function setCorrect(){
-    console.log("Sending correct answer: "+document.getElementById("correctSelect").value);
-    socket.emit('setCorrect', document.getElementById("correctSelect").value);
-    document.getElementById("correctSelect").value = -1;
-}
-
-function createStudentButton(email, realName, team){
-    let currentTeam = document.getElementById("TeamContainer"+team);
-    var newButton = document.createElement("button");
-    newButton.onclick = function(){
-        selectUser(email, realName);
-      };
-    if(email < 5){
-        newButton.style.fontWeight = 'bold';
-        newButton.style.borderBottom = '4px solid silver';
-    }
-    newButton.className = "selectStudentButton";
-    newButton.id = "selectStudentButton"+email;
-    newButton.innerText = realName;
-	currentTeam.appendChild(newButton);
-}
-
-function setGoal(){
-    let reward = document.getElementById("setGoalReward").value;
-    let description = document.getElementById("setGoalDescription").value;
-    if(reward > 0 && description != ""){
-        socket.emit('setGoal', reward, description);
-        console.log("Sending new goal");
-        document.getElementById("setGoal").reset();
-    }
-}
-
-function cancelGoal(id){
-    if(myGoals[id] != undefined){
-        socket.emit('cancelGoal', myGoals[id].qid);
-    }
-}
-
-function completeGoal(id){
-    if(selectedUser != "" && document.getElementById("goalReward"+id).innerHTML > 0){
-        socket.emit('completeGoal', selectedUser, myGoals[id].qid);
-    }
-}
-
-var myGoals;
-socket.on('updateGoals', (goals) => {
-    myGoals = goals;
-    for(var i=0; i<3; i++){
-        if(i>= myGoals.length){
-            document.getElementById("goal"+i).style.opacity = "0";
-        } else{
-      let goal=myGoals[i];
-      if(goal == undefined){
-        document.getElementById("goal"+i).style.opacity = "0";
-      } else 
-        document.getElementById("goalReward"+i).innerHTML = goal.reward;
-        document.getElementById("goalDescription"+i).innerHTML = goal.description;
-        if(goal.reward > 0){
-            document.getElementById("goal"+i).style.opacity = "1";
+function toggleMembers(team){
+    for(let i=0; i<4; i++){
+        let content_members = document.getElementById("members"+i);
+        if(i == team){
+            if(content_members.style.visibility != "visible"){
+                content_members.style.visibility = "visible";
+                giveCard = 0;
+            } else {
+                giveCard ++;
+                if(giveCard > 2){
+                    deselect();
+                }
+            }            
+            switch(giveCard){
+                case 0:
+                    document.body.style.backgroundColor = "rgb(129, 199, 132)";
+                break;
+                case 1:
+                    document.body.style.backgroundColor = "rgb(255, 241, 118)";
+                break;
+                case 2:
+                    document.body.style.backgroundColor = "rgb(229, 57, 53)";
+                break;
+            }
         } else {
-            document.getElementById("goal"+i).style.opacity = "0";
+            content_members.style.visibility = "hidden";
         }
-        }
-    }
-  })
-
-function selectUser(email, realName){
-    if(realName != ""){
-        console.log("select: ", realName);
-        document.getElementById('selectedUser').innerHTML = realName;
-    }
-    selectedUser = email;
+    }    
 }
 
-function giveCard(color){
-    if(selectedUser != ""){
-        console.log("Giving "+selectedUser+" a "+color+" card");
-        socket.emit('giveCard', selectedUser, color);
-        document.getElementById('selectedUser').innerHTML += " got a "+color + " card!";
-        selectUser("", "");
-    } else {
-        document.getElementById('selectedUser').innerHTML = "Select a student";
+function clearTeams(){
+    let members = document.getElementsByClassName("member");
+    for(let i=0; i<members.length; i++){
+        members[i].remove();
+        i--;
     }
+}
+
+function selectMember(team, member){
+    console.log(team, member);
+    let content_members = document.getElementById("members"+team);
+    deselect();
+}
+
+function deselect(){
+    for(let i=0; i<4; i++){
+        let content_members = document.getElementById("members"+i);
+        content_members.style.visibility = "hidden";
+    }
+    document.body.style.backgroundColor = "rgb(179, 229, 252)";  
+}
+
+function addMember(team, id, name, color){
+    let content_members = document.getElementById("members"+team);
+    let newMember = document.createElement("div");
+    newMember.classList.add("member");
+    if(color != undefined){
+        newMember.style.backgroundColor = color;
+    }
+    newMember.innerHTML = name;
+    newMember.id = id;
+    newMember.addEventListener("click", function(e){selectMember(team, this.id);e.stopPropagation();});
+    content_members.appendChild(newMember);
+}
+
+function updateXP(team, xp){
+    let xpFill = document.getElementById("xp_fill"+team);
+    let level = document.getElementById("team_level"+team);
+    xpFill.style.height = xp%100 + "%";
+    level.innerHTML = Math.ceil(xp/100);
+}
+
+function updateDragon(team, name, type, size, primaryColor, secondayColor){
+    let dragon = document.getElementById("dragon"+team);
+    let svg = dragon.contentDocument;
+    
+    if(primaryColor != undefined){
+        let primary = svg.getElementsByClassName("primaryColor");
+        for(let i=0; i<primary.length; i++){
+            primary[i].style.fill = primaryColor;
+        }
+        document.getElementById("xp_fill"+team).style.backgroundColor = primaryColor;
+    }
+    if(secondayColor != undefined){
+        let secondary = svg.getElementsByClassName("secondaryColor");
+        for(let i=0; i<secondary.length; i++){
+            secondary[i].style.fill = secondayColor;
+        }
+    }
+    document.getElementById("xp_fill"+team).style.borderTopColor = secondayColor;
+    dragon.style.width = size+"%";
+
+    document.getElementById("dragon_name"+team).innerHTML = name;
 }

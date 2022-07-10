@@ -5,88 +5,94 @@
     <link rel="stylesheet" type="text/css" href="t_styles.css">
   </head>
   <body>
-    <div id="pageSelectContainer">
-      <input class="pageSelectButton" id="pageSelectMain" type="button" value="Main">
-      <input class="pageSelectButton" id="pageSelectTeam" type="button" value="Team">
-      <input class="pageSelectButton" id="pageSelectGoal" type="button" value="Goal">
-      <input class="pageSelectButton" id="pageSelectQuiz" type="button" value="Quiz">
-      <input class="pageSelectButton" id="pageSelectTimer" type="button" value="Timer">
-    </div>
-    <div id="selectTeamContainer">
-      <div id="selectedUser"">Select a student</div>
-      <div class="teamContainer" id="TeamContainer0">
-      </div>
-      <div class="teamContainer" id="TeamContainer1">
-      </div>
-      <div class="teamContainer" id="TeamContainer2">
-      </div>
-      <div class="teamContainer" id="TeamContainer3">
-      </div>
-    </div>
-    <div class="page" id="pagemain" style="visibility: visible">
-      <div id="cardsContainer">
-        <button class="card" id="greenCard" style="background-color: rgb(123, 235, 90)">Green<br>(+10)</button>
-        <button class="card" id="yellowCard" style="background-color: rgb(255, 236, 61)">Yellow<br>(-5)</button>
-        <button class="card" id="redCard" style="background-color: rgb(254, 61, 27)">Red<br>(-10)</button>
-      </div>
-    </div>
-    <div class="page" id="pageteam" style="visibility: hidden">
-      <div id="setTeamContainer">
-        <select name="teams" id="teamSelect">
-          <option value=0>Change Teams...</option>
-          <option value=1>Team 1</option>
-          <option value=2>Team 2</option>
-          <option value=3>Team 3</option>
-          <option value=4>Team 4</option>
-        </select>
-      </div>
-    </div>
-    <div class="page" id="pagequiz" style="visibility: hidden">
-      <input class="setAnswer" id="setQuestion" type="text" placeholder="Question?">
-      <div id="answersDiv">
-      <input class = "setAnswer" id="setAnswer0" type="text" placeholder="Answer">
-      <input class = "setAnswer" id="setAnswer1" type="text" placeholder="Answer">
-      <input class = "setAnswer" id="setAnswer2" type="text" placeholder="Answer">
-      <input class = "setAnswer" id="setAnswer3" type="text" placeholder="Answer">
-    </div>
-      <button id="setQuestionButton">Set Question</button>
-      <select name="answers" id="correctSelect">
-        <option>Correct Answer...</option>
-        <option value=0></option>
-        <option value=1></option>
-        <option value=2></option>
-        <option value=3></option>
-      </select>
-    </div>
-    <div class="page" id="pagegoal" style="visibility: hidden">
-      <div id="setGoalContainer">
-        <form  autocomplete="off" id="setGoal">
-          <input id="setGoalReward" type="number" placeholder="XP">
-          <input id="setGoalDescription" type="text" placeholder="Goal Description">
-          <input id="setGoalButton" type="button" value="Set Goal">
-        </form>
-        <div id="goalLog">
-          <div class="goal" id="goal0">
-            <div class="goalReward" id="goalReward0"></div>
-            <div class="goalDescription" id="goalDescription0"></div>
-            <input class="goalButton" id="cancelGoal0" type="button" value="X" style="background-color: rgb(228, 37, 37)">
+    <div id="content">
+      <div class="panel" id='panel_team0'>
+        <div class="content_members" id="members0">
+        </div>
+        <div id="content_team_items">
+            <!--<img class="icon" src="../images/card_small_red.png">-->
+        </div>
+        <div id="content_team">
+          <div id="content_xp">
+              <div class="xp_fill" id="xp_fill0">
+              </div>
           </div>
-          <div class="goal" id="goal1">
-            <div class="goalReward" id="goalReward1"></div>
-            <div class="goalDescription" id="goalDescription1"></div>
-            <input class="goalButton" id="cancelGoal1" type="button" value="X" style="background-color: rgb(228, 37, 37)">
+          <div class="team_level" id="team_level0">0</div>
+          <div class="spacing_dragon">
+            <div class="content_dragon" id="content_dragon0">
+              <object id="dragon0" type="image/svg+xml" data="../images/dragons/Dragon.svg" class="dragon"></object>
+            </div>
           </div>
-          <div class="goal" id="goal2">
-            <div class="goalReward" id="goalReward2"></div>
-            <div class="goalDescription" id="goalDescription2"></div>
-            <input class="goalButton" id="cancelGoal2" type="button" value="X" style="background-color: rgb(228, 37, 37)">
+          <div class="dragon_name" id="dragon_name0">
+            Fire Dragon
           </div>
+      </div>
+      </div>
+      <div class="panel" id='panel_team1'>
+        <div class="content_members" id="members1">
+        </div>
+        <div id="content_team_items">
+        </div>
+        <div id="content_team">
+            <div id="content_xp">
+                <div class="xp_fill" id="xp_fill1">
+                </div>
+            </div>
+            <div class="team_level" id="team_level1">0</div>
+            <div class="spacing_dragon">
+              <div class="content_dragon" id="content_dragon1">
+                <object id="dragon1" type="image/svg+xml" data="../images/dragons/Dragon.svg" class="dragon"></object>
+              </div>
+            </div>
+            <div class="dragon_name" id="dragon_name1">
+              Fire Dragon
+            </div>
         </div>
       </div>
+      <div class="panel" id='panel_team2'>
+        <div class="content_members" id="members2">
+        </div>
+        <div id="content_team_items">
+        </div>
+        <div id="content_team">
+          <div id="content_xp">
+              <div class="xp_fill" id="xp_fill2">
+              </div>
+          </div>
+          <div class="team_level" id="team_level2">0</div>
+          <div class="spacing_dragon">
+            <div class="content_dragon" id="content_dragon2">
+              <object id="dragon2" type="image/svg+xml" data="../images/dragons/Dragon.svg" class="dragon"></object>
+            </div>
+          </div>
+          <div class="dragon_name" id="dragon_name2">
+            Fire Dragon
+          </div>
+      </div>
+      </div>
+      <div class="panel" id='panel_team3'>
+        <div class="content_members" id="members3">
+        </div>
+        <div id="content_team_items">
+        </div>
+        <div id="content_team">
+          <div id="content_xp">
+              <div class="xp_fill" id="xp_fill3">
+              </div>
+          </div>
+          <div class="team_level" id="team_level3">0</div>
+          <div class="spacing_dragon">
+            <div class="content_dragon" id="content_dragon3">
+              <object id="dragon3" type="image/svg+xml" data="../images/dragons/Dragon.svg" class="dragon"></object>
+            </div>
+          </div>
+          <div class="dragon_name" id="dragon_name3">
+            Fire Dragon
+          </div>
+      </div>
+      </div>
     </div>
-    <div class="page" id="pagetimer" style="visibility: hidden">timer</div>
-  </div>
-    <script src="../socket.io/socket.io.js"></script>
+    <!--<script src="../socket.io/socket.io.js"></script>-->
     <script src="t_scripts.js"></script>
   </body>
 </html>
