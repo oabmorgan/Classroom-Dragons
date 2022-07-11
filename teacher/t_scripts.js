@@ -32,7 +32,7 @@ window.onload = function() {
         //addMember(team, id, name, color){
         addMember(i, 0, team.name, team.primary);
         //updateDragon(team, name, type, size, primaryColor, secondayColor){
-        updateDragon(i, team.name, 1, 80, team.primary, team.secondary);
+        updateDragon(i, team.name, 1, 45, team.primary, team.secondary);
 
         document.getElementById("panel_team"+i).addEventListener("click", function(){toggleMembers(i);});
     }

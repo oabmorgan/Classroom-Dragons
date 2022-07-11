@@ -14,7 +14,7 @@ var qid=0;
 var address;
 
 app.use(express.static("student"));
-app.use(express.static("images"));
+app.use('/images', express.static('images'));
 app.use(express.static("teacher"));
 app.use(express.static("screen"));
 
