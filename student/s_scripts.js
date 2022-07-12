@@ -11,14 +11,6 @@ var myTeam = {
 window.onload = function() {
   showContent(currentContent);
   document.getElementById('login_submit').addEventListener('click', login);
-  //document.getElementById('draw_clear').addEventListener('click', login);8
-
-  updateXP(0, 875);
-  setTimeout(function() {
-    updateDragon(0, myTeam.name, "", 30, myTeam.primary, myTeam.secondary)
-  }, 100);
-  //function updateDragon(team, name, type, size, primaryColor, secondayColor){
-
   socket.emit('login', "000");
 }
 
@@ -87,4 +79,4 @@ socket.on('updateDragon', function(team, name, type, size, primaryColor, seconda
   dragon.style.width = size+"%";
 
   document.getElementById("dragon_name").innerHTML = name;
-}
+});

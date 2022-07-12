@@ -29,29 +29,11 @@ let teams = {
 window.onload = function() {    
 
     for(let i=0; i<4; i++){
-        let team = teams[i];
-
-        //addMember(team, id, name, color){
-        addMember(i, 0, team.name, team.primary);
-        //updateDragon(team, name, type, size, primaryColor, secondayColor){
-        updateDragon(i, team.name, 1, 35, team.primary, team.secondary);
-
         document.getElementById("panel_team"+i).addEventListener("click", function(){toggleMembers(i);});
     }
-
-    addMember(0,202203,"Ema", pink);
-    addMember(1,202204,"Umeka", pink);
-    addMember(1,202212,"Toma");
-    addMember(1,202205,"Andy");
-    addMember(1,202212,"Wako", pink);
-    addMember(1,202206,"Ruriju", pink);
-    addMember(2,202209,"Yutaro");
-    addMember(3,202275,"Yuito");
-    addMember(2,202246,"Mio", pink);
-    addMember(3,202273,"Kippei");
-    addMember(3,202202,"Ichiro");
-
     //history.pushState(null, "", "/");
+
+    socket.emit('login', "000");
 }
 
 function toggleMembers(team){
@@ -84,16 +66,9 @@ function toggleMembers(team){
     }    
 }
 
-function clearTeams(){
-    let members = document.getElementsByClassName("member");
-    for(let i=0; i<members.length; i++){
-        members[i].remove();
-        i--;
-    }
-}
-
 function selectMember(team, member){
     console.log(team, member);
+    socket.emit('card', team, member, giveCard);
     let content_members = document.getElementById("members"+team);
     deselect();
 }
@@ -106,6 +81,22 @@ function deselect(){
     document.body.style.backgroundColor = "rgb(179, 229, 252)";  
 }
 
+socket.on('clearMembers', function(){
+    for(let i=0; i<4; i++){
+        let content_members = document.getElementById("members"+i);
+        var child = content_members.lastElementChild; 
+        while (child) {
+            content_members.removeChild(child);
+            child = content_members.lastElementChild;
+        }
+        addMember(i, 0, teams[i].name, teams[i].primary);
+    }
+});
+
+socket.on('addMember', function(team, id, name, color){
+    addMember(team, id, name, color);
+});
+
 function addMember(team, id, name, color){
     let content_members = document.getElementById("members"+team);
     let newMember = document.createElement("div");
@@ -117,16 +108,17 @@ function addMember(team, id, name, color){
     newMember.id = id;
     newMember.addEventListener("click", function(e){selectMember(team, this.id);e.stopPropagation();});
     content_members.appendChild(newMember);
-}
+    console.log("add",name);
+};
 
-function updateXP(team, xp){
+socket.on('updateXP', function(team, xp){
     let xpFill = document.getElementById("xp_fill"+team);
     let level = document.getElementById("team_level"+team);
     xpFill.style.height = xp%100 + "%";
     level.innerHTML = Math.ceil(xp/100);
-}
+});
 
-function updateDragon(team, name, type, size, primaryColor, secondayColor){
+socket.on('updateDragon', function(team, name, type, size, primaryColor, secondayColor){
     let dragon = document.getElementById("dragon"+team);
     let svg = dragon.contentDocument;
     
@@ -146,4 +138,4 @@ function updateDragon(team, name, type, size, primaryColor, secondayColor){
     document.getElementById("xp_fill"+team).style.borderTopColor = secondayColor;
     dragon.style.maxWidth = size+"%";
     document.getElementById("dragon_name"+team).innerHTML = name;
-}
+});

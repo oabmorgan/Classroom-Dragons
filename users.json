@@ -1,1 +1,184 @@
-{"2022003@seto-solan.ed.jp":{"realName":"Ema","socket":"","class":"1-2","team":1,"goals":[],"xp":176,"green":8,"yellow":0,"red":0,"answer":-1},"2022010@seto-solan.ed.jp":{"realName":"Toma","socket":"","class":"1-2","team":1,"goals":[],"xp":281,"green":13,"yellow":1,"red":0,"answer":-1},"2022076@seto-solan.ed.jp":{"realName":"Koshi","socket":"","class":"1-2","team":3,"goals":[],"xp":139,"green":7,"yellow":3,"red":0,"answer":-1},"2022004@seto-solan.ed.jp":{"realName":"Chihiro","socket":"","class":"1-2","team":3,"goals":[],"xp":151,"green":8,"yellow":5,"red":0,"answer":-1},"2022013@seto-solan.ed.jp":{"realName":"Yutaro","socket":"","class":"1-2","team":2,"goals":[],"xp":176,"green":8,"yellow":0,"red":0,"answer":-1},"2022045@seto-solan.ed.jp":{"realName":"Fuma","socket":"","class":"1-2","team":3,"goals":[],"xp":95,"green":5,"yellow":3,"red":0,"answer":-1},"2022038@seto-solan.ed.jp":{"realName":"Takumi","socket":"","class":"1-2","team":2,"goals":[],"xp":193,"green":9,"yellow":1,"red":0,"answer":-1},"2022002@seto-solan.ed.jp":{"realName":"Ryotaro","socket":"","class":"1-2","team":2,"goals":[],"xp":315,"green":15,"yellow":3,"red":0,"answer":-1},"2022009@seto-solan.ed.jp":{"realName":"Fuku","socket":"","class":"1-2","team":0,"goals":[],"xp":479,"green":22,"yellow":1,"red":0,"answer":-1},"2022016@seto-solan.ed.jp":{"realName":"Yuta","socket":"","class":"1-2","team":0,"goals":[],"xp":105,"green":5,"yellow":1,"red":0,"answer":-1},"2022025@seto-solan.ed.jp":{"realName":"Ruriju","socket":"","class":"1-2","team":0,"goals":[],"xp":259,"green":12,"yellow":1,"red":0,"answer":-1},"2022069@seto-solan.ed.jp":{"realName":"Kippei","socket":"","class":"1-2","team":3,"goals":[],"xp":95,"green":5,"yellow":3,"red":0,"answer":-1},"2022077@seto-solan.ed.jp":{"realName":"Mio","socket":"","class":"1-2","team":3,"goals":[],"xp":572,"green":26,"yellow":0,"red":0,"answer":-1},"2022054@seto-solan.ed.jp":{"realName":"Wako","socket":"","class":"1-2","team":2,"goals":[],"xp":506,"green":23,"yellow":0,"red":0,"answer":-1},"2022022@seto-solan.ed.jp":{"realName":"Yua","socket":"","class":"1-2","team":2,"goals":[],"xp":484,"green":22,"yellow":0,"red":0,"answer":-1},"2022070@seto-solan.ed.jp":{"realName":"Andy","socket":"","class":"1-2","team":1,"goals":[],"xp":156,"green":8,"yellow":4,"red":0,"answer":-1},"2022062@seto-solan.ed.jp":{"realName":"Taisei","socket":"","class":"1-2","team":0,"goals":[],"xp":176,"green":8,"yellow":0,"red":0,"answer":-1},"2022046@seto-solan.ed.jp":{"realName":"Koga","socket":"","class":"1-2","team":0,"goals":[],"xp":22,"green":1,"yellow":0,"red":0,"answer":-1},"2022059@seto-solan.ed.jp":{"realName":"Mariya","socket":"","class":"1-2","team":2,"goals":[],"xp":110,"green":5,"yellow":0,"red":0,"answer":-1},"2022049@seto-solan.ed.jp":{"realName":"Ichiro","socket":"","class":"1-2","team":3,"goals":[],"xp":242,"green":11,"yellow":0,"red":0,"answer":-1},"2022072@seto-solan.ed.jp":{"realName":"Kenji","socket":"","class":"1-2","team":1,"goals":[],"xp":264,"green":12,"yellow":0,"red":0,"answer":-1},"2022034@seto-solan.ed.jp":{"realName":"Umeka","socket":"","class":"1-2","team":0,"goals":[],"xp":176,"green":8,"yellow":0,"red":0,"answer":-1},"2022047@seto-solan.ed.jp":{"realName":"Kengo","socket":"","class":"1-2","team":1,"goals":[],"xp":61,"green":3,"yellow":1,"red":0,"answer":-1},"2022044@seto-solan.ed.jp":{"realName":"Leo","socket":"","class":"1-2","team":0,"goals":[],"xp":132,"green":6,"yellow":0,"red":0,"answer":-1},"2022048@seto-solan.ed.jp":{"realName":"Yuito","socket":"","class":"1-2","team":3,"goals":[],"xp":193,"green":9,"yellow":1,"red":0,"answer":-1},"2022073@seto-solan.ed.jp":{"realName":"Wataru","socket":"","class":"1-2","team":3,"goals":[],"xp":66,"green":3,"yellow":0,"red":0,"answer":-1}}
+{
+  "2022002": {
+    "name": "Ryotaro",
+    "green": 9,
+    "yellow": 1,
+    "red": 2,
+    "team": 2
+  },
+  "2022003": {
+    "name": "Ema",
+    "green": 7,
+    "yellow": 1,
+    "red": 1,
+    "team": 1
+  },
+  "2022004": {
+    "name": "Chihiro",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 3
+  },
+  "2022009": {
+    "name": "Fuku",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 0
+  },
+  "2022010": {
+    "name": "Toma",
+    "green": 1,
+    "yellow": 0,
+    "red": 0,
+    "team": 1
+  },
+  "2022013": {
+    "name": "Yutaro",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 2
+  },
+  "2022016": {
+    "name": "Yuta",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 0
+  },
+  "2022022": {
+    "name": "Yua",
+    "green": 3,
+    "yellow": 0,
+    "red": 0,
+    "team": 2
+  },
+  "2022025": {
+    "name": "Ruriju",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 0
+  },
+  "2022034": {
+    "name": "Umeka",
+    "green": 3,
+    "yellow": 0,
+    "red": 0,
+    "team": 0
+  },
+  "2022038": {
+    "name": "Takumi",
+    "green": 2,
+    "yellow": 0,
+    "red": 0,
+    "team": 2
+  },
+  "2022044": {
+    "name": "Leo",
+    "green": 1,
+    "yellow": 1,
+    "red": 0,
+    "team": 0
+  },
+  "2022045": {
+    "name": "Fuma",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 3
+  },
+  "2022046": {
+    "name": "Koga",
+    "green": 0,
+    "yellow": 0,
+    "red": 1,
+    "team": 0
+  },
+  "2022047": {
+    "name": "Kengo",
+    "green": 2,
+    "yellow": 0,
+    "red": 0,
+    "team": 1
+  },
+  "2022048": {
+    "name": "Yuito",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 3
+  },
+  "2022049": {
+    "name": "Ichiro",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 3
+  },
+  "2022054": {
+    "name": "Wako",
+    "green": 1,
+    "yellow": 0,
+    "red": 1,
+    "team": 2
+  },
+  "2022059": {
+    "name": "Mariya",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 2
+  },
+  "2022062": {
+    "name": "Taisei",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 0
+  },
+  "2022069": {
+    "name": "Kippei",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 3
+  },
+  "2022070": {
+    "name": "Andy",
+    "green": 4,
+    "yellow": 1,
+    "red": 0,
+    "team": 1
+  },
+  "2022072": {
+    "name": "Kenji",
+    "green": 0,
+    "yellow": 0,
+    "red": 3,
+    "team": 1
+  },
+  "2022073": {
+    "name": "Wataru",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 3
+  },
+  "2022076": {
+    "name": "Koshi",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 3
+  },
+  "2022077": {
+    "name": "Mio",
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 3
+  }
+}
