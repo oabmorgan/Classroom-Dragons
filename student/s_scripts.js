@@ -1,5 +1,6 @@
-var currentContent = "main";
 
+var currentContent = "main";
+var socket = io();
 var myTeam = {
   id:0,
   name: "Team 1",
@@ -17,6 +18,8 @@ window.onload = function() {
     updateDragon(0, myTeam.name, "", 30, myTeam.primary, myTeam.secondary)
   }, 100);
   //function updateDragon(team, name, type, size, primaryColor, secondayColor){
+
+  socket.emit('login', "000");
 }
 
 function login(){
@@ -49,15 +52,20 @@ function showContent(newContent){
   }
 }
 
-function updateXP(team, xp){
+
+/*
+  Update XP
+*/
+
+socket.on('updateXP', function(team, xp){
   if(team != myTeam.id){return};
   let xpFill = document.getElementById("xp_fill");
   let level = document.getElementById("team_level");
   xpFill.style.height = xp%100 + "%";
   level.innerHTML = Math.ceil(xp/100);
-}
+});
 
-function updateDragon(team, name, type, size, primaryColor, secondayColor){
+socket.on('updateDragon', function(team, name, type, size, primaryColor, secondayColor){
   if(team != myTeam.id){return};
   let dragon = document.getElementById("dragon");
   let svg = dragon.contentDocument;

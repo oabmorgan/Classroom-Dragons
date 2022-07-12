@@ -124,9 +124,8 @@ body{
 }
 
 .dragon{
-  max-width: 100%;
-  width: 0%;
   pointer-events: none;
+  max-height: 25vh;
 }
 
 .dragon_name{

@@ -1,3 +1,5 @@
+var socket = io();
+
 var giveCard = 0;
 let pink = "rgb(255, 204, 213)";
 
@@ -32,7 +34,7 @@ window.onload = function() {
         //addMember(team, id, name, color){
         addMember(i, 0, team.name, team.primary);
         //updateDragon(team, name, type, size, primaryColor, secondayColor){
-        updateDragon(i, team.name, 1, 45, team.primary, team.secondary);
+        updateDragon(i, team.name, 1, 35, team.primary, team.secondary);
 
         document.getElementById("panel_team"+i).addEventListener("click", function(){toggleMembers(i);});
     }
@@ -48,6 +50,8 @@ window.onload = function() {
     addMember(2,202246,"Mio", pink);
     addMember(3,202273,"Kippei");
     addMember(3,202202,"Ichiro");
+
+    //history.pushState(null, "", "/");
 }
 
 function toggleMembers(team){
@@ -140,7 +144,6 @@ function updateDragon(team, name, type, size, primaryColor, secondayColor){
         }
     }
     document.getElementById("xp_fill"+team).style.borderTopColor = secondayColor;
-    dragon.style.width = size+"%";
-
+    dragon.style.maxWidth = size+"%";
     document.getElementById("dragon_name"+team).innerHTML = name;
 }
