@@ -3,6 +3,9 @@ var socket = io();
 var giveCard = 0;
 let pink = "rgb(255, 204, 213)";
 
+var mouseDownElement;
+var mouseUpElement;
+
 let teams = {
     0:{
         name: "Team 1",
@@ -28,9 +31,9 @@ let teams = {
 
 window.onload = function() {    
 
-    for(let i=0; i<4; i++){
-        document.getElementById("panel_team"+i).addEventListener("click", function(){toggleMembers(i);});
-    }
+    window.addEventListener("pointerdown", function(e){mouseDown(e);});
+    window.addEventListener("pointerup", function(e){mouseUp(e);});
+
     //history.pushState(null, "", "/");
 
     socket.emit('login', "000");
@@ -64,6 +67,37 @@ function toggleMembers(team){
             content_members.style.visibility = "hidden";
         }
     }    
+}
+
+function mouseDown(e){
+    e.target.releasePointerCapture(e.pointerId);
+    mouseDownElement = e.target || e.srcElement;
+    if(mouseDownElement.classList[0] == 'member'){
+        mouseDownElement.style.outline = '5px solid white';
+    }
+}
+
+function mouseUp(e){
+    mouseUpElement = e.target || e.srcElement;
+    let teamID =  parseInt(mouseUpElement.id.charAt(mouseUpElement.id.length-1));
+    if(isNaN(teamID)){ return };
+    if(mouseDownElement == mouseUpElement){
+        switch(mouseUpElement.classList[0]){
+            case 'content_dragon':
+            case 'spacing_dragon':
+            case 'dragon_name':
+            case 'panel':
+                toggleMembers(teamID);
+            break;         
+            case 'member':
+                selectMember(mouseUpElement.name, mouseUpElement.id);
+            break;   
+        }
+    } else if(mouseDownElement.classList[0] == 'member' && mouseUpElement.classList[0] == 'dragon_name'){
+        mouseDownElement.style.outline = '1px solid black';
+        socket.emit('changeTeam', mouseDownElement.id, teamID);
+        deselect();
+    }
 }
 
 function selectMember(team, member){
@@ -105,10 +139,9 @@ function addMember(team, id, name, color){
         newMember.style.backgroundColor = color;
     }
     newMember.innerHTML = name;
+    newMember.name = team;
     newMember.id = id;
-    newMember.addEventListener("click", function(e){selectMember(team, this.id);e.stopPropagation();});
     content_members.appendChild(newMember);
-    console.log("add",name);
 };
 
 socket.on('updateXP', function(team, xp){

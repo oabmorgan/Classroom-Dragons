@@ -1,38 +1,38 @@
 {
   "2022002": {
     "name": "Ryotaro",
-    "green": 9,
+    "green": 11,
     "yellow": 1,
     "red": 2,
     "team": 2
   },
   "2022003": {
     "name": "Ema",
-    "green": 7,
+    "green": 9,
     "yellow": 1,
     "red": 1,
     "team": 1
   },
   "2022004": {
     "name": "Chihiro",
-    "green": 0,
+    "green": 1,
     "yellow": 0,
     "red": 0,
-    "team": 3
+    "team": 0
   },
   "2022009": {
     "name": "Fuku",
-    "green": 0,
+    "green": 1,
     "yellow": 0,
     "red": 0,
     "team": 0
   },
   "2022010": {
     "name": "Toma",
-    "green": 1,
+    "green": 3,
     "yellow": 0,
     "red": 0,
-    "team": 1
+    "team": 0
   },
   "2022013": {
     "name": "Yutaro",
@@ -43,129 +43,129 @@
   },
   "2022016": {
     "name": "Yuta",
-    "green": 0,
+    "green": 2,
     "yellow": 0,
     "red": 0,
-    "team": 0
+    "team": 1
   },
   "2022022": {
     "name": "Yua",
-    "green": 3,
+    "green": 6,
     "yellow": 0,
     "red": 0,
     "team": 2
   },
   "2022025": {
     "name": "Ruriju",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
-    "team": 0
-  },
-  "2022034": {
-    "name": "Umeka",
     "green": 3,
     "yellow": 0,
     "red": 0,
-    "team": 0
+    "team": 1
+  },
+  "2022034": {
+    "name": "Umeka",
+    "green": 7,
+    "yellow": 0,
+    "red": 0,
+    "team": 2
   },
   "2022038": {
     "name": "Takumi",
-    "green": 2,
+    "green": 5,
     "yellow": 0,
     "red": 0,
     "team": 2
   },
   "2022044": {
     "name": "Leo",
-    "green": 1,
+    "green": 3,
     "yellow": 1,
     "red": 0,
-    "team": 0
+    "team": 1
   },
   "2022045": {
     "name": "Fuma",
     "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 3
+    "team": 0
   },
   "2022046": {
     "name": "Koga",
-    "green": 0,
+    "green": 4,
     "yellow": 0,
     "red": 1,
     "team": 0
   },
   "2022047": {
     "name": "Kengo",
-    "green": 2,
-    "yellow": 0,
+    "green": 9,
+    "yellow": 1,
     "red": 0,
-    "team": 1
+    "team": 2
   },
   "2022048": {
     "name": "Yuito",
-    "green": 0,
+    "green": 1,
     "yellow": 0,
     "red": 0,
     "team": 3
   },
   "2022049": {
     "name": "Ichiro",
-    "green": 0,
+    "green": 2,
     "yellow": 0,
     "red": 0,
-    "team": 3
+    "team": 0
   },
   "2022054": {
     "name": "Wako",
-    "green": 1,
+    "green": 6,
     "yellow": 0,
     "red": 1,
     "team": 2
   },
   "2022059": {
     "name": "Mariya",
-    "green": 0,
+    "green": 4,
     "yellow": 0,
     "red": 0,
-    "team": 2
+    "team": 1
   },
   "2022062": {
     "name": "Taisei",
-    "green": 0,
+    "green": 5,
     "yellow": 0,
     "red": 0,
-    "team": 0
+    "team": 3
   },
   "2022069": {
     "name": "Kippei",
     "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 3
+    "team": 0
   },
   "2022070": {
     "name": "Andy",
-    "green": 4,
+    "green": 6,
     "yellow": 1,
     "red": 0,
     "team": 1
   },
   "2022072": {
     "name": "Kenji",
-    "green": 0,
+    "green": 3,
     "yellow": 0,
     "red": 3,
-    "team": 1
+    "team": 0
   },
   "2022073": {
     "name": "Wataru",
-    "green": 0,
+    "green": 3,
     "yellow": 0,
     "red": 0,
-    "team": 3
+    "team": 0
   },
   "2022076": {
     "name": "Koshi",

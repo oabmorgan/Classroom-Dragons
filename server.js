@@ -61,6 +61,16 @@ io.on('connection', (socket) => {
     updateUsers();
 	});
 
+  socket.on('changeTeam', (id, team) => {
+    let user = users[id];
+    console.log("moving",user.name,"to team",team);
+    users[id].team = team;
+    console.log(user.team);
+    updateTeam();
+    updateXP();
+    updateUsers();
+  });
+
   socket.on('card', (team, member, giveCard) => {
     console.log("card:",team, member, giveCard);
     let xpChange = 0;
