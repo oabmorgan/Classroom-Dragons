@@ -24,6 +24,7 @@ function moodDecay() {
   console.log("Mood Decay");
   for(let i=0; i<4; i++){
     moodChange(i, -1);
+    updateTeam(i);
   }
 }
 
@@ -121,15 +122,15 @@ function moodChange(team, change){
 }
 
 function updateXP(team){
-  if(team == undefined){
+  if(team == undefined){ //update all teams
     for(let i=0; i<4; i++){
-      let currentTeam = teams[i];
-      io.emit('updateXP', i, currentTeam.xp);
+      updateXP(i);
     }
-  } else {
-    let currentTeam = teams[team];
-    io.emit('updateXP', currentTeam, currentTeam.xp);
+    return;
   }
+
+  let currentTeam = teams[team];
+  io.emit('updateXP', team, currentTeam.xp, currentTeam.level);
   saveJson(teams, "teams");
   saveJson(users, "users");
 }
@@ -142,7 +143,7 @@ function updateTeam(team){
     }
   } else {
     let currentTeam = teams[team];
-    io.emit('updateDragon', currentTeam, currentTeam.dragon_name,currentTeam.dragon_type, currentTeam.dragon_size, currentTeam.primary, currentTeam.secondary);
+    io.emit('updateDragon', team, currentTeam.dragon_name,currentTeam.dragon_type, currentTeam.dragon_size, currentTeam.primary, currentTeam.secondary);
   }
 }
 
@@ -152,7 +153,7 @@ function resetTeams(){
     currentTeam.xp = 0;
     currentTeam.level = 0;
     currentTeam.dragon_name = "Team "+i;
-    currentTeam.dragon_type = "normal";
+    currentTeam.dragon_type = "egg";
     currentTeam.dragon_size = 25;
     currentTeam.dragon_mood = 50;
   }

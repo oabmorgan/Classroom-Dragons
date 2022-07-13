@@ -144,31 +144,36 @@ function addMember(team, id, name, color){
     content_members.appendChild(newMember);
 };
 
-socket.on('updateXP', function(team, xp){
+socket.on('updateXP', function(team, xp, level){
     let xpFill = document.getElementById("xp_fill"+team);
-    let level = document.getElementById("team_level"+team);
+    let teamLevel = document.getElementById("team_level"+team);
     xpFill.style.height = xp%100 + "%";
-    level.innerHTML = Math.ceil(xp/100);
+    teamLevel.innerText = level;
 });
 
 socket.on('updateDragon', function(team, name, type, size, primaryColor, secondayColor){
     let dragon = document.getElementById("dragon"+team);
-    let svg = dragon.contentDocument;
-    
-    if(primaryColor != undefined){
-        let primary = svg.getElementsByClassName("primaryColor");
-        for(let i=0; i<primary.length; i++){
-            primary[i].style.fill = primaryColor;
-        }
-        document.getElementById("xp_fill"+team).style.backgroundColor = primaryColor;
-    }
-    if(secondayColor != undefined){
-        let secondary = svg.getElementsByClassName("secondaryColor");
-        for(let i=0; i<secondary.length; i++){
-            secondary[i].style.fill = secondayColor;
-        }
-    }
-    document.getElementById("xp_fill"+team).style.borderTopColor = secondayColor;
-    dragon.style.maxWidth = size+"%";
     document.getElementById("dragon_name"+team).innerHTML = name;
+
+    dragon.setAttribute("data", "../images/dragons/"+type+".svg");
+    dragon.addEventListener('load', function(){
+        let svg = dragon.contentDocument;
+    
+        if(primaryColor != undefined){
+            let primary = svg.getElementsByClassName("primaryColor");
+            for(let i=0; i<primary.length; i++){
+                primary[i].style.fill = primaryColor;
+            }
+            document.getElementById("xp_fill"+team).style.backgroundColor = primaryColor;
+        }
+        if(secondayColor != undefined){
+            let secondary = svg.getElementsByClassName("secondaryColor");
+            for(let i=0; i<secondary.length; i++){
+                secondary[i].style.fill = secondayColor;
+            }
+        }
+        document.getElementById("xp_fill"+team).style.borderTopColor = secondayColor;
+        dragon.style.maxWidth = size+"%";
+        dragon.removeEventListener('dragon', this);
+    });   
 });

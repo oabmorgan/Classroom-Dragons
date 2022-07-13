@@ -1,11 +1,11 @@
 {
   "0": {
-    "xp": 366,
+    "xp": 443,
     "level": 0,
     "dragon_name": "Team 0",
-    "dragon_type": "normal",
+    "dragon_type": "egg",
     "dragon_size": 25,
-    "dragon_mood": 13,
+    "dragon_mood": 0,
     "primary": "rgb(230, 55, 70)",
     "secondary": "rgb(255, 224, 102)"
   },
@@ -13,9 +13,9 @@
     "xp": 376,
     "level": 0,
     "dragon_name": "Team 1",
-    "dragon_type": "normal",
+    "dragon_type": "egg",
     "dragon_size": 25,
-    "dragon_mood": 2,
+    "dragon_mood": 0,
     "primary": "rgb(5, 214, 158)",
     "secondary": "hsl(195, 83%, 38%)"
   },
@@ -23,9 +23,9 @@
     "xp": 342,
     "level": 0,
     "dragon_name": "Team 2",
-    "dragon_type": "normal",
+    "dragon_type": "egg",
     "dragon_size": 25,
-    "dragon_mood": 11,
+    "dragon_mood": 0,
     "primary": "hsl(264, 25%, 63%)",
     "secondary": "hsl(331, 71%, 80%)"
   },
@@ -33,9 +33,9 @@
     "xp": 190,
     "level": 0,
     "dragon_name": "Team 3",
-    "dragon_type": "normal",
+    "dragon_type": "egg",
     "dragon_size": 25,
-    "dragon_mood": 5,
+    "dragon_mood": 0,
     "primary": "hsl(89, 30%, 60%)",
     "secondary": "hsl(61, 90%, 77%)"
   }
