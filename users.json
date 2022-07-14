@@ -1,184 +1,210 @@
 {
   "2022002": {
     "name": "Ryotaro",
-    "green": 11,
-    "yellow": 1,
-    "red": 2,
-    "team": 2
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 2,
+    "points": 0
   },
   "2022003": {
     "name": "Ema",
-    "green": 9,
-    "yellow": 1,
-    "red": 1,
-    "team": 1
+    "green": 0,
+    "yellow": 0,
+    "red": 0,
+    "team": 1,
+    "points": 0
   },
   "2022004": {
     "name": "Chihiro",
-    "green": 1,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 0
+    "team": 0,
+    "points": 0
   },
   "2022009": {
     "name": "Fuku",
-    "green": 1,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 0
+    "team": 0,
+    "points": 0
   },
   "2022010": {
     "name": "Toma",
-    "green": 3,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 0
+    "team": 2,
+    "points": 0
   },
   "2022013": {
     "name": "Yutaro",
     "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 2
+    "team": 3,
+    "points": 0
   },
   "2022016": {
     "name": "Yuta",
-    "green": 2,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 1
+    "team": 1,
+    "points": 0
   },
   "2022022": {
     "name": "Yua",
-    "green": 6,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 2
+    "team": 2,
+    "points": 0
   },
   "2022025": {
     "name": "Ruriju",
-    "green": 3,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 1
+    "team": 1,
+    "points": 0
   },
   "2022034": {
     "name": "Umeka",
-    "green": 7,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 2
+    "team": 2,
+    "points": 0
   },
   "2022038": {
     "name": "Takumi",
-    "green": 5,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 2
+    "team": 2,
+    "points": 0
   },
   "2022044": {
     "name": "Leo",
-    "green": 3,
-    "yellow": 1,
+    "green": 0,
+    "yellow": 0,
     "red": 0,
-    "team": 1
+    "team": 1,
+    "points": 0
   },
   "2022045": {
     "name": "Fuma",
     "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 0
+    "team": 0,
+    "points": 0
   },
   "2022046": {
     "name": "Koga",
-    "green": 4,
+    "green": 0,
     "yellow": 0,
-    "red": 1,
-    "team": 0
+    "red": 0,
+    "team": 0,
+    "points": 0
   },
   "2022047": {
     "name": "Kengo",
-    "green": 9,
-    "yellow": 1,
+    "green": 0,
+    "yellow": 0,
     "red": 0,
-    "team": 2
+    "team": 2,
+    "points": 0
   },
   "2022048": {
     "name": "Yuito",
-    "green": 1,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 3
+    "team": 3,
+    "points": 0
   },
   "2022049": {
     "name": "Ichiro",
-    "green": 5,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 0
+    "team": 0,
+    "points": 0
   },
   "2022054": {
     "name": "Wako",
-    "green": 6,
+    "green": 0,
     "yellow": 0,
-    "red": 1,
-    "team": 2
+    "red": 0,
+    "team": 2,
+    "points": 0
   },
   "2022059": {
     "name": "Mariya",
-    "green": 4,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 1
+    "team": 1,
+    "points": 0
   },
   "2022062": {
     "name": "Taisei",
-    "green": 5,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 3
+    "team": 3,
+    "points": 0
   },
   "2022069": {
     "name": "Kippei",
-    "green": 1,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 0
+    "team": 0,
+    "points": 0
   },
   "2022070": {
     "name": "Andy",
-    "green": 6,
-    "yellow": 1,
+    "green": 0,
+    "yellow": 0,
     "red": 0,
-    "team": 1
+    "team": 1,
+    "points": 0
   },
   "2022072": {
     "name": "Kenji",
-    "green": 3,
+    "green": 0,
     "yellow": 0,
-    "red": 3,
-    "team": 0
+    "red": 0,
+    "team": 0,
+    "points": 0
   },
   "2022073": {
     "name": "Wataru",
-    "green": 3,
+    "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 0
+    "team": 1,
+    "points": 0
   },
   "2022076": {
     "name": "Koshi",
     "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 3
+    "team": 3,
+    "points": 0
   },
   "2022077": {
     "name": "Mio",
     "green": 0,
     "yellow": 0,
     "red": 0,
-    "team": 3
+    "team": 3,
+    "points": 0
   }
 }

@@ -20,7 +20,8 @@ body{
 }
 
 .icon, item_icon{
-    height: 40px;
+    height: 1em;
+    width: 1em;
 }
 
 .round_button{
@@ -97,6 +98,7 @@ body{
 }
 
 .content_card{
+    font-size: 2em;
     display: flex;
     width: auto;
 }
@@ -123,9 +125,8 @@ body{
   }
   
   .dragon{
-    max-width: 100%;
-    width: 0%;
-    pointer-events: none;
+    max-width: 0%;
+    pointer-events:none;
   }
   
   .dragon_name{
@@ -241,6 +242,7 @@ body{
     text-align: right;
     border: 1px;
     width: 200px;
+    height: 1em;
     border: 1px solid;
 }
 

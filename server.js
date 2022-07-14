@@ -42,24 +42,40 @@ saveJson(users, "users");
 let teams = loadJson("teams");
 
 
-function updateUsers(){
+function updateTeamMembers(){
   io.emit('clearMembers');
   let userNames = Object.keys(users);
   for(let i=0; i<userNames.length; i++){
     let currentUser = users[userNames[i]];
-    io.emit('addMember', currentUser.team, userNames[i], currentUser.name, currentUser.color);
+    //users[userNames[i]].points = 0;
+    //users[userNames[i]].green = 0;
+    //users[userNames[i]].red = 0;
+    //users[userNames[i]].yellow = 0;
+    if(currentUser.team >= 0){
+      io.emit('addMember', currentUser.team, userNames[i], currentUser.name, currentUser.color);
+    }
   }
 }
 
-io.on('connection', (socket) => {
-	console.log('a user connected');
-  
-	socket.on('login', (userID) => {
-		console.log('login',userID);
-    //socket.on('updateDragon', function(team, name, type, size, primaryColor, secondayColor
-    updateTeam();
-    updateXP();
-    updateUsers();
+io.on('connection', (socket) => {  
+	socket.on('login', (userID, teacher) => {
+    if ((userID in users)){
+      let user = users[userID];
+      console.log('login OK',user.name);
+      io.to(socket.id).emit('login', true);
+      updateUser(userID);
+      updateTeam();
+      updateXP();
+    } else if(teacher){
+      console.log('Teacher Login');
+      updateTeamMembers();
+      io.emit('qr', ip.address()+":3000");
+      updateTeam();
+      updateXP();
+    } else{
+      console.log('login failed',userID);
+      io.to(socket.id).emit('login', false);
+    }
 	});
 
   socket.on('changeTeam', (id, team) => {
@@ -69,45 +85,51 @@ io.on('connection', (socket) => {
     console.log(user.team);
     updateTeam();
     updateXP();
-    updateUsers();
+    updateTeamMembers();
   });
 
-  socket.on('card', (team, member, giveCard) => {
-    console.log("card:",team, member, giveCard);
+  socket.on('card', (teamID, userID, giveCard) => {
+    console.log("card:",teamID, userID, giveCard);
     let xpChange = 0;
     switch(giveCard){
       case 0:
         //green
-        xpChange = 10 + Math.round(teams[team].dragon_mood/10);
-        moodChange(team, 1);
-        if(member != 0){
-          users[member].green = users[member].green+1;
-          console.log(users[member].green);
+        xpChange = 10 + Math.round(teams[teamID].dragon_mood/10);
+        moodChange(teamID, 1);
+        if(userID != 0){
+          users[userID].green = users[userID].green+1;
+          users[userID].points = users[userID].points+10;
+          console.log(users[userID].green);
         }
         break;
       case 1:
         //yellow
         xpChange = -5;
-        moodChange(team, -5);
-        if(member != 0){
-          users[member].yellow  = users[member].yellow + 1;
+        moodChange(teamID, -5);
+        if(userID != 0){
+          users[userID].yellow  = users[userID].yellow + 1;
+          users[userID].points = users[userID].points - 10;
         }
         break;
       case 2:
         //red
         xpChange = -10;
-        moodChange(team, -10);
-        if(member != 0){
-          users[member].red = users[member].red + 1;
+        moodChange(teamID, -10);
+        if(userID != 0){
+          users[userID].red = users[userID].red + 1;
+          users[userID].points = users[userID].points - 20;
         }
         break;
     }
-    if(member == 0){
+    if(userID == 0){
       xpChange *= 3;
     }
-    teams[team].xp = Math.max(0, teams[team].xp + xpChange);
-    console.log("XP Change:",teams[team].dragon_name, teams[team].xp,'('+xpChange+')');
-    updateXP();
+    teams[teamID].xp = Math.max(0, teams[teamID].xp + xpChange);
+    users[userID].points = Math.max(0, users[userID].points);
+    console.log("XP Change:",teams[teamID].dragon_name, teams[teamID].xp,'('+xpChange+')');
+    updateXP(teamID);
+    updateTeam(teamID);
+    updateUser(userID);
   });
 });
 
@@ -128,23 +150,24 @@ function updateXP(team){
     }
     return;
   }
-
-  let currentTeam = teams[team];
-  io.emit('updateXP', team, currentTeam.xp, currentTeam.level);
+  io.emit('updateXP', team, teams[team].xp, teams[team].level);
   saveJson(teams, "teams");
   saveJson(users, "users");
 }
 
 function updateTeam(team){
-  if(team == undefined){
+  if(team == undefined){ //update all teams
     for(let i=0; i<4; i++){
-      let currentTeam = teams[i];
-      io.emit('updateDragon', i, currentTeam.dragon_name,currentTeam.dragon_type, currentTeam.dragon_size, currentTeam.primary, currentTeam.secondary);
+      updateTeam(i);
     }
-  } else {
-    let currentTeam = teams[team];
-    io.emit('updateDragon', team, currentTeam.dragon_name,currentTeam.dragon_type, currentTeam.dragon_size, currentTeam.primary, currentTeam.secondary);
+    return;
   }
+  io.emit('updateTeam', team, teams[team]);
+}
+
+function updateUser(userID){
+  console.log("update for",users[userID]);
+  io.emit('updateUser', userID, users[userID]);
 }
 
 function resetTeams(){

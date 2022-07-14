@@ -137,3 +137,17 @@ body{
   background-color: #E8F5E9;
   overflow: hidden;
 }
+
+#qr{
+  height: 100px;
+  width: 100px;
+}
+
+#qrholder{
+  position: fixed;
+  height: 50px;
+  top: 20px;
+  right: 20px;
+  z-index: 1;
+  opacity: 70%;
+}

@@ -36,7 +36,7 @@ window.onload = function() {
 
     //history.pushState(null, "", "/");
 
-    socket.emit('login', "000");
+    socket.emit('login', "", true);
 }
 
 function toggleMembers(team){
@@ -123,12 +123,17 @@ socket.on('clearMembers', function(){
             content_members.removeChild(child);
             child = content_members.lastElementChild;
         }
-        addMember(i, 0, teams[i].name, teams[i].primary);
+        addMember(i, 0, "Team "+i, teams[i].primary);
     }
 });
 
 socket.on('addMember', function(team, id, name, color){
     addMember(team, id, name, color);
+});
+
+socket.on('qr', function(ip){
+    console.log("showing qr for "+ip);
+    document.getElementById("qr").src = "https://chart.googleapis.com/chart?chs=190x190&cht=qr&chl=http://"+ip;
 });
 
 function addMember(team, id, name, color){
@@ -151,29 +156,32 @@ socket.on('updateXP', function(team, xp, level){
     teamLevel.innerText = level;
 });
 
-socket.on('updateDragon', function(team, name, type, size, primaryColor, secondayColor){
-    let dragon = document.getElementById("dragon"+team);
-    document.getElementById("dragon_name"+team).innerHTML = name;
-
-    dragon.setAttribute("data", "../images/dragons/"+type+".svg");
+socket.on('updateTeam', function(teamID, teamInfo){
+    teams[teamID] = teamInfo;
+    team = teams[teamID];
+    let dragon = document.getElementById("dragon"+teamID);
+  
+    document.getElementById("dragon_name"+teamID).innerHTML = team.dragon_name;
+  
+    dragon.setAttribute("data", "../images/dragons/"+team.dragon_type+".svg");
+  
     dragon.addEventListener('load', function(){
-        let svg = dragon.contentDocument;
-    
-        if(primaryColor != undefined){
-            let primary = svg.getElementsByClassName("primaryColor");
-            for(let i=0; i<primary.length; i++){
-                primary[i].style.fill = primaryColor;
-            }
-            document.getElementById("xp_fill"+team).style.backgroundColor = primaryColor;
+      let svg = dragon.contentDocument;
+      document.getElementById("xp_fill"+teamID).style.backgroundColor = teams[teamID].primary;
+      document.getElementById("xp_fill"+teamID).style.borderTopColor = teams[teamID].secondary;
+      dragon.style.maxWidth = teams[teamID].dragon_size+"%";
+  
+      var paths = svg.getElementsByTagName("path");
+      for(let i=0; i<paths.length; i++){
+        switch(paths[i].getAttribute("class")){
+          case "primaryColor":
+            paths[i].style.fill = teams[teamID].primary;
+          break;
+          case "secondaryColor":
+            paths[i].style.fill = teams[teamID].secondary;
+          break;        
         }
-        if(secondayColor != undefined){
-            let secondary = svg.getElementsByClassName("secondaryColor");
-            for(let i=0; i<secondary.length; i++){
-                secondary[i].style.fill = secondayColor;
-            }
-        }
-        document.getElementById("xp_fill"+team).style.borderTopColor = secondayColor;
-        dragon.style.maxWidth = size+"%";
-        dragon.removeEventListener('dragon', this);
-    });   
-});
+      }
+    });
+  });
+  
