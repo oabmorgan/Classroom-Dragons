@@ -54,9 +54,9 @@ body{
   justify-content: center;
   align-items: center;
   background-color: rgb(179, 229, 252);
-  font-size: 1.4em;
-  padding: 20px 0;
+  font-size: 2em;
   outline: 1px solid black;
+  height: 9vh;
 }
 
 /*
@@ -112,6 +112,8 @@ body{
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
 }
 
 .content_dragon{
@@ -150,4 +152,16 @@ body{
   right: 20px;
   z-index: 1;
   opacity: 70%;
+}
+
+.dragon_mood{
+  text-align: center;
+  height: 20px;
+  margin-top: -10px;
+  width: auto;
+}
+
+.moodIcon{
+  height: 20px;
+  width: 20px;
 }

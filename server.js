@@ -41,6 +41,15 @@ saveJson(users, "users");
 
 let teams = loadJson("teams");
 
+socket.on('rename', (team, newName) => {
+    teams[team].dragon_name = newName;
+    console.log(team, newName);
+    updateTeam();
+  });
+
+  socket.on('card', (team, member, giveCard) => {
+    console.log("card:",team, member, giveCard);
+
 
 function updateTeamMembers(){
   io.emit('clearMembers');
@@ -88,8 +97,14 @@ io.on('connection', (socket) => {
     updateTeamMembers();
   });
 
-  socket.on('card', (teamID, userID, giveCard) => {
-    console.log("card:",teamID, userID, giveCard);
+  socket.on('rename', (team, newName) => {
+    teams[team].dragon_name = newName;
+    console.log(team, newName);
+    updateTeam();
+  });
+
+  socket.on('card', (team, member, giveCard) => {
+    console.log("card:",team, member, giveCard);
     let xpChange = 0;
     switch(giveCard){
       case 0:
@@ -150,7 +165,13 @@ function updateXP(team){
     }
     return;
   }
-  io.emit('updateXP', team, teams[team].xp, teams[team].level);
+  let currentTeam = teams[team];
+  let currentLevel = currentTeam.level;
+  let newLevel = Math.ceil(currentTeam.xp / 100);
+  if(newLevel > currentLevel){
+    teams[team].level = newLevel;
+  }
+  io.emit('updateXP', team, currentTeam.xp, currentTeam.level);
   saveJson(teams, "teams");
   saveJson(users, "users");
 }
@@ -174,7 +195,7 @@ function resetTeams(){
   for(let i=0; i<4; i++){
     let currentTeam = teams[i];
     currentTeam.xp = 0;
-    currentTeam.level = 0;
+    currentTeam.level = 1;
     currentTeam.dragon_name = "Team "+i;
     currentTeam.dragon_type = "egg";
     currentTeam.dragon_size = 25;
