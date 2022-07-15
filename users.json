@@ -1,27 +1,27 @@
 {
   "2022002": {
     "name": "Ryotaro",
-    "green": 0,
+    "green": 1,
     "yellow": 0,
     "red": 0,
     "team": 2,
-    "points": 0
+    "points": 10
   },
   "2022003": {
     "name": "Ema",
-    "green": 0,
+    "green": 7,
     "yellow": 0,
-    "red": 0,
+    "red": 4,
     "team": 1,
-    "points": 0
+    "points": 50
   },
   "2022004": {
     "name": "Chihiro",
-    "green": 0,
+    "green": 2,
     "yellow": 0,
     "red": 0,
     "team": 0,
-    "points": 0
+    "points": 20
   },
   "2022009": {
     "name": "Fuku",

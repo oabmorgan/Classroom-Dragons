@@ -112,8 +112,6 @@ body{
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  border-top: 3px solid black;
-  border-bottom: 3px solid black;
 }
 
 .content_dragon{
@@ -158,6 +156,7 @@ body{
   text-align: center;
   height: 20px;
   margin-top: -10px;
+  margin-bottom: -10px;
   width: auto;
 }
 

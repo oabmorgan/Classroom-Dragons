@@ -41,16 +41,6 @@ saveJson(users, "users");
 
 let teams = loadJson("teams");
 
-socket.on('rename', (team, newName) => {
-    teams[team].dragon_name = newName;
-    console.log(team, newName);
-    updateTeam();
-  });
-
-  socket.on('card', (team, member, giveCard) => {
-    console.log("card:",team, member, giveCard);
-
-
 function updateTeamMembers(){
   io.emit('clearMembers');
   let userNames = Object.keys(users);
@@ -66,7 +56,7 @@ function updateTeamMembers(){
   }
 }
 
-io.on('connection', (socket) => {  
+io.on('connection', (socket) => {
 	socket.on('login', (userID, teacher) => {
     if ((userID in users)){
       let user = users[userID];
@@ -85,7 +75,13 @@ io.on('connection', (socket) => {
       console.log('login failed',userID);
       io.to(socket.id).emit('login', false);
     }
-	});
+  });
+  
+  socket.on('rename', (team, newName) => {
+    teams[team].dragon_name = newName;
+    console.log(team, newName);
+    updateTeam();
+  });
 
   socket.on('changeTeam', (id, team) => {
     let user = users[id];
@@ -103,8 +99,8 @@ io.on('connection', (socket) => {
     updateTeam();
   });
 
-  socket.on('card', (team, member, giveCard) => {
-    console.log("card:",team, member, giveCard);
+  socket.on('card', (teamID, userID, giveCard) => {
+    console.log("card:",teamID, userID, giveCard);
     let xpChange = 0;
     switch(giveCard){
       case 0:
@@ -139,8 +135,11 @@ io.on('connection', (socket) => {
     if(userID == 0){
       xpChange *= 3;
     }
+    //socket.emit('card', team, member, giveCard);
     teams[teamID].xp = Math.max(0, teams[teamID].xp + xpChange);
-    users[userID].points = Math.max(0, users[userID].points);
+    if(userID != 0){
+      users[userID].points = Math.max(0, users[userID].points);
+    }
     console.log("XP Change:",teams[teamID].dragon_name, teams[teamID].xp,'('+xpChange+')');
     updateXP(teamID);
     updateTeam(teamID);
