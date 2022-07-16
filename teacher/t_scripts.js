@@ -72,9 +72,6 @@ function toggleMembers(team){
 function mouseDown(e){
     e.target.releasePointerCapture(e.pointerId);
     mouseDownElement = e.target || e.srcElement;
-    if(mouseDownElement.classList[0] == 'member'){
-        mouseDownElement.style.outline = '5px solid white';
-    }
 }
 
 function mouseUp(e){
@@ -94,7 +91,6 @@ function mouseUp(e){
             break;   
         }
     } else if(mouseDownElement.classList[0] == 'member' && mouseUpElement.classList[0] == 'dragon_name'){
-        mouseDownElement.style.outline = '1px solid black';
         socket.emit('changeTeam', mouseDownElement.id, teamID);
         deselect();
     }
@@ -160,16 +156,36 @@ socket.on('updateTeam', function(teamID, teamInfo){
     teams[teamID] = teamInfo;
     team = teams[teamID];
     let dragon = document.getElementById("dragon"+teamID);
+
+    for(let i=0; i<5; i++){
+        let moodIcon = document.getElementById("moodIcon"+teamID+i);
+        if(team.dragon_mood <= i*20){
+            moodIcon.src = "../images/heart_empty.png";
+        } else if(team.dragon_mood <= i*20 + 10){
+          moodIcon.src = "../images/heart_half.png";
+      } else {
+            moodIcon.src = "../images/heart.png";
+        }
+    }
   
     document.getElementById("dragon_name"+teamID).innerHTML = team.dragon_name;
   
-    dragon.setAttribute("data", "../images/dragons/"+team.dragon_type+".svg");
-  
-    dragon.addEventListener('load', function(){
-      let svg = dragon.contentDocument;
+    dragon.style.maxWidth = teams[teamID].dragon_size+"%";
+
+    let newData = "../images/dragons/"+team.dragon_type+"/"+team.dragon_evol+".svg";
+    if(dragon.getAttribute("data") != newData){
+        dragon.setAttribute("data", newData);
+        dragon.addEventListener('load', function(){
+            updateColors(teamID);
+        });
+    }
+    updateColors(teamID);
+  });
+
+function updateColors(teamID){
+    let svg = document.getElementById("dragon"+teamID).contentDocument;
       document.getElementById("xp_fill"+teamID).style.backgroundColor = teams[teamID].primary;
       document.getElementById("xp_fill"+teamID).style.borderTopColor = teams[teamID].secondary;
-      dragon.style.maxWidth = teams[teamID].dragon_size+"%";
   
       var paths = svg.getElementsByTagName("path");
       for(let i=0; i<paths.length; i++){
@@ -182,6 +198,4 @@ socket.on('updateTeam', function(teamID, teamInfo){
           break;        
         }
       }
-    });
-  });
-  
+}

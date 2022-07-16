@@ -4,29 +4,31 @@
     "cards": {
       "0": 10,
       "1": 0,
-      "2": 0,
+      "2": 0
     },
     "team": 2,
-    "points": 150
+    "points": 165
   },
   "2022003": {
     "name": "Ema",
     "cards": {
       "0": 18,
       "1": 0,
-      "2": 0
+      "2": 0,
+      "function giveCard(teamID, userID, card) {\r\n\tif (userID == 0) {\r\n\t\tfor (let i = 0; i < Object.keys(users).length; i++) {\r\n\t\t\tif (users[Object.keys(users)[i]].team == teamID) {\r\n\t\t\t\tgiveCard(teamID, Object.keys(users)[i], card);\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn;\r\n\t}\r\n\tconsole.log(teamID, userID, card);\r\n\t//console.log(\"card:\",teamID, userID, giveCard);\r\n\r\n\tlet xp;\r\n\tlet points;\r\n\tlet mood;\r\n\r\n\tswitch (card) {\r\n\t\tcase 0:\r\n\t\t\txp = 10;\r\n\t\t\tpoints = 5;\r\n\t\t\tmood = 1;\r\n\t\t\tbreak;\r\n\t\tcase 1:\r\n\t\t\txp = -5;\r\n\t\t\tpoints = -5;\r\n\t\t\tmood = -5;\r\n\t\t\tbreak;\r\n\t\tcase 2:\r\n\t\t\txp = -10;\r\n\t\t\tpoints = -10;\r\n\t\t\tmood = -10;\r\n\t\t\tbreak;\r\n\t}\r\n\r\n\tmoodChange(teamID, mood);\r\n\txp = Math.round(xp * (1 + (teams[teamID].dragon_mood / 100)));\r\n\r\n\tusers[userID].cards[giveCard]++;\r\n\tusers[userID].points += clamp(points, 0);\r\n\tteams[teamID].xp += clamp(xp, 0);\r\n\r\n\tconsole.log(\"XP Change:\", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');\r\n\r\n\tupdateXP(teamID);\r\n\tupdateTeam(teamID);\r\n\tupdateUser(userID);\r\n}": null
     },
     "team": 1,
-    "points": 25
+    "points": 30
   },
   "2022004": {
     "name": "Chihiro",
     "cards": {
       "0": 0,
       "1": 0,
-      "2": 0    },
+      "2": 0
+    },
     "team": 0,
-    "points": 10
+    "points": 185
   },
   "2022009": {
     "name": "Fuku",
@@ -34,10 +36,9 @@
       "0": 1,
       "1": 0,
       "2": 0
-      
     },
     "team": 0,
-    "points": 10
+    "points": 180
   },
   "2022010": {
     "name": "Toma",
@@ -47,7 +48,7 @@
       "2": 0
     },
     "team": 2,
-    "points": 40
+    "points": 50
   },
   "2022013": {
     "name": "Yutaro",
@@ -57,37 +58,40 @@
       "2": 0
     },
     "team": 3,
-    "points": 15
+    "points": 25
   },
   "2022016": {
     "name": "Yuta",
     "cards": {
       "0": 13,
       "1": 0,
-      "2": 0
+      "2": 0,
+      "function giveCard(teamID, userID, card) {\r\n\tif (userID == 0) {\r\n\t\tfor (let i = 0; i < Object.keys(users).length; i++) {\r\n\t\t\tif (users[Object.keys(users)[i]].team == teamID) {\r\n\t\t\t\tgiveCard(teamID, Object.keys(users)[i], card);\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn;\r\n\t}\r\n\tconsole.log(teamID, userID, card);\r\n\t//console.log(\"card:\",teamID, userID, giveCard);\r\n\r\n\tlet xp;\r\n\tlet points;\r\n\tlet mood;\r\n\r\n\tswitch (card) {\r\n\t\tcase 0:\r\n\t\t\txp = 10;\r\n\t\t\tpoints = 5;\r\n\t\t\tmood = 1;\r\n\t\t\tbreak;\r\n\t\tcase 1:\r\n\t\t\txp = -5;\r\n\t\t\tpoints = -5;\r\n\t\t\tmood = -5;\r\n\t\t\tbreak;\r\n\t\tcase 2:\r\n\t\t\txp = -10;\r\n\t\t\tpoints = -10;\r\n\t\t\tmood = -10;\r\n\t\t\tbreak;\r\n\t}\r\n\r\n\tmoodChange(teamID, mood);\r\n\txp = Math.round(xp * (1 + (teams[teamID].dragon_mood / 100)));\r\n\r\n\tusers[userID].cards[giveCard]++;\r\n\tusers[userID].points += clamp(points, 0);\r\n\tteams[teamID].xp += clamp(xp, 0);\r\n\r\n\tconsole.log(\"XP Change:\", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');\r\n\r\n\tupdateXP(teamID);\r\n\tupdateTeam(teamID);\r\n\tupdateUser(userID);\r\n}": null
     },
     "team": 1,
-    "points": 30
+    "points": 120
   },
   "2022022": {
     "name": "Yua",
     "cards": {
       "0": 1,
       "1": 0,
-      "2": 0
+      "2": 0,
+      "function giveCard(teamID, userID, card) {\r\n\tif (userID == 0) {\r\n\t\tfor (let i = 0; i < Object.keys(users).length; i++) {\r\n\t\t\tif (users[Object.keys(users)[i]].team == teamID) {\r\n\t\t\t\tgiveCard(teamID, Object.keys(users)[i], card);\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn;\r\n\t}\r\n\tconsole.log(teamID, userID, card);\r\n\t//console.log(\"card:\",teamID, userID, giveCard);\r\n\r\n\tlet xp;\r\n\tlet points;\r\n\tlet mood;\r\n\r\n\tswitch (card) {\r\n\t\tcase 0:\r\n\t\t\txp = 10;\r\n\t\t\tpoints = 5;\r\n\t\t\tmood = 1;\r\n\t\t\tbreak;\r\n\t\tcase 1:\r\n\t\t\txp = -5;\r\n\t\t\tpoints = -5;\r\n\t\t\tmood = -5;\r\n\t\t\tbreak;\r\n\t\tcase 2:\r\n\t\t\txp = -10;\r\n\t\t\tpoints = -10;\r\n\t\t\tmood = -10;\r\n\t\t\tbreak;\r\n\t}\r\n\r\n\tmoodChange(teamID, mood);\r\n\txp = Math.round(xp * (1 + (teams[teamID].dragon_mood / 100)));\r\n\r\n\tusers[userID].cards[giveCard]++;\r\n\tusers[userID].points += clamp(points, 0);\r\n\tteams[teamID].xp += clamp(xp, 0);\r\n\r\n\tconsole.log(\"XP Change:\", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');\r\n\r\n\tupdateXP(teamID);\r\n\tupdateTeam(teamID);\r\n\tupdateUser(userID);\r\n}": null
     },
     "team": 2,
-    "points": 40
+    "points": 60
   },
   "2022025": {
     "name": "Ruriju",
     "cards": {
       "0": 12,
       "1": 0,
-      "2": 0
+      "2": 0,
+      "function giveCard(teamID, userID, card) {\r\n\tif (userID == 0) {\r\n\t\tfor (let i = 0; i < Object.keys(users).length; i++) {\r\n\t\t\tif (users[Object.keys(users)[i]].team == teamID) {\r\n\t\t\t\tgiveCard(teamID, Object.keys(users)[i], card);\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn;\r\n\t}\r\n\tconsole.log(teamID, userID, card);\r\n\t//console.log(\"card:\",teamID, userID, giveCard);\r\n\r\n\tlet xp;\r\n\tlet points;\r\n\tlet mood;\r\n\r\n\tswitch (card) {\r\n\t\tcase 0:\r\n\t\t\txp = 10;\r\n\t\t\tpoints = 5;\r\n\t\t\tmood = 1;\r\n\t\t\tbreak;\r\n\t\tcase 1:\r\n\t\t\txp = -5;\r\n\t\t\tpoints = -5;\r\n\t\t\tmood = -5;\r\n\t\t\tbreak;\r\n\t\tcase 2:\r\n\t\t\txp = -10;\r\n\t\t\tpoints = -10;\r\n\t\t\tmood = -10;\r\n\t\t\tbreak;\r\n\t}\r\n\r\n\tmoodChange(teamID, mood);\r\n\txp = Math.round(xp * (1 + (teams[teamID].dragon_mood / 100)));\r\n\r\n\tusers[userID].cards[giveCard]++;\r\n\tusers[userID].points += clamp(points, 0);\r\n\tteams[teamID].xp += clamp(xp, 0);\r\n\r\n\tconsole.log(\"XP Change:\", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');\r\n\r\n\tupdateXP(teamID);\r\n\tupdateTeam(teamID);\r\n\tupdateUser(userID);\r\n}": null
     },
     "team": 1,
-    "points": 140
+    "points": 225
   },
   "2022034": {
     "name": "Umeka",
@@ -97,7 +101,7 @@
       "2": 0
     },
     "team": 2,
-    "points": 30
+    "points": 40
   },
   "2022038": {
     "name": "Takumi",
@@ -107,17 +111,18 @@
       "2": 0
     },
     "team": 2,
-    "points": 30
+    "points": 40
   },
   "2022044": {
     "name": "Leo",
     "cards": {
       "0": 1,
       "1": 0,
-      "2": 0
+      "2": 0,
+      "function giveCard(teamID, userID, card) {\r\n\tif (userID == 0) {\r\n\t\tfor (let i = 0; i < Object.keys(users).length; i++) {\r\n\t\t\tif (users[Object.keys(users)[i]].team == teamID) {\r\n\t\t\t\tgiveCard(teamID, Object.keys(users)[i], card);\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn;\r\n\t}\r\n\tconsole.log(teamID, userID, card);\r\n\t//console.log(\"card:\",teamID, userID, giveCard);\r\n\r\n\tlet xp;\r\n\tlet points;\r\n\tlet mood;\r\n\r\n\tswitch (card) {\r\n\t\tcase 0:\r\n\t\t\txp = 10;\r\n\t\t\tpoints = 5;\r\n\t\t\tmood = 1;\r\n\t\t\tbreak;\r\n\t\tcase 1:\r\n\t\t\txp = -5;\r\n\t\t\tpoints = -5;\r\n\t\t\tmood = -5;\r\n\t\t\tbreak;\r\n\t\tcase 2:\r\n\t\t\txp = -10;\r\n\t\t\tpoints = -10;\r\n\t\t\tmood = -10;\r\n\t\t\tbreak;\r\n\t}\r\n\r\n\tmoodChange(teamID, mood);\r\n\txp = Math.round(xp * (1 + (teams[teamID].dragon_mood / 100)));\r\n\r\n\tusers[userID].cards[giveCard]++;\r\n\tusers[userID].points += clamp(points, 0);\r\n\tteams[teamID].xp += clamp(xp, 0);\r\n\r\n\tconsole.log(\"XP Change:\", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');\r\n\r\n\tupdateXP(teamID);\r\n\tupdateTeam(teamID);\r\n\tupdateUser(userID);\r\n}": null
     },
     "team": 1,
-    "points": 30
+    "points": 110
   },
   "2022045": {
     "name": "Fuma",
@@ -127,7 +132,7 @@
       "2": 0
     },
     "team": 0,
-    "points": 30
+    "points": 200
   },
   "2022046": {
     "name": "Koga",
@@ -137,7 +142,7 @@
       "2": 0
     },
     "team": 0,
-    "points": 20
+    "points": 200
   },
   "2022047": {
     "name": "Kengo",
@@ -147,7 +152,7 @@
       "2": 0
     },
     "team": 2,
-    "points": 30
+    "points": 40
   },
   "2022048": {
     "name": "Yuito",
@@ -157,7 +162,7 @@
       "2": 0
     },
     "team": 3,
-    "points": 65
+    "points": 75
   },
   "2022049": {
     "name": "Ichiro",
@@ -167,96 +172,99 @@
       "2": 0
     },
     "team": 0,
-    "points": 10
+    "points": 180
   },
   "2022054": {
     "name": "Wako",
     "cards": {
       "0": 0,
       "1": 0,
-      "2": 0 
+      "2": 0
     },
     "team": 2,
-    "points": 30
+    "points": 40
   },
   "2022059": {
     "name": "Mariya",
     "cards": {
       "0": 1,
       "1": 0,
-      "2": 0 
+      "2": 0,
+      "function giveCard(teamID, userID, card) {\r\n\tif (userID == 0) {\r\n\t\tfor (let i = 0; i < Object.keys(users).length; i++) {\r\n\t\t\tif (users[Object.keys(users)[i]].team == teamID) {\r\n\t\t\t\tgiveCard(teamID, Object.keys(users)[i], card);\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn;\r\n\t}\r\n\tconsole.log(teamID, userID, card);\r\n\t//console.log(\"card:\",teamID, userID, giveCard);\r\n\r\n\tlet xp;\r\n\tlet points;\r\n\tlet mood;\r\n\r\n\tswitch (card) {\r\n\t\tcase 0:\r\n\t\t\txp = 10;\r\n\t\t\tpoints = 5;\r\n\t\t\tmood = 1;\r\n\t\t\tbreak;\r\n\t\tcase 1:\r\n\t\t\txp = -5;\r\n\t\t\tpoints = -5;\r\n\t\t\tmood = -5;\r\n\t\t\tbreak;\r\n\t\tcase 2:\r\n\t\t\txp = -10;\r\n\t\t\tpoints = -10;\r\n\t\t\tmood = -10;\r\n\t\t\tbreak;\r\n\t}\r\n\r\n\tmoodChange(teamID, mood);\r\n\txp = Math.round(xp * (1 + (teams[teamID].dragon_mood / 100)));\r\n\r\n\tusers[userID].cards[giveCard]++;\r\n\tusers[userID].points += clamp(points, 0);\r\n\tteams[teamID].xp += clamp(xp, 0);\r\n\r\n\tconsole.log(\"XP Change:\", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');\r\n\r\n\tupdateXP(teamID);\r\n\tupdateTeam(teamID);\r\n\tupdateUser(userID);\r\n}": null
     },
     "team": 1,
-    "points": 30
+    "points": 110
   },
   "2022062": {
     "name": "Taisei",
     "cards": {
       "0": 4,
       "1": 0,
-      "2": 0 
+      "2": 0
     },
     "team": 3,
-    "points": 55
+    "points": 75
   },
   "2022069": {
     "name": "Kippei",
     "cards": {
       "0": 0,
       "1": 0,
-      "2": 0 
+      "2": 0
     },
     "team": 0,
-    "points": 10
+    "points": 180
   },
   "2022070": {
     "name": "Andy",
     "cards": {
       "0": 0,
       "1": 0,
-      "2": 0 
+      "2": 0,
+      "function giveCard(teamID, userID, card) {\r\n\tif (userID == 0) {\r\n\t\tfor (let i = 0; i < Object.keys(users).length; i++) {\r\n\t\t\tif (users[Object.keys(users)[i]].team == teamID) {\r\n\t\t\t\tgiveCard(teamID, Object.keys(users)[i], card);\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn;\r\n\t}\r\n\tconsole.log(teamID, userID, card);\r\n\t//console.log(\"card:\",teamID, userID, giveCard);\r\n\r\n\tlet xp;\r\n\tlet points;\r\n\tlet mood;\r\n\r\n\tswitch (card) {\r\n\t\tcase 0:\r\n\t\t\txp = 10;\r\n\t\t\tpoints = 5;\r\n\t\t\tmood = 1;\r\n\t\t\tbreak;\r\n\t\tcase 1:\r\n\t\t\txp = -5;\r\n\t\t\tpoints = -5;\r\n\t\t\tmood = -5;\r\n\t\t\tbreak;\r\n\t\tcase 2:\r\n\t\t\txp = -10;\r\n\t\t\tpoints = -10;\r\n\t\t\tmood = -10;\r\n\t\t\tbreak;\r\n\t}\r\n\r\n\tmoodChange(teamID, mood);\r\n\txp = Math.round(xp * (1 + (teams[teamID].dragon_mood / 100)));\r\n\r\n\tusers[userID].cards[giveCard]++;\r\n\tusers[userID].points += clamp(points, 0);\r\n\tteams[teamID].xp += clamp(xp, 0);\r\n\r\n\tconsole.log(\"XP Change:\", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');\r\n\r\n\tupdateXP(teamID);\r\n\tupdateTeam(teamID);\r\n\tupdateUser(userID);\r\n}": null
     },
     "team": 1,
-    "points": 20
+    "points": 105
   },
   "2022072": {
     "name": "Kenji",
     "cards": {
       "0": 0,
       "1": 0,
-      "2": 0 
+      "2": 0
     },
     "team": 0,
-    "points": 10
+    "points": 185
   },
   "2022073": {
     "name": "Wataru",
     "cards": {
       "0": 0,
       "1": 0,
-      "2": 0 
+      "2": 0,
+      "function giveCard(teamID, userID, card) {\r\n\tif (userID == 0) {\r\n\t\tfor (let i = 0; i < Object.keys(users).length; i++) {\r\n\t\t\tif (users[Object.keys(users)[i]].team == teamID) {\r\n\t\t\t\tgiveCard(teamID, Object.keys(users)[i], card);\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn;\r\n\t}\r\n\tconsole.log(teamID, userID, card);\r\n\t//console.log(\"card:\",teamID, userID, giveCard);\r\n\r\n\tlet xp;\r\n\tlet points;\r\n\tlet mood;\r\n\r\n\tswitch (card) {\r\n\t\tcase 0:\r\n\t\t\txp = 10;\r\n\t\t\tpoints = 5;\r\n\t\t\tmood = 1;\r\n\t\t\tbreak;\r\n\t\tcase 1:\r\n\t\t\txp = -5;\r\n\t\t\tpoints = -5;\r\n\t\t\tmood = -5;\r\n\t\t\tbreak;\r\n\t\tcase 2:\r\n\t\t\txp = -10;\r\n\t\t\tpoints = -10;\r\n\t\t\tmood = -10;\r\n\t\t\tbreak;\r\n\t}\r\n\r\n\tmoodChange(teamID, mood);\r\n\txp = Math.round(xp * (1 + (teams[teamID].dragon_mood / 100)));\r\n\r\n\tusers[userID].cards[giveCard]++;\r\n\tusers[userID].points += clamp(points, 0);\r\n\tteams[teamID].xp += clamp(xp, 0);\r\n\r\n\tconsole.log(\"XP Change:\", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');\r\n\r\n\tupdateXP(teamID);\r\n\tupdateTeam(teamID);\r\n\tupdateUser(userID);\r\n}": null
     },
     "team": 1,
-    "points": 20
+    "points": 100
   },
   "2022076": {
     "name": "Koshi",
     "cards": {
       "0": 0,
       "1": 0,
-      "2": 0 
+      "2": 0
     },
     "team": 3,
-    "points": 15
+    "points": 30
   },
   "2022077": {
     "name": "Mio",
     "cards": {
       "0": 0,
       "1": 0,
-      "2": 0 
+      "2": 0
     },
     "team": 3,
-    "points": 15
+    "points": 25
   }
 }

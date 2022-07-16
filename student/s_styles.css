@@ -20,8 +20,8 @@ body{
 }
 
 .icon, item_icon{
-    height: 1em;
-    width: 1em;
+    height: 30px;
+    width: 30px;
 }
 
 .round_button{
@@ -129,6 +129,20 @@ body{
     pointer-events:none;
   }
   
+  .dragon_mood{
+    text-align: center;
+    height: 40px;
+    margin-top: -20px;
+    margin-bottom: -20px;
+    width: auto;
+  }
+  
+  .moodIcon{
+    height: 40px;
+    width: 40px;
+  }
+  
+
   .dragon_name{
     display: flex;
     justify-content: center;
