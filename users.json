@@ -1,210 +1,262 @@
 {
   "2022002": {
     "name": "Ryotaro",
-    "green": 1,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 10,
+      "1": 0,
+      "2": 0,
+    },
     "team": 2,
-    "points": 10
+    "points": 150
   },
   "2022003": {
     "name": "Ema",
-    "green": 7,
-    "yellow": 0,
-    "red": 4,
+    "cards": {
+      "0": 18,
+      "1": 0,
+      "2": 0
+    },
     "team": 1,
-    "points": 50
+    "points": 25
   },
   "2022004": {
     "name": "Chihiro",
-    "green": 2,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0    },
     "team": 0,
-    "points": 20
+    "points": 10
   },
   "2022009": {
     "name": "Fuku",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 1,
+      "1": 0,
+      "2": 0
+      
+    },
     "team": 0,
-    "points": 0
+    "points": 10
   },
   "2022010": {
     "name": "Toma",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 1,
+      "1": 0,
+      "2": 0
+    },
     "team": 2,
-    "points": 0
+    "points": 40
   },
   "2022013": {
     "name": "Yutaro",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0
+    },
     "team": 3,
-    "points": 0
+    "points": 15
   },
   "2022016": {
     "name": "Yuta",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 13,
+      "1": 0,
+      "2": 0
+    },
     "team": 1,
-    "points": 0
+    "points": 30
   },
   "2022022": {
     "name": "Yua",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 1,
+      "1": 0,
+      "2": 0
+    },
     "team": 2,
-    "points": 0
+    "points": 40
   },
   "2022025": {
     "name": "Ruriju",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 12,
+      "1": 0,
+      "2": 0
+    },
     "team": 1,
-    "points": 0
+    "points": 140
   },
   "2022034": {
     "name": "Umeka",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0
+    },
     "team": 2,
-    "points": 0
+    "points": 30
   },
   "2022038": {
     "name": "Takumi",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0
+    },
     "team": 2,
-    "points": 0
+    "points": 30
   },
   "2022044": {
     "name": "Leo",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 1,
+      "1": 0,
+      "2": 0
+    },
     "team": 1,
-    "points": 0
+    "points": 30
   },
   "2022045": {
     "name": "Fuma",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 2,
+      "1": 0,
+      "2": 0
+    },
     "team": 0,
-    "points": 0
+    "points": 30
   },
   "2022046": {
     "name": "Koga",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0
+    },
     "team": 0,
-    "points": 0
+    "points": 20
   },
   "2022047": {
     "name": "Kengo",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0
+    },
     "team": 2,
-    "points": 0
+    "points": 30
   },
   "2022048": {
     "name": "Yuito",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 5,
+      "1": 0,
+      "2": 0
+    },
     "team": 3,
-    "points": 0
+    "points": 65
   },
   "2022049": {
     "name": "Ichiro",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0
+    },
     "team": 0,
-    "points": 0
+    "points": 10
   },
   "2022054": {
     "name": "Wako",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0 
+    },
     "team": 2,
-    "points": 0
+    "points": 30
   },
   "2022059": {
     "name": "Mariya",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 1,
+      "1": 0,
+      "2": 0 
+    },
     "team": 1,
-    "points": 0
+    "points": 30
   },
   "2022062": {
     "name": "Taisei",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 4,
+      "1": 0,
+      "2": 0 
+    },
     "team": 3,
-    "points": 0
+    "points": 55
   },
   "2022069": {
     "name": "Kippei",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0 
+    },
     "team": 0,
-    "points": 0
+    "points": 10
   },
   "2022070": {
     "name": "Andy",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0 
+    },
     "team": 1,
-    "points": 0
+    "points": 20
   },
   "2022072": {
     "name": "Kenji",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0 
+    },
     "team": 0,
-    "points": 0
+    "points": 10
   },
   "2022073": {
     "name": "Wataru",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0 
+    },
     "team": 1,
-    "points": 0
+    "points": 20
   },
   "2022076": {
     "name": "Koshi",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0 
+    },
     "team": 3,
-    "points": 0
+    "points": 15
   },
   "2022077": {
     "name": "Mio",
-    "green": 0,
-    "yellow": 0,
-    "red": 0,
+    "cards": {
+      "0": 0,
+      "1": 0,
+      "2": 0 
+    },
     "team": 3,
-    "points": 0
+    "points": 15
   }
 }

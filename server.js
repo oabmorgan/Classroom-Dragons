@@ -7,6 +7,7 @@ const io = new Server(server);
 const port = 3000;
 const ip = require("ip");
 const fs = require('fs');
+const open = require('open');
 
 const decaySpeed = 100; //approx -25% in 45min
 
@@ -87,74 +88,70 @@ io.on('connection', (socket) => {
     let user = users[id];
     console.log("moving",user.name,"to team",team);
     users[id].team = team;
-    console.log(user.team);
     updateTeam();
     updateXP();
     updateTeamMembers();
   });
 
-  socket.on('rename', (team, newName) => {
-    teams[team].dragon_name = newName;
-    console.log(team, newName);
-    updateTeam();
-  });
-
-  socket.on('card', (teamID, userID, giveCard) => {
-    console.log("card:",teamID, userID, giveCard);
-    let xpChange = 0;
-    switch(giveCard){
-      case 0:
-        //green
-        xpChange = 10 + Math.round(teams[teamID].dragon_mood/10);
-        moodChange(teamID, 1);
-        if(userID != 0){
-          users[userID].green = users[userID].green+1;
-          users[userID].points = users[userID].points+10;
-          console.log(users[userID].green);
-        }
-        break;
-      case 1:
-        //yellow
-        xpChange = -5;
-        moodChange(teamID, -5);
-        if(userID != 0){
-          users[userID].yellow  = users[userID].yellow + 1;
-          users[userID].points = users[userID].points - 10;
-        }
-        break;
-      case 2:
-        //red
-        xpChange = -10;
-        moodChange(teamID, -10);
-        if(userID != 0){
-          users[userID].red = users[userID].red + 1;
-          users[userID].points = users[userID].points - 20;
-        }
-        break;
-    }
-    if(userID == 0){
-      xpChange *= 3;
-    }
-    //socket.emit('card', team, member, giveCard);
-    teams[teamID].xp = Math.max(0, teams[teamID].xp + xpChange);
-    if(userID != 0){
-      users[userID].points = Math.max(0, users[userID].points);
-    }
-    console.log("XP Change:",teams[teamID].dragon_name, teams[teamID].xp,'('+xpChange+')');
-    updateXP(teamID);
-    updateTeam(teamID);
-    updateUser(userID);
+  socket.on('card', (teamID, userID, card) => {
+    giveCard(teamID, userID, card);
   });
 });
 
+function giveCard(teamID, userID, card){
+  if(userID == 0){
+    for(let i=0; i<Object.keys(users).length; i++){
+      if(users[Object.keys(users)[i]].team == teamID){
+        giveCard(teamID, Object.keys(users)[i], card);
+      }
+    }
+    return;
+  }
+  console.log(teamID,userID,card);
+  //console.log("card:",teamID, userID, giveCard);
+
+  let xp;
+  let points;
+  let mood;
+
+  switch(card){
+    case 0:
+      xp = 10;
+      points = 5;
+      mood = 1;
+    break;
+    case 1:
+      xp = -5;
+      points = -5;
+      mood = -5;
+    break;
+    case 2:
+      xp = -10;
+      points = -10;
+      mood = -10;
+    break;
+  }
+
+  moodChange(teamID, mood);
+  xp = Math.round(xp * (1+(teams[teamID].dragon_mood/100)));
+
+  users[userID].cards[giveCard] ++;
+  users[userID].points += clamp(points, 0);
+  teams[teamID].xp += clamp(xp, 0);
+
+  console.log("XP Change:",teams[teamID].dragon_name, teams[teamID].xp,'('+xp+')');
+
+  updateXP(teamID);
+  updateTeam(teamID);
+  updateUser(userID);
+}
+
 function moodChange(team, change){
-  teams[team].dragon_mood += change;
-  if(teams[team].dragon_mood < 0){
-    teams[team].dragon_mood = 0;
-  }
-  if(teams[team].dragon_mood > 100){
-    teams[team].dragon_mood = 100;
-  }
+  teams[team].dragon_mood = clamp(teams[team].dragon_mood + change, 0, 100);
+}
+
+function clamp(input, min=input, max=input){
+  return Math.min(Math.max(input, min), max);
 }
 
 function updateXP(team){
@@ -186,7 +183,7 @@ function updateTeam(team){
 }
 
 function updateUser(userID){
-  console.log("update for",users[userID]);
+  //console.log("update for",users[userID]);
   io.emit('updateUser', userID, users[userID]);
 }
 
@@ -205,4 +202,5 @@ function resetTeams(){
 
 server.listen(3000, () => {
 	console.log(ip.address() + ':3000');
+  //open('http://'+ip.address() + ':3000/teacher');
 });
