@@ -1,46 +1,50 @@
 {
   "0": {
     "xp": 0,
-    "level": 1,
-    "dragon_name": "Team 0",
-    "dragon_type": "normal",
-    "dragon_evol": 0,
-    "dragon_size": 13,
-    "dragon_mood": 13,
-    "primary": "rgb(230, 55, 70)",
-    "secondary": "rgb(255, 224, 102)"
-  },
-  "1": {
-    "xp": 450,
-    "level": 5,
+    "level": 0,
     "dragon_name": "Team 1",
     "dragon_type": "normal",
+    "background": "grass",
     "dragon_evol": 0,
-    "dragon_size": 53,
-    "dragon_mood": 53,
-    "primary": "rgb(5, 214, 158)",
-    "secondary": "hsl(195, 83%, 38%)"
+    "dragon_size": 25,
+    "dragon_mood": 100,
+    "primary": "rgb(174, 186, 137)",
+    "secondary": "rgb(255, 212, 163)"
   },
-  "2": {
-    "xp": 11,
-    "level": 1,
+  "1": {
+    "xp": 0,
+    "level": 0,
     "dragon_name": "Team 2",
     "dragon_type": "normal",
+    "background": "grass",
     "dragon_evol": 0,
-    "dragon_size": 14,
-    "dragon_mood": 14,
-    "primary": "hsl(264, 25%, 63%)",
-    "secondary": "hsl(331, 71%, 80%)"
+    "dragon_size": 25,
+    "dragon_mood": 100,
+    "primary": "rgb(249, 216, 161)",
+    "secondary": "rgb(238, 255, 204)"
+  },
+  "2": {
+    "xp": 0,
+    "level": 0,
+    "dragon_name": "Team 3",
+    "dragon_type": "normal",
+    "background": "grass",
+    "dragon_evol": 0,
+    "dragon_size": 25,
+    "dragon_mood": 100,
+    "primary": "rgb(124, 131, 137)",
+    "secondary": "rgb(227, 238, 192)"
   },
   "3": {
     "xp": 0,
-    "level": 1,
-    "dragon_name": "Team 3",
+    "level": 0,
+    "dragon_name": "Team 4",
     "dragon_type": "normal",
+    "background": "grass",
     "dragon_evol": 0,
-    "dragon_size": 13,
-    "dragon_mood": 13,
-    "primary": "hsl(89, 30%, 60%)",
-    "secondary": "hsl(61, 90%, 77%)"
+    "dragon_size": 25,
+    "dragon_mood": 100,
+    "secondary": "rgb(227, 238, 192)",
+    "primary": "rgb(124, 131, 137)"
   }
 }

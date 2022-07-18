@@ -5,40 +5,29 @@
         <style>@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');</style>
     </head>
     <body>
+        <div id="g_id_onload"
+                data-client_id="962020932017-6ievr5uml2qfs8nbfmli3m4vbnvcjqgu.apps.googleusercontent.com"
+                data-context="use"
+                data-callback="myCallback"
+                data-auto_select="true"
+                data-close_on_tap_outside="false">
+            </div>
         <div id="content_login">
-            <div contenteditable="true" id="login_email">2022003</div>@seto-solan.ed.jp
-            <div class="round_button" id="login_submit">Login</div>
+            <div contenteditable="true" id="login_email"></div>@seto-solan.ed.jp
+            <div id="login_submit">Login</div>
             </div>
         </div>
         <div id='content'>
             <div class="panel" id='panel_left'>
                 <div id="content_shop">
-                    <div class="content_cards">
-                        <div class="content_card">
-                            <img class="icon" src="../images/point.png">
-                            <div class="cardCount" id="pointCount">000</div>
+                    <div id="shop_title">
+                        <div style="flex: 1; text-align: right;">
+                            <img class="icon" id="coin" src="../images/coin.png">
                         </div>
+                        <div id="pointCount">0</div>
                     </div>
-                     <div class="shop_item" >
-                        <div class="content_item">
-                            <div class="item_cost">1</div>
-                            <div class="item_desc">test item 1</div>
-                        </div>
+                     <div class="content_itemlist" id="content_itemlist">
                     </div>
-                    <!--<div class="shop_item">
-                        <div class="content_card">
-                            <div class="item_cost">2</div>
-                            <div class="item_desc">test item 2</div>
-                            <img class="item_icon" src="../images/point.png">
-                        </div>
-                    </div>
-                    <div class="shop_item">
-                        <div class="content_card">
-                            <div class="item_cost">5</div>
-                            <div class="item_desc">test item 3</div>
-                            <img class="item_icon" src="../images/point.png">
-                        </div>
-                    </div> -->
                 </div>
             </div>
             <div class="panel" id='panel_mid'>
@@ -57,7 +46,7 @@
                         <div id="cardCount_red">000</div>
                     </div>
                 </div>
-                    <div class="spacing_dragon">
+                    <div class="spacing_dragon" id="background">
                       <div class="content_dragon" id="content_dragon">
                         <object id="dragon" type="image/svg+xml" data="" class="dragon"></object>
                       </div>
@@ -85,7 +74,19 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="content_draw">
+        <div id="content_whiteboard">
+            <canvas class="whiteboard"></canvas>
+        </div>
+        <div id="content_buttons">
+            <div class="roundButton" id="whiteboard_ink" src="" style="background-color:black"></div>
+            <img class="roundButton" id="whiteboard_clear" src="../images/eraser.png">
+            <img class="roundButton" id="whiteboard_send" src="../images/send.png">
+        </div>
+    </div>
         <script src="/socket.io/socket.io.js"></script>
         <script src="s_scripts.js"></script>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
     </body>
 </html> 

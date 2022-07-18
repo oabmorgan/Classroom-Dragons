@@ -107,15 +107,15 @@ socket.on('cardAlert', (color, teamID, teamname, realName = "") => {
     //bigCard.style.marginLeft = 60+'%';
     switch(color){
       case "green":
-        bigCard.style.backgroundColor = 'rgb(133, 255, 96)';
+        bigCard.style.background = 'rgb(133, 255, 96)';
         bigCard.innerHTML = "<p><h3>"+teamname+"</h3></p><p><h1>" + realName + "</h1></p><p>" + " got a <b>green</b> card!</p>";
       break;
       case "yellow":
-        bigCard.style.backgroundColor = 'rgb(245, 225, 53)';
+        bigCard.style.background = 'rgb(245, 225, 53)';
         bigCard.innerHTML = "<p><h3>"+teamname+"</h3></p><p><h1>" + realName + "</h1></p><p>" + " got a <b>yellow</b> card</p>";
       break;
       case "red":
-        bigCard.style.backgroundColor = 'rgb(254, 61, 27)';
+        bigCard.style.background = 'rgb(254, 61, 27)';
         bigCard.innerHTML = "<p><h3>"+teamname+"</h3></p><p><h1>" + realName + "</h1></p><p>" + " got a <b>red</b> card...</p>";
       break;
     }
@@ -134,34 +134,34 @@ socket.on('updatexp', (team, xp) => {
     let level = Math.floor(xp/100);
     switch(level){
         case 0:
-            document.getElementById("team"+team+"Level").style.backgroundColor = 'rgb(185, 248, 225)'; 
+            document.getElementById("team"+team+"Level").style.background = 'rgb(185, 248, 225)'; 
         break;
         case 1:
-            document.getElementById("team"+team+"Level").style.backgroundColor = 'rgb(119, 226, 234)';
+            document.getElementById("team"+team+"Level").style.background = 'rgb(119, 226, 234)';
         break;
         case 2:
-            document.getElementById("team"+team+"Level").style.backgroundColor = 'rgb(77, 141, 253)';
+            document.getElementById("team"+team+"Level").style.background = 'rgb(77, 141, 253)';
         break;
         case 3:
-            document.getElementById("team"+team+"Level").style.backgroundColor = 'rgb(74, 228, 255)';
+            document.getElementById("team"+team+"Level").style.background = 'rgb(74, 228, 255)';
         break;
         case 4:
-            document.getElementById("team"+team+"Level").style.backgroundColor = 'rgb(111, 255, 155)';
+            document.getElementById("team"+team+"Level").style.background = 'rgb(111, 255, 155)';
         break;
         case 5:
-            document.getElementById("team"+team+"Level").style.backgroundColor = 'rgb(171, 255, 81)';
+            document.getElementById("team"+team+"Level").style.background = 'rgb(171, 255, 81)';
         break;
         case 6:
-            document.getElementById("team"+team+"Level").style.backgroundColor = 'rgb(229, 255, 60)';
+            document.getElementById("team"+team+"Level").style.background = 'rgb(229, 255, 60)';
         break;
         case 7:
-            document.getElementById("team"+team+"Level").style.backgroundColor = 'rgb(255, 115, 253)';
+            document.getElementById("team"+team+"Level").style.background = 'rgb(255, 115, 253)';
         break;
         case 8:
-            document.getElementById("team"+team+"Level").style.backgroundColor = 'rgb(194, 73, 255)';
+            document.getElementById("team"+team+"Level").style.background = 'rgb(194, 73, 255)';
         break;
         default:
-            document.getElementById("team"+team+"Level").style.backgroundColor = 'rgb(255, 42, 120)';
+            document.getElementById("team"+team+"Level").style.background = 'rgb(255, 42, 120)';
         break;
     }
     document.getElementById("team"+team+"Level").innerHTML = level;

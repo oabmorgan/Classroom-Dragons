@@ -6,14 +6,19 @@ const {
 	Server
 } = require("socket.io");
 const io = new Server(server);
-const port = 3000;
+var port = 3000;
 const ip = require("ip");
 const fs = require('fs');
 const open = require('open');
+const e = require('express');
 
 const lessonLength = 45;
-const lossPerLesson = 60;
+const lossPerLesson = 50;
 const decaySpeed = (5*60)/lossPerLesson;
+
+var currentMode = "main";
+var shop = true;
+var last = false;
 
 app.use(express.static("student"));
 app.use('/images', express.static('images'));
@@ -27,6 +32,10 @@ app.get('/teacher', (req, res) => {
 });
 app.get('/reset', (req, res) => {
 	resetTeams();
+	res.redirect('/teacher')
+});
+app.get('/resetall', (req, res) => {
+	resetTeams(true);
 	res.redirect('/teacher')
 });
 
@@ -47,19 +56,17 @@ function saveJson(input, fileName) {
 }
 
 let users = loadJson("users");
-saveJson(users, "users");
-
 let teams = loadJson("teams");
+let items = loadJson("items");
+let details = loadJson("details");
+
+port = details["Server Details"].port;
 
 function updateTeamMembers() {
 	io.emit('clearMembers');
 	let userNames = Object.keys(users);
 	for (let i = 0; i < userNames.length; i++) {
 		let currentUser = users[userNames[i]];
-		//users[userNames[i]].points = 0;
-		//users[userNames[i]].green = 0;
-		//users[userNames[i]].red = 0;
-		//users[userNames[i]].yellow = 0;
 		if (currentUser.team >= 0) {
 			io.emit('addMember', currentUser.team, userNames[i], currentUser.name, currentUser.color);
 		}
@@ -72,18 +79,25 @@ io.on('connection', (socket) => {
 			let user = users[userID];
 			console.log('login OK', user.name);
 			io.to(socket.id).emit('login', true);
+			io.to(socket.id).emit('updateItems', items);
 			updateUser(userID);
-			updateTeam();
-			updateXP();
 		} else if (teacher) {
 			console.log('Teacher Login');
-			updateTeamMembers();
-			io.emit('qr', ip.address() + ":3000");
-			updateTeam();
-			updateXP();
+			socket.join("teacher");
+			io.emit('qr', ip.address() + ":"+port);
 		} else {
 			console.log('login failed', userID);
 			io.to(socket.id).emit('login', false);
+			return;
+		}
+		updateShop();
+		updateTeam();
+		updateTeamMembers();
+		updateXP();
+		switch(currentMode){
+			case "draw":
+				io.to(socket.id).emit('openWhiteboard');
+			break;
 		}
 	});
 
@@ -97,34 +111,106 @@ io.on('connection', (socket) => {
 		let user = users[id];
 		console.log("moving", user.name, "to team", team);
 		users[id].team = team;
-		updateTeam();
 		updateXP();
 		updateTeamMembers();
+		updateUser();
+		updateTeam();
 	});
 
 	socket.on('card', (teamID, userID, card) => {
+		last = {
+			"teamID": teamID,
+			"userID": userID,
+			"card": card
+		};
 		giveCard(teamID, userID, card);
 	});
 
-  //socket.emit('item', userID, itemID);
-  socket.on('item', (userID, itemID, cost) => {
+	socket.on('undo', () => {
+		console.log(last);
+		if(last != false){
+			console.log("UNDO");
+			giveCard(last.teamID, last.userID, last.card, true);
+			last = false;
+		} else{
+			console.log("nothing to undo..");
+		}
+	});
+
+	//socket.emit('postWhiteboard', userID, pen.art);
+	socket.on('postWhiteboard', (userID, art) =>{
+		console.log("Recieved 'art' from "+ users[userID].name);
+		socket.to("teacher").emit('updateArt', userID, users[userID].name, users[userID].team, art);
+	})
+	socket.on('openWhiteboard', () =>{
+		console.log("drawing Time");
+		currentMode = "draw";
+		io.emit('openWhiteboard');
+	})
+	socket.on('closeWhiteboard', () =>{
+		console.log("drawing Time is over");
+		currentMode = "main";
+		io.emit('closeWhiteboard');
+	})
+	socket.on('toggleShop', (open) =>{
+		shop = open;
+		updateShop();
+	});
+	//socket.emit('item', userID, itemID);
+  socket.on('item', (userID, itemID) => {
     let user = users[userID];
-    console.log(user.name,"used item",itemID);
-    if(user.points < cost){
+	let item = items[itemID];
+    console.log(user.name,"used item", item.name);
+	if(!shop){
+		console.log("Shop is closed!");
+		return;	
+	}
+    if(user.points < item.cost){
       console.log("not enough points!");
       return;
     }
-    user.points -= cost;
-    moodChange(user.team, 10);
+	switch(item.effect){
+		case "food":
+			moodChange(user.team, item.value);
+			teams[user.team].dragon_size += item.value/10;
+		break;
+		case "rename":
+			socket.emit("itemRename");
+		break;
+		case "recolor_1":
+			colorChange(user.team, item.value, false);
+		break;
+		case "recolor_2":
+			colorChange(user.team, item.value, true);
+		break;
+		case "recolor_3":
+			colorChange(user.team, item.value, false);
+			colorChange(user.team, item.value2, true);
+		break;
+		case "background":
+			backgroundChange(user.team, item.value);
+		break;
+		}
+	//CHEAT
+    user.points -= item.cost;
     updateUser(userID);
+  });
+
+  socket.on('logout', (userID) => {
+	console.log("logging out "+userID);
+	io.emit('logout', userID);
   });
 });
 
-function giveCard(teamID, userID, card) {
+function updateShop(){
+	io.emit('toggleShop', shop);
+}
+
+function giveCard(teamID, userID, card, undo=false) {
 	if (userID == 0) {
 		for (let i = 0; i < Object.keys(users).length; i++) {
 			if (users[Object.keys(users)[i]].team == teamID) {
-				giveCard(teamID, Object.keys(users)[i], card);
+				giveCard(teamID, Object.keys(users)[i], card+3, undo);
 			}
 		}
 		return;
@@ -152,16 +238,38 @@ function giveCard(teamID, userID, card) {
 			points = -10;
 			mood = -10;
 			break;
+			case 3:
+				xp = 5;
+				points = 5;
+				mood = 1;
+				break;
+			case 4:
+				xp = -22;
+				points = -5;
+				mood = -2;
+				break;
+			case 5:
+				xp = -5;
+				points = -10;
+				mood = -5;
+				break;		
 	}
 
-	moodChange(teamID, mood);
 	xp = Math.round(xp * (1 + (teams[teamID].dragon_mood / 100)));
 
-	users[userID].cards[giveCard]++;
-	users[userID].points += clamp(points, 0);
-	teams[teamID].xp += clamp(xp, 0);
-
-	console.log("XP Change:", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');
+	if(undo){
+		moodChange(teamID, -mood);
+		users[userID].cards[card]--;
+		users[userID].points -= clamp(points, 0);
+		teams[teamID].xp -= clamp(xp, 0);
+		console.log("Undo XP Change:", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');
+	} else {
+		moodChange(teamID, mood);
+		users[userID].cards[card]++;
+		users[userID].points += clamp(points, 0);
+		teams[teamID].xp += clamp(xp, 0);
+		console.log("XP Change:", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');
+	}
 
 	updateXP(teamID);
 	updateTeam(teamID);
@@ -169,9 +277,8 @@ function giveCard(teamID, userID, card) {
 }
 
 function moodChange(team, change) {
-	teams[team].dragon_mood = clamp(teams[team].dragon_mood + change, 0, 100);
-  teams[team].dragon_size = teams[team].dragon_mood;
-  updateTeam(team);
+	teams[team].dragon_mood = clamp(teams[team].dragon_mood + change, 0, 110);
+	updateTeam(team);
 }
 
 function clamp(input, min = input, max = input) {
@@ -186,10 +293,20 @@ function updateXP(team) {
 		return;
 	}
 	let currentTeam = teams[team];
-	let currentLevel = currentTeam.level;
-	let newLevel = Math.ceil(currentTeam.xp / 100);
-	if (newLevel > currentLevel) {
-		teams[team].level = newLevel;
+	currentTeam.level = Math.ceil(currentTeam.xp / 100);
+	switch(currentTeam.level){
+		case 0:
+		case 1:
+			currentTeam.dragon_evol = 0;
+			break;
+		case 2:
+		case 3:
+		case 4:
+			currentTeam.dragon_evol = 1;
+		break;
+		default:
+			currentTeam.dragon_evol = 2;
+		break;
 	}
 	io.emit('updateXP', team, currentTeam.xp, currentTeam.level);
 	saveJson(teams, "teams");
@@ -209,23 +326,71 @@ function updateTeam(team) {
 function updateUser(userID) {
 	//console.log("update for",users[userID]);
 	io.emit('updateUser', userID, users[userID]);
+	saveJson(users, "users");
 }
 
-function resetTeams() {
+function colorChange(teamID, color, isSecondary=false){
+	console.log("color Change");
+	if(isSecondary){
+		teams[teamID].secondary = color;
+	} else {
+		teams[teamID].primary = color;	
+	}
+	updateTeam(teamID);
+}
+
+function backgroundChange(teamID, newBackground){
+	console.log("Background Change");
+	teams[teamID].background = newBackground;	
+	updateTeam(teamID);
+}
+
+let basicColors = [
+	"rgb(174, 186, 137)",
+	"rgb(227, 238, 192)",
+	"rgb(255, 212, 163)",
+	"rgb(251, 187, 173)",
+	"rgb(249, 216, 161)",
+	"rgb(238, 255, 204)",
+	"rgb(201, 199, 236)",
+	"rgb(207, 232, 183)",
+	"rgb(214, 225, 233)",
+	"rgb(124, 131, 137)",
+	"rgb(255, 237, 243)",
+];
+
+function resetTeams(all=false) {
 	for (let i = 0; i < 4; i++) {
 		let currentTeam = teams[i];
 		currentTeam.xp = 0;
 		currentTeam.level = 1;
-		currentTeam.dragon_name = "Team " + i;
+		currentTeam.dragon_name = "Team " + (i+1);
 		currentTeam.dragon_type = "normal";
-    currentTeam.dragon_evol = 0;
+		currentTeam.background = "grass";
+		currentTeam.primary = basicColors[Math.floor(Math.random()*basicColors.length)];
+		currentTeam.secondary = basicColors[Math.floor(Math.random()*basicColors.length)];
+    	currentTeam.dragon_evol = 0;
 		currentTeam.dragon_size = 25;
-		currentTeam.dragon_mood = 50;
+		currentTeam.dragon_mood = 100;
+	}
+	if(all){
+		console.log("fullReset");
+		let userNames = Object.keys(users);
+		for (let i = 0; i < userNames.length; i++) {
+			let currentUser = users[userNames[i]];
+			currentUser.points = 0;
+			currentUser.cards = {
+				"0": 0,
+				"1": 0,
+				"2": 0
+			  };
+		}
+		io.emit("logout", "all");
 	}
 	saveJson(teams, "teams");
 }
 
-server.listen(3000, () => {
-	console.log(ip.address() + ':3000');
+server.listen(port, () => {
+	console.log(ip.address() + ':'+port);
 	//open('http://'+ip.address() + ':3000/teacher');
 });
