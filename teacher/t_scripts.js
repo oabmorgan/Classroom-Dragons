@@ -15,7 +15,7 @@ window.onload = function() {
     window.addEventListener("pointerdown", function(e){mouseDown(e);});
     window.addEventListener("pointerup", function(e){mouseUp(e);});
 
-    history.pushState(null, "", "/");
+    //history.pushState(null, "", "/");
 
     socket.emit('login', "", true);
 
@@ -204,6 +204,7 @@ socket.on('updateTeam', function(teamID, teamInfo){
 
 function updateColors(teamID){
     let svg = document.getElementById("dragon"+teamID).contentDocument;
+    team = teams[teamID];
     if(team.primary == "url(#rainbow)"){
         document.getElementById("xp_fill"+teamID).style.background = "linear-gradient(to top, rgb(255,0,0),rgb(255,255,0),rgb(0,192,255),rgb(192,0,255))";
         document.getElementById("xp_fill"+teamID).style.borderTopColor = "white";

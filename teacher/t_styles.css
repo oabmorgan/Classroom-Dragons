@@ -13,15 +13,8 @@ body{
 #content_main{
   display: flex;
   width: 100%;
-  height: 85vh;
+  height: 78vh;
 }
-
-@supports (-webkit-touch-callout: none) {
-  .content{
-    height: -webkit-fill-available;
-  }
-}
-
 
 .panel{
   flex: 1;
@@ -166,7 +159,6 @@ body{
 
 #content_footer{
   display: flex;
-  width: 100%;
   height: 15vh;
 }
 
@@ -174,6 +166,8 @@ body{
   display: flex;
   box-sizing: border-box;
   align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 #goal{
@@ -198,7 +192,7 @@ body{
 
 #content_gallery{
   width: 100%;
-  height: 85vh;
+  height: 78vh;
   box-sizing: border-box;
   padding: 8px;
   text-align: left;
@@ -240,3 +234,16 @@ body{
 .roundButton:active{
   border-color: rgb(255, 231, 94);
 }
+/*
+    vh fix
+*/
+
+#content{
+  height: 100%;
+}
+
+@supports (-webkit-touch-callout: none) {
+    #content{
+      height: -webkit-fill-available;
+    }
+  }

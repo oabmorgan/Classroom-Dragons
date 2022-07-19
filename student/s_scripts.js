@@ -21,10 +21,10 @@ var pen = {
 window.onload = function() {
   showContent(currentContent);
   if(document.cookie != ""){
-    userID = document.cookie;
-    socket.emit('login', userID);
-  }
-  document.getElementById("login_email").focus();
+    //userID = document.cookie;
+    //socket.emit('login', userID);
+  } 
+  
   document.getElementById('login_submit').addEventListener('click', function(){
     userID = document.getElementById('login_email').innerText;
     socket.emit('login', userID);
@@ -60,13 +60,11 @@ window.onload = function() {
   canvas.addEventListener('touchcancel', onMouseUp, false);
   canvas.addEventListener('touchmove', onMouseMove, false);
 
-
   window.addEventListener('resize', function(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     clearWhiteboard();
   }); 
- 
 }
 
 /*
@@ -76,6 +74,7 @@ window.onload = function() {
 socket.on('login', function(success){
   if(success){
     console.log("login OK");
+    document.cookie = "0; path=/; expires=000"
     document.cookie = userID;
     showContent("main");
   } else {

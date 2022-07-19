@@ -12,9 +12,9 @@ const fs = require('fs');
 const open = require('open');
 const e = require('express');
 
-const lessonLength = 45;
+const lessonLength = 60;
 const lossPerLesson = 50;
-const decaySpeed = (5*60)/lossPerLesson;
+const decaySpeed = 150;
 
 var currentMode = "main";
 var shop = true;
@@ -238,18 +238,15 @@ function giveCard(teamID, userID, card, undo=false) {
 			points = -10;
 			mood = -10;
 			break;
-			case 3:
-				xp = 5;
+		case 3:
 				points = 5;
 				mood = 1;
 				break;
-			case 4:
-				xp = -22;
+		case 4:
 				points = -5;
 				mood = -2;
 				break;
-			case 5:
-				xp = -5;
+		case 5:
 				points = -10;
 				mood = -5;
 				break;		
