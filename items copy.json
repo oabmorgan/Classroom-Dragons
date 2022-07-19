@@ -1,0 +1,104 @@
+{
+	"10_berry": {
+		"name": "Berry",
+		"cost": 10,
+		"effect": "food",
+		"value": 10
+	},
+	"20_watermelon": {
+		"name": "Watermelon",
+		"cost": 20,
+		"effect": "food",
+		"value": 25
+	},
+	"25_nametag": {
+		"name": "Name Tag",
+		"cost": 25,
+		"effect": "rename"
+	},
+	"30_brush_red": {
+		"name": "Red Paintbrush",
+		"cost": 30,
+		"effect": "recolor_2",
+		"value": "rgb(239, 83, 80)"
+	},
+	"30_brush_pink": {
+		"name": "Pink Paintbrush",
+		"cost": 30,
+		"effect": "recolor_2",
+		"value": "rgb(240, 98, 146)"
+	},
+	"30_brush_blue": {
+		"name": "Blue Paintbrush",
+		"cost": 30,
+		"effect": "recolor_2",
+		"value": "rgb(100, 181, 246)"
+	},
+	"30_brush_yellow": {
+		"name": "Yellow Paintbrush",
+		"cost": 30,
+		"effect": "recolor_2",
+		"value": "rgb(255, 241, 118)"
+	},
+	"30_brush_green": {
+		"name": "Green Paintbrush",
+		"cost": 30,
+		"effect": "recolor_2",
+		"value": "rgb(129, 199, 132)"
+	},
+	"40_paint_yellow": {
+		"name": "Yellow Paint",
+		"cost": 40,
+		"effect": "recolor_1",
+		"value": "rgb(255, 235, 59)"
+	},
+	"40_paint_red": {
+		"name": "Red Paint",
+		"cost": 40,
+		"effect": "recolor_1",
+		"value": "rgb(244, 67, 54)"
+	},
+	"40_paint_blue": {
+		"name": "Blue Paint",
+		"cost": 40,
+		"effect": "recolor_1",
+		"value": "rgb(33, 150, 243)"
+	},
+	"40_paint_green": {
+		"name": "Green Paint",
+		"cost": 40,
+		"effect": "recolor_1",
+		"value": "rgb(139, 195, 74)"
+	},
+	"40_paint_pink": {
+		"name": "Pink Paint",
+		"cost": 40,
+		"effect": "recolor_1",
+		"value": "rgb(233, 30, 99)"
+	},
+	"50_portal_grass": {
+		"name": "Grass Portal",
+		"cost": 50,
+		"effect": "background",
+		"value": "grass"
+	},
+	"50_portal_sky": {
+		"name": "Sky Portal",
+		"cost": 50,
+		"effect": "background",
+		"value": "sky"
+	},
+	"50_portal_forest": {
+		"name": "Forest Portal",
+		"cost": 50,
+		"effect": "background",
+		"value": "forest"
+	},
+	"100_paint_rainbow": {
+		"name": "Rainbow Paint",
+		"cost": 100,
+		"effect": "recolor_1",
+		"value": "url(#rainbow)",
+		"value2": "rgba(155, 155, 155, 0.5)"
+	}
+}

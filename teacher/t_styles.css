@@ -11,9 +11,8 @@ body{
 }
 
 #content_main{
-  display: flex;
   width: 100%;
-  height: 78vh;
+  height:80%;
 }
 
 .panel{
@@ -159,7 +158,7 @@ body{
 
 #content_footer{
   display: flex;
-  height: 15vh;
+  height: 15%;
 }
 
 #panel_footer{
@@ -192,11 +191,11 @@ body{
 
 #content_gallery{
   width: 100%;
-  height: 78vh;
+  height: 80%;
   box-sizing: border-box;
   padding: 8px;
   text-align: left;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .galleryFrame{
@@ -239,11 +238,12 @@ body{
 */
 
 #content{
-  height: 100%;
+  height: 100vh;
 }
 
 @supports (-webkit-touch-callout: none) {
     #content{
-      height: -webkit-fill-available;
+      height: 100vh;
+      /*height: -webkit-fill-available;
     }
   }

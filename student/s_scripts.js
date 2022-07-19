@@ -1,5 +1,4 @@
 var socket = io();
-
 var currentContent = "login";
 
 var userID;
@@ -20,9 +19,12 @@ var pen = {
 
 window.onload = function() {
   showContent(currentContent);
-  if(document.cookie != ""){
-    //userID = document.cookie;
-    //socket.emit('login', userID);
+  savedID = document.cookie;
+  console.log(savedID);
+  document.getElementById('login_email').innerText = document.cookie;
+  if(savedID != undefined){
+    userID = savedID;
+    socket.emit('login', savedID);
   } 
   
   document.getElementById('login_submit').addEventListener('click', function(){
@@ -74,11 +76,11 @@ window.onload = function() {
 socket.on('login', function(success){
   if(success){
     console.log("login OK");
-    document.cookie = "0; path=/; expires=000"
-    document.cookie = userID;
+    document.cookie = userID+'; max-age='+60*60*24*360+'; path=/';
     showContent("main");
   } else {
     console.log("login failed");
+    document.cookie = userID+'; max-age='+0+'; path=/';
     showContent("login");
   }
 });
@@ -86,7 +88,7 @@ socket.on('login', function(success){
 socket.on('logout', function(ID){
   if(ID == userID || ID == "all"){
     showContent("login");
-    document.cookie = "0000";
+    document.cookie = userID+'; max-age='+0+'; path=/';
     document.getElementById('login_email').innerText = "";
     user = false;
     team = false;
@@ -103,9 +105,6 @@ socket.on('updateUser', function(ID, userInfo){
     }
     document.getElementById("name").innerText = user.name;
     document.getElementById("pointCount").innerText = user.points;
-    document.getElementById("cardCount_green").innerText = user.cards["0"];
-    document.getElementById("cardCount_yellow").innerText = user.cards["1"];
-    document.getElementById("cardCount_red").innerText = user.cards["2"];
 
     let itemCosts = document.getElementsByClassName("item_cost");
     for(let i=0; i<itemCosts.length; i++){

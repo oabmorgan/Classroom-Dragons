@@ -1,50 +1,50 @@
 {
   "0": {
-    "xp": 89,
-    "level": 1,
+    "xp": 0,
+    "level": 0,
     "dragon_name": "Team 1",
     "dragon_type": "normal",
     "background": "grass",
     "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 84,
-    "primary": "rgb(201, 199, 236)",
-    "secondary": "rgb(124, 131, 137)"
+    "dragon_mood": 87,
+    "primary": "rgb(255, 237, 243)",
+    "secondary": "rgb(207, 232, 183)"
   },
   "1": {
-    "xp": 198,
-    "level": 2,
+    "xp": 0,
+    "level": 0,
     "dragon_name": "Team 2",
     "dragon_type": "normal",
     "background": "grass",
-    "dragon_evol": 1,
+    "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 91,
+    "dragon_mood": 87,
     "primary": "rgb(255, 212, 163)",
-    "secondary": "rgb(124, 131, 137)"
+    "secondary": "rgb(238, 255, 204)"
   },
   "2": {
-    "xp": 187,
-    "level": 2,
+    "xp": 0,
+    "level": 0,
     "dragon_name": "Team 3",
     "dragon_type": "normal",
     "background": "grass",
-    "dragon_evol": 1,
+    "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 90,
-    "primary": "rgb(174, 186, 137)",
-    "secondary": "rgb(249, 216, 161)"
+    "dragon_mood": 87,
+    "primary": "rgb(255, 212, 163)",
+    "secondary": "rgb(201, 199, 236)"
   },
   "3": {
-    "xp": 139,
-    "level": 2,
+    "xp": 0,
+    "level": 0,
     "dragon_name": "Team 4",
     "dragon_type": "normal",
     "background": "grass",
-    "dragon_evol": 1,
+    "dragon_evol": 0,
     "dragon_size": 25,
     "dragon_mood": 87,
-    "secondary": "rgb(124, 131, 137)",
-    "primary": "rgb(201, 199, 236)"
+    "secondary": "rgb(249, 216, 161)",
+    "primary": "rgb(255, 237, 243)"
   }
 }
