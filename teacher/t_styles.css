@@ -52,6 +52,10 @@ body{
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, .2);
 }
 
+.member:active{
+  background-color: rgb(255, 236, 93);
+}
+
 /*
   items
 */
@@ -213,6 +217,10 @@ body{
   box-sizing: border-box;
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid black;
+}
+
+.galleryArt:hover{
+  background-color: rgba(38, 38, 38, 0.8);
 }
 
 .galleryName{

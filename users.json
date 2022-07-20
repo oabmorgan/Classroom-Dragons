@@ -2,163 +2,192 @@
   "2022002": {
     "name": "Ryotaro",
     "team": 3,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 11,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022003": {
     "name": "Ema",
     "team": 0,
-    "points": 0,
-    "color": "rgb(242, 181, 212)"
+    "points": 19,
+    "color": "rgb(242, 181, 212)",
+    "draw": false,
+    "socket": "p_ccEttgPTCA__FGAAAf"
   },
   "2022004": {
     "name": "Chihiro",
     "team": 0,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 54,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022009": {
     "name": "Fuku",
     "team": 1,
-    "points": 0,
-    "color": "rgb(242, 181, 212)"
+    "points": 46,
+    "color": "rgb(242, 181, 212)",
+    "draw": false
   },
   "2022010": {
     "name": "Toma",
     "team": 3,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 11,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022013": {
     "name": "Yutaro",
     "team": 0,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 23,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022016": {
     "name": "Yuta",
     "team": 0,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 39,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022022": {
     "name": "Yua",
     "team": 2,
-    "points": 0,
-    "color": "rgb(242, 181, 212)"
+    "points": 11,
+    "color": "rgb(242, 181, 212)",
+    "draw": false
   },
   "2022025": {
     "name": "Ruriju",
     "team": 1,
-    "points": 0,
-    "color": "rgb(242, 181, 212)"
+    "points": 16,
+    "color": "rgb(242, 181, 212)",
+    "draw": false
   },
   "2022034": {
     "name": "Umeka",
     "team": 1,
-    "points": 0,
-    "color": "rgb(242, 181, 212)"
+    "points": 16,
+    "color": "rgb(242, 181, 212)",
+    "draw": false
   },
   "2022038": {
     "name": "Takumi",
     "team": 1,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 37,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022044": {
     "name": "Leo",
     "team": 1,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 17,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022045": {
     "name": "Fuma",
     "team": 3,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 64,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022046": {
     "name": "Koga",
     "team": 0,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 20,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022047": {
     "name": "Kengo",
     "team": 1,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 26,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022048": {
     "name": "Yuito",
     "team": 2,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 18,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022049": {
     "name": "Ichiro",
     "team": 2,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 10,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022054": {
     "name": "Wako",
-    "team": 2,
-    "points": 0,
-    "color": "rgb(242, 181, 212)"
+    "team": 0,
+    "points": 49,
+    "color": "rgb(242, 181, 212)",
+    "draw": false
   },
   "2022059": {
     "name": "Mariya",
     "team": 2,
-    "points": 0,
-    "color": "rgb(242, 181, 212)"
+    "points": 22,
+    "color": "rgb(242, 181, 212)",
+    "draw": false
   },
   "2022062": {
     "name": "Taisei",
     "team": 3,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 21,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022069": {
     "name": "Kippei",
     "team": 2,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 10,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022070": {
     "name": "Andy",
     "team": 1,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 16,
+    "color": "rgb(179, 229, 252)",
+    "draw": false,
+    "socket": "RJ4_kz-4O5BWBBTaAAAR"
   },
   "2022072": {
     "name": "Kenji",
     "team": 2,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 33,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022073": {
     "name": "Wataru",
-    "team": 1,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "team": 3,
+    "points": 10,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022076": {
     "name": "Koshi",
     "team": 3,
-    "points": 0,
-    "color": "rgb(179, 229, 252)"
+    "points": 62,
+    "color": "rgb(179, 229, 252)",
+    "draw": false
   },
   "2022077": {
     "name": "Mio",
     "team": 2,
-    "points": 0,
-    "color": "rgb(242, 181, 212)"
+    "points": 26,
+    "color": "rgb(242, 181, 212)",
+    "draw": false
   },
   "omorgan": {
     "name": "Oliver",
     "team": -1,
     "points": 0,
-    "color": "rgb(0, 0, 0)"
+    "color": "rgb(0, 0, 0)",
+    "draw": false
   }
 }

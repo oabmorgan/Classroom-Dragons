@@ -15,7 +15,7 @@ window.onload = function() {
     window.addEventListener("pointerdown", function(e){mouseDown(e);});
     window.addEventListener("pointerup", function(e){mouseUp(e);});
 
-    //history.pushState(null, "", "/");
+    history.pushState(null, "", "/");
 
     socket.emit('login', "", true);
 
@@ -90,6 +90,9 @@ function mouseUp(e){
                         console.log("undo");
                         socket.emit('undo');
                         break;
+                    case "random_button":
+                        socket.emit('random');
+                        break;
                 };
                 break;
             case 'member':
@@ -113,9 +116,31 @@ function mouseUp(e){
 }
 
 function selectMember(team, member){
-    console.log(team, member);
-    socket.emit('card', team, member, giveCard);
-    let content_members = document.getElementById("members"+team);
+    let xp = 0;
+    let mood = 0;
+    let points = 0;
+    let points_team = 0;
+    switch(giveCard){
+        case 0:
+            xp = 10;
+            mood = 1;
+            points = 5;
+        break;
+        case 1:
+            xp = -10;
+            mood = -5;
+            points = -5;
+        break;
+        case 2:
+            xp = -25;
+            mood = -25;
+            points = -10;
+        break;
+    }
+    if(member == 0){
+        points_team = points;
+    }
+    socket.emit('reward', team, member, xp, points, mood, points_team);
     deselect();
 }
 
@@ -141,6 +166,10 @@ socket.on('clearMembers', function(){
 
 socket.on('addMember', function(team, id, name, color){
     addMember(team, id, name, color);
+});
+
+socket.on('random', function(result){
+    alert(result);    
 });
 
 socket.on('qr', function(ip){
