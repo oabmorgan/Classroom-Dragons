@@ -6,8 +6,6 @@ var user = false;
 var team = false;
 var items = false;
 
-var animations = [];
-
 var pen = {
   "x":0,
   "y":0,
@@ -79,53 +77,8 @@ window.onload = function() {
   window.addEventListener('resize', function(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-<<<<<<< Updated upstream
     resetWhiteboard();
   }); 
-=======
-    clearWhiteboard();
-  });
-
-  setInterval(frame, 100);
-  //let xpFill = document.getElementById("xp_fill");
-  addAnimation(document.getElementById("xp_fill"), "height", 100, "blend");
-}
-
-function frame(){
-  animations.forEach(function(anim, index){
-    let current = anim.element.getAttribute(anim.style);
-    console.log(current);
-    let difference = anim.goal - anim.style;
-    let str = "";
-    for(let i=0; i<Math.round(Math.abs(difference/10)); i++){
-      str += ".";
-    }
-    console.log(str);
-    if(difference > 0){
-      anim.velocity += anim.accel;
-    }
-    if(difference < 0){
-      anim.velocity -= anim.accel;
-    }
-    anim.velocity *= anim.damp;
-    anim.style += anim.velocity;
-    if(Math.abs(difference) < 1 && Math.abs(anim.velocity) < 2){
-      animations.splice(index, 1);
-    }
-  });
-}
-
-function addAnimation(element, style, goal, type, accel=1, damp=0.95, velocity=0){
-  animations.push({
-    "element": element,
-    "style": style,
-    "goal": goal,
-    "accel": accel,
-    "velocity": velocity,
-    "damp": damp,
-    "type":type
-  })
->>>>>>> Stashed changes
 }
 
 /*
