@@ -18,7 +18,7 @@ const decaySpeed = 150;
 
 var currentMode = "main";
 var shop = true;
-var history = [];
+var last = false;
 
 app.use(express.static("student"));
 app.use('/images', express.static('images'));
@@ -77,7 +77,6 @@ io.on('connection', (socket) => {
 	socket.on('login', (userID, teacher) => {
 		if ((userID in users)) {
 			let user = users[userID];
-			user.socket = socket.id;
 			console.log('login OK', user.name);
 			io.to(socket.id).emit('login', true);
 			io.to(socket.id).emit('updateItems', items);
@@ -97,9 +96,7 @@ io.on('connection', (socket) => {
 		updateXP();
 		switch(currentMode){
 			case "draw":
-				if(users[userID].draw){
-					io.to(socket.id).emit('openWhiteboard');
-				}
+				io.to(socket.id).emit('openWhiteboard');
 			break;
 		}
 	});
@@ -110,59 +107,54 @@ io.on('connection', (socket) => {
 		updateTeam();
 	});
 
-	socket.on('changeTeam', (userID, team) => {
-		let user = users[userID];
+	socket.on('changeTeam', (id, team) => {
+		let user = users[id];
 		console.log("moving", user.name, "to team", team);
-		users[userID].team = team;
+		users[id].team = team;
 		updateXP();
 		updateTeamMembers();
-		updateUser(userID);
+		updateUser();
 		updateTeam();
 	});
 
-	socket.on('reward', (teamID, userID, xp, points, mood, points_team) => {
-		giveReward(teamID, userID, xp, points, mood, points_team);
+	socket.on('card', (teamID, userID, card) => {
+		last = {
+			"teamID": teamID,
+			"userID": userID,
+			"card": card
+		};
+		giveReward(teamID, userID, card);
 	});
 
 	socket.on('undo', () => {
-		if(history.length > 0){
-			let last = history.pop();
-			giveReward(last.teamID, last.userID, -last.xp, -last.points, -last.mood, -last.points_team, true);
+		console.log(last);
+		if(last != false){
+			console.log("UNDO");
+			giveReward(last.teamID, last.userID, last.card, true);
+			last = false;
+		} else{
+			console.log("nothing to undo..");
 		}
 	});
 
 	//socket.emit('postWhiteboard', userID, pen.art);
 	socket.on('postWhiteboard', (userID, art) =>{
 		console.log("Recieved 'art' from "+ users[userID].name);
-		users[userID].draw = false;
 		socket.to("teacher").emit('updateArt', userID, users[userID].name, users[userID].team, art);
 	})
 	socket.on('openWhiteboard', () =>{
 		console.log("drawing Time");
 		currentMode = "draw";
-		for (let i = 0; i < Object.keys(users).length; i++) {
-			let userID = Object.keys(users)[i];
-			users[userID].draw = true;
-		}
 		io.emit('openWhiteboard');
 	})
 	socket.on('closeWhiteboard', () =>{
 		console.log("drawing Time is over");
 		currentMode = "main";
-		for (let i = 0; i < Object.keys(users).length; i++) {
-			let userID = Object.keys(users)[i];
-			users[userID].draw = false;
-		}
 		io.emit('closeWhiteboard');
 	})
 	socket.on('toggleShop', (open) =>{
 		shop = open;
 		updateShop();
-	});
-	socket.on('random', (open) =>{
-		var keys = Object.keys(users);
-		let result = users[keys[ keys.length * Math.random() << 0]].name; 
-		socket.emit('random', result);
 	});
 	//socket.emit('item', userID, itemID);
   socket.on('item', (userID, itemID) => {
@@ -214,48 +206,73 @@ function updateShop(){
 	io.emit('toggleShop', shop);
 }
 
-function giveReward(teamID, userID, xp, points, mood, points_team, undo=false) {
-	//console.log(teams[teamID].xp);
-	xpChange(teamID, xp);
-	moodChange(teamID, mood);
-	pointsChange(userID, points);
-	getTeamMembers(teamID).forEach(memberID =>
-		pointsChange(memberID, points_team)
-	);
-	if(!undo){
-		history.push({"teamID":teamID, "userID":userID, "xp":xp, "points":points, "mood":mood, "points_team":points_team});
-		if(history.length > 10){ history.shift()};
-	}
-}
-
-function getTeamMembers(team){
-	let members = [];
-	for (let i = 0; i < Object.keys(users).length; i++) {
-		let userID = Object.keys(users)[i];
-		if(users[userID].team == team){
-			members.push(userID);
+function giveReward(teamID, userID, card, undo=false) {
+	if (userID == 0) {
+		for (let i = 0; i < Object.keys(users).length; i++) {
+			if (users[Object.keys(users)[i]].team == teamID) {
+				giveReward(teamID, Object.keys(users)[i], card+3, undo);
+			}
 		}
+		return;
 	}
-	//console.log(teams[team].dragon_name, members);
-	return members;
+	console.log(teamID, userID, card);
+
+	let xp;
+	let points;
+	let mood;
+
+	switch (card) {
+		case 0:
+			xp = 10;
+			points = 5;
+			mood = 1;
+			break;
+		case 1:
+			xp = -5;
+			points = -5;
+			mood = -5;
+			break;
+		case 2:
+			xp = -10;
+			points = -10;
+			mood = -10;
+			break;
+		case 3:
+				points = 5;
+				mood = 1;
+				break;
+		case 4:
+				points = -5;
+				mood = -2;
+				break;
+		case 5:
+				points = -10;
+				mood = -5;
+				break;		
+	}
+
+	xp = Math.round(xp * (1 + (teams[teamID].dragon_mood / 100)));
+
+	if(undo){
+		moodChange(teamID, -mood);
+		users[userID].points -= clamp(points, 0);
+		teams[teamID].xp -= clamp(xp, 0);
+		console.log("Undo XP Change:", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');
+	} else {
+		moodChange(teamID, mood);
+		users[userID].points += clamp(points, 0);
+		teams[teamID].xp += clamp(xp, 0);
+		console.log("XP Change:", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');
+	}
+
+	updateXP(teamID);
+	updateTeam(teamID);
+	updateUser(userID);
 }
 
 function moodChange(team, change) {
 	teams[team].dragon_mood = clamp(teams[team].dragon_mood + change, 0, 110);
 	updateTeam(team);
-}
-
-function xpChange(team, change) {
-	teams[team].xp = clamp(teams[team].xp + change, 0);
-	updateXP(team);
-}
-
-function pointsChange(userID, change) {
-	if(users[userID] == undefined){
-		return;
-	}
-	users[userID].points = clamp(users[userID].points + change, 0);
-	updateUser(userID);
 }
 
 function clamp(input, min = input, max = input) {
@@ -301,8 +318,8 @@ function updateTeam(team) {
 }
 
 function updateUser(userID) {
-//	console.log("update for",users[userID].name);
-	io.to(users[userID.socket]).emit('updateUser', userID, users[userID]);
+	//console.log("update for",users[userID]);
+	io.emit('updateUser', userID, users[userID]);
 	saveJson(users, "users");
 }
 

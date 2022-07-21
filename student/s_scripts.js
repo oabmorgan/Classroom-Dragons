@@ -7,15 +7,14 @@ var team = false;
 var items = false;
 
 var pen = {
+  "test": "hello I'm working",
   "x":0,
   "y":0,
-  "ink_max": 5000,
   "ink": 2500,
   "size": 20,
-  "rate": 3,
+  "rate": 5,
   "art": false,
-  "down": false,
-  "color": "black"
+  "down": false
 };
 
 window.onload = function() {
@@ -35,23 +34,11 @@ window.onload = function() {
 
   document.getElementById('whiteboard_send').addEventListener('click', function(){
     postWhiteboard();
-    pen.ink = 0;
-    document.getElementById("content_buttons").style.visibility = "hidden";
+    clearWhiteboard();
   }); 
-
   document.getElementById('whiteboard_clear').addEventListener('click', function(){
-    resetWhiteboard();
+    clearWhiteboard();
   }); 
-
-  document.getElementById('whiteboard_ink').addEventListener('click', function(){
-    console.log("change ink",pen.color);
-    if(pen.color == team.primary){
-      pen.color = team.secondary;
-    } else {
-      pen.color = team.primary;
-    }
-    document.getElementById("whiteboard_ink").style.background = pen.color;
-  });
 
   document.addEventListener('keydown', event => {
     if (event.key === 'Enter' && currentContent == "login") {
@@ -64,6 +51,7 @@ window.onload = function() {
 
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight; 
+
   canvas.addEventListener('mousedown', onMouseDown, false);
   canvas.addEventListener('mouseup', onMouseUp, false);
   canvas.addEventListener('mouseout', onMouseUp, false);
@@ -77,7 +65,7 @@ window.onload = function() {
   window.addEventListener('resize', function(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    resetWhiteboard();
+    clearWhiteboard();
   }); 
 }
 
@@ -152,7 +140,6 @@ function showContent(newContent){
       document.getElementById("content_login").style.display = "none";
       document.getElementById("content_draw").style.display = "block";
       document.getElementById("content").style.display = "none";
-      resetWhiteboard();
     break;
     case "quiz":
       document.getElementById("content_login").style.display = "none";
@@ -302,7 +289,7 @@ socket.on('closeWhiteboard', function(){
     return;
   }
   showContent("main");
-  resetWhiteboard();
+  clearWhiteboard();
 })
 
 var canvas = document.getElementsByClassName('whiteboard')[0];
@@ -315,7 +302,6 @@ function drawLine(e, dot = false){
   context.beginPath();
   context.moveTo(pen.x, pen.y);
   context.lineCap  = "round";
-  context.strokeStyle = pen.color;
 
   let x = e.clientX||e.touches[0].clientX;
   let y = e.clientY||e.touches[0].clientY;
@@ -331,12 +317,11 @@ function drawLine(e, dot = false){
   pen.ink -= distance;
   
   context.lineTo(pen.x, pen.y);
-  context.lineWidth = pen.size * Math.min(pen.ink*30/pen.ink_max, 1);
+  context.lineWidth = pen.size;
   context.stroke();
   context.closePath();
 
-  let ink = document.getElementById("whiteboard_ink");
-  ink.style.opacity = pen.ink/pen.ink_max;
+  document.getElementById("whiteboard_ink").style.opacity = pen.ink/2500;
 }
 
 function onMouseDown(e){
@@ -355,20 +340,17 @@ function onMouseMove(e){
   drawLine(e);
 }
 
-function resetWhiteboard(){
-  pen.color = team.primary
-  pen.ink = pen.ink_max;
+function clearWhiteboard(){
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  pen.ink = 5000;
   pen.art = false;
   pen.down = false;
-
-  document.getElementById("content_buttons").style.visibility = "visible";
-  document.getElementById("whiteboard_ink").style.background = pen.color;
-  context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function postWhiteboard(){
   if(!pen.art){return};
   socket.emit('postWhiteboard', userID, pen.art);
+  showContent("main");
 }
 
 
@@ -399,4 +381,4 @@ function myCallback(response){
   const responsePayload = parseJwt(response.credential);
   console.log("Email: " + responsePayload.email);
   socket.emit('login', responsePayload.email.split('@')[0]);
-}
+} 
