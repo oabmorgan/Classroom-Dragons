@@ -74,7 +74,6 @@ function mouseUp(e){
                     case "draw_button":
                         if(currentContent != "draw"){
                             showContent("draw");
-                            document.getElementById("content_gallery").innerHTML = "";
                             socket.emit('openWhiteboard');
                         } else {
                             showContent("main");

@@ -123,14 +123,14 @@ io.on('connection', (socket) => {
 			"userID": userID,
 			"card": card
 		};
-		giveReward(teamID, userID, card);
+		giveCard(teamID, userID, card);
 	});
 
 	socket.on('undo', () => {
 		console.log(last);
 		if(last != false){
 			console.log("UNDO");
-			giveReward(last.teamID, last.userID, last.card, true);
+			giveCard(last.teamID, last.userID, last.card, true);
 			last = false;
 		} else{
 			console.log("nothing to undo..");
@@ -206,16 +206,17 @@ function updateShop(){
 	io.emit('toggleShop', shop);
 }
 
-function giveReward(teamID, userID, card, undo=false) {
+function giveCard(teamID, userID, card, undo=false) {
 	if (userID == 0) {
 		for (let i = 0; i < Object.keys(users).length; i++) {
 			if (users[Object.keys(users)[i]].team == teamID) {
-				giveReward(teamID, Object.keys(users)[i], card+3, undo);
+				giveCard(teamID, Object.keys(users)[i], card+3, undo);
 			}
 		}
 		return;
 	}
 	console.log(teamID, userID, card);
+	//console.log("card:",teamID, userID, giveCard);
 
 	let xp;
 	let points;
@@ -255,11 +256,13 @@ function giveReward(teamID, userID, card, undo=false) {
 
 	if(undo){
 		moodChange(teamID, -mood);
+		users[userID].cards[card]--;
 		users[userID].points -= clamp(points, 0);
 		teams[teamID].xp -= clamp(xp, 0);
 		console.log("Undo XP Change:", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');
 	} else {
 		moodChange(teamID, mood);
+		users[userID].cards[card]++;
 		users[userID].points += clamp(points, 0);
 		teams[teamID].xp += clamp(xp, 0);
 		console.log("XP Change:", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');
@@ -373,6 +376,11 @@ function resetTeams(all=false) {
 		for (let i = 0; i < userNames.length; i++) {
 			let currentUser = users[userNames[i]];
 			currentUser.points = 0;
+			currentUser.cards = {
+				"0": 0,
+				"1": 0,
+				"2": 0
+			  };
 		}
 		io.emit("logout", "all");
 	}
