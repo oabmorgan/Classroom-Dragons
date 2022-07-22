@@ -58,9 +58,8 @@ function saveJson(input, fileName) {
 let users = loadJson("users");
 let teams = loadJson("teams");
 let items = loadJson("items");
-let details = loadJson("details");
 
-port = details["Server Details"].port;
+port = 80;
 
 function updateTeamMembers() {
 	io.emit('clearMembers');
@@ -218,9 +217,9 @@ function giveCard(teamID, userID, card, undo=false) {
 	console.log(teamID, userID, card);
 	//console.log("card:",teamID, userID, giveCard);
 
-	let xp;
-	let points;
-	let mood;
+	let xp = 0
+	let points = 0;
+	let mood = 0;
 
 	switch (card) {
 		case 0:
@@ -389,5 +388,10 @@ function resetTeams(all=false) {
 
 server.listen(port, () => {
 	console.log(ip.address() + ':'+port);
-	//open('http://'+ip.address() + ':3000/teacher');
+	let url = 'https://LTMhHIN3L4bFhDi0:ORsTMAFKlSuVVBiw@domains.google.com/nic/update?hostname=dragons.omorgan.net&myip='+ip.address();
+	require('https').get(url, (res) => {
+    	res.on('data', function (body) {
+        	console.log(body);
+    	});
+	});
 });
