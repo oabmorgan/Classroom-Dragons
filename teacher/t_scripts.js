@@ -1,19 +1,28 @@
 var socket = io();
 
+const greencard = "rgba(123,231,36,255)";
+const yellowcard = "rgba(231,196,35,255)";
+const redcard  = "rgba(231,69,37,255)";
+
 var mouseDownElement;
 var mouseUpElement;
 
 var currentContent;
 
-var giveCard = 0;
 var teams = {};
+var selectedCard = 0;
+var selected = [];
 
 var shop = true;
+var hide = false;
+
+var timer;
 
 window.onload = function() {    
 
     window.addEventListener("pointerdown", function(e){mouseDown(e);});
     window.addEventListener("pointerup", function(e){mouseUp(e);});
+    document.getElementById("qr").src = "https://chart.googleapis.com/chart?chs=250x250&chld=L|0&cht=qr&chl=http://whiteboard.omorgan.net:3030";
 
     //history.pushState(null, "", "/");
 
@@ -21,110 +30,132 @@ window.onload = function() {
 
     showContent("main");
     updateShop();
+    setInterval(animation_frame, 10);
+    setInterval(timer_tick, 100);
 }
 
-function toggleMembers(team){
-    for(let i=0; i<4; i++){
-        let content_members = document.getElementById("members"+i);
-        if(i == team){
-            if(content_members.style.visibility != "visible"){
-                content_members.style.visibility = "visible";
-                giveCard = 0;
-            } else {
-                giveCard ++;
-                if(giveCard > 2){
-                    deselect();
-                }
-            }            
-            switch(giveCard){
-                case 0:
-                    document.body.style.background = "rgb(129, 199, 132)";
-                break;
-                case 1:
-                    document.body.style.background = "rgb(255, 241, 118)";
-                break;
-                case 2:
-                    document.body.style.background = "rgb(229, 57, 53)";
-                break;
-            }
-        } else {
-            content_members.style.visibility = "hidden";
-        }
-    }
-}
 
 function mouseDown(e){
-    e.target.releasePointerCapture(e.pointerId);
     mouseDownElement = e.target;
+    e.target.releasePointerCapture(e.pointerId);
 }
 
 function mouseUp(e){
     mouseUpElement = e.target;
     let teamID =  parseInt(mouseUpElement.id.charAt(mouseUpElement.id.length-1));
-    if(mouseDownElement == mouseUpElement){
-        switch(mouseUpElement.classList[0]){
-            case 'content_dragon':
-            case 'spacing_dragon':
-            case 'dragon_name':
-            case 'panel':
-                toggleMembers(teamID);
-            break;
-            case 'roundButton':
-                switch(mouseUpElement.id){
-                    case "draw_button":
-                        if(currentContent != "draw"){
-                            showContent("draw");
-                            socket.emit('openWhiteboard');
-                        } else {
-                            showContent("main");
-                            socket.emit('closeWhiteboard');
-                            document.getElementById("content_gallery").innerHTML = "";
-                        }
-                        break;
-                    case "shop_button":
-                        shop = !shop;
-                        updateShop();
-                        break;
-                    case "remove_button":
-                        console.log("undo");
-                        socket.emit('undo');
-                        break;
-                };
+    //Click
+    if(mouseUpElement == mouseDownElement){
+        switch(mouseDownElement.id){
+            case "hide_button":
+                toggleHide();
                 break;
-            case 'member':
-                selectMember(mouseUpElement.name, mouseUpElement.id);
-            break;   
+            case "timer_button":
+                timer_start(10);
+                break;
+            case "shop_button":
+                console.log("shop");
+                shop = !shop;
+                updateShop()
+                break;
+            case "draw_button":
+                showContent("draw");
+                break;
+            case "green_button":
+                selectedCard = 0;
+                showContent("teams");
+            break;
+            case "yellow_button":
+                selectedCard = 1;
+                showContent("teams");
+            break;
+            case "red_button":
+                selectedCard = 2;
+                showContent("teams");
+            break;
+            case "main_button":
+                showContent("main");
+            break;
+            case "send_button":
+                showContent("main");
         }
-    } else if(mouseDownElement.classList[0] == 'dragon_name' && mouseUpElement.classList[0] == 'content_dragon'){
-        let newName = "";
-        do{
-            newName = prompt("Enter a new name", teams[teamID].dragon_name);
-        }while(newName == null || newName == "" );
-        socket.emit('rename', teamID, newName);
-        deselect();
-    } else if(mouseDownElement.classList[0] == 'member' && mouseUpElement.classList[0] == 'dragon_name'){
-        socket.emit('changeTeam', mouseDownElement.id, teamID);
-        deselect();
-    } else if(mouseDownElement.classList[0] == 'member' && mouseUpElement.id == 'remove_button'){
-        socket.emit('logout', mouseDownElement.id);
-        deselect();
+        switch(mouseDownElement.classList[0]){
+            case "spacing_dragon":
+            case "content_dragon":
+                socket.emit('card', teamID, 0, 0);
+                break;
+            case "member":
+                teamID =  parseInt(mouseUpElement.parentElement.id.charAt(mouseUpElement.parentElement.id.length-1));
+                select(mouseUpElement.id, teamID);
+                break;
+        }
+    } else {
+        console.log(mouseUpElement.classList[0], mouseUpElement.id);
+        if(mouseDownElement.classList[0] == "member" && mouseUpElement.classList[0] == "content_members"){
+            newTeamID =  parseInt(mouseUpElement.parentElement.id.charAt(mouseUpElement.parentElement.id.length-1));
+            console.log("change teams =>",mouseDownElement.id,newTeamID);
+            socket.emit('changeTeam', mouseDownElement.id, newTeamID);
+            selected = [];
+        }
     }
 }
 
-function selectMember(team, member){
-    console.log(team, member);
-    socket.emit('card', team, member, giveCard);
-    let content_members = document.getElementById("members"+team);
-    deselect();
+function timer_tick(){
+    if(timer != null){
+        let pct = (timer.end - Date.now())/timer.duration;
+        if(pct > 0){   
+            //console.log(pct);
+        } else if (pct < -0.2){
+            timer = null;
+            document.getElementById("content_timer").style.display = "none";
+            showContent("main");
+        }
+    }
 }
 
-function deselect(){
-    for(let i=0; i<4; i++){
-        let content_members = document.getElementById("members"+i);
-        content_members.style.visibility = "hidden";
+function toggleHide(){
+    hide = !hide;
+    if(hide){
+        document.getElementById("content_gallery").style.opacity = "0%";
+    } else {
+        document.getElementById("content_gallery").style.opacity = "100%";
     }
-    document.body.style.background = "rgb(179, 229, 252)";  
 }
+
+
+function timer_start(duration){
+    let timer_fill = document.getElementById("timer_fill");
+    document.getElementById("content_timer").style.display = "flex";
+    timer_fill.style.width = "100%";
+    new_animation(timer_fill, "width", 0, duration, "linear");
+    timer = {
+        "start":Date.now(),
+        "end":Date.now()+duration*1000,
+        "duration":duration*1000
+    }
+}
+
+function select(userID, teamID){
+    let selectedIndex = selected.findIndex(s => s.userID === userID);
+    if(selectedIndex >= 0){
+        document.getElementById(selected[selectedIndex].userID).style.background = document.getElementById(selected[selectedIndex].userID).style.borderColor;
+        if(selected[selectedIndex].card == selectedCard){
+            selected.splice(selectedIndex,1);
+        } else {
+            selected[selectedIndex].card = selectedCard;
+        }
+    } else {
+        selected.push({"userID":userID, "teamID":teamID, "card":selectedCard});
+    }
+    console.log("team:",teamID);
+    selected.forEach(s => {
+        switch(s.card){
+            case 0: document.getElementById(s.userID).style.background = greencard; break;
+            case 1: document.getElementById(s.userID).style.background = yellowcard; break;
+            case 2: document.getElementById(s.userID).style.background = redcard; break;
+        }
+    });
+}
+
 
 socket.on('clearMembers', function(){
     for(let i=0; i<4; i++){
@@ -134,7 +165,6 @@ socket.on('clearMembers', function(){
             content_members.removeChild(child);
             child = content_members.lastElementChild;
         }
-        addMember(i, 0, "Team "+i, teams[i].primary);
     }
 });
 
@@ -142,18 +172,12 @@ socket.on('addMember', function(team, id, name, color){
     addMember(team, id, name, color);
 });
 
-socket.on('qr', function(ip){
-    console.log("showing qr for "+ip);
-    document.getElementById("qr").src = "https://chart.googleapis.com/chart?chs=250x250&chld=L|0&cht=qr&chl=http://"+ip;
-});
-
 function addMember(team, id, name, color){
     let content_members = document.getElementById("members"+team);
     let newMember = document.createElement("div");
     newMember.classList.add("member");
-    if(color != undefined){
-        newMember.style.background = color;
-    }
+    newMember.style.background = color;
+    newMember.style.borderColor = color;
     newMember.innerHTML = name;
     newMember.name = team;
     newMember.id = id;
@@ -163,8 +187,36 @@ function addMember(team, id, name, color){
 socket.on('updateXP', function(team, xp, level){
     let xpFill = document.getElementById("xp_fill"+team);
     let teamLevel = document.getElementById("team_level"+team);
-    xpFill.style.height = xp%100 + "%";
+    new_animation(xpFill, "height", xp%100, 0.3, "linearWrap");
     teamLevel.innerText = level;
+    switch(level){
+        case 0:
+        case 1:
+        case 2:
+            teamLevel.style.background = "white";
+        break;
+        case 3:
+        case 4:
+            teamLevel.style.background = "rgb(51, 167, 255)";
+            break;
+        break;
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+            teamLevel.style.background = "rgb(106, 241, 119)";
+            break;
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+            teamLevel.style.background = "rgb(255, 87, 98)";
+            break;
+        default:
+            teamLevel.style.background = "rgb(255, 231, 77)"
+    }
 });
 
 socket.on('updateTeam', function(teamID, teamInfo){
@@ -174,8 +226,6 @@ socket.on('updateTeam', function(teamID, teamInfo){
 
     let background = document.getElementById("background"+teamID);
     background.style.backgroundImage = "url(\"../images/background_"+team.background+".png\")";
-    //background.style.backgroundSize = 'cover';
-    //background.style.backgroundAttachment = 'fixed';
 
     for(let i=0; i<5; i++){
         let moodIcon = document.getElementById("moodIcon"+teamID+i);
@@ -190,7 +240,9 @@ socket.on('updateTeam', function(teamID, teamInfo){
   
     document.getElementById("dragon_name"+teamID).innerHTML = team.dragon_name;
   
-    dragon.style.maxWidth = team.level*5 + teams[teamID].dragon_size+"%";
+    new_animation(dragon, "maxWidth", team.level*5 + teams[teamID].dragon_size, 1, "linear");
+
+    //dragon.style.maxWidth = team.level*5 + teams[teamID].dragon_size+"%";
 
     let newData = "../images/dragons/"+team.dragon_type+"/"+team.dragon_evol+".svg";
     if(dragon.getAttribute("data") != newData){
@@ -226,8 +278,8 @@ function updateColors(teamID){
       }
 }
 
-//socket.to("teacher").emit('updateArt', userID, art);
 socket.on('updateArt', function(userID, name, team, art){
+    console.log("got some art",name);
     addArt(userID, name, team, art);
 });
 
@@ -260,16 +312,35 @@ function addArt(userID, name, team, art){
 };
 
 function showContent(newContent){
+    if(currentContent == "teams"){
+        selected.forEach(s => {
+            console.log(s.userID, s.teamID, s.card);
+            socket.emit('card', s.teamID, s.userID, s.card);
+            document.getElementById(s.userID).style.background = document.getElementById(s.userID).style.borderColor;
+        });
+        selected = [];
+    }
     currentContent = newContent;
+    document.getElementById("content_gallery").innerHTML = "";
     switch(newContent){
       case "main":
+        socket.emit('mode', 'main');
         document.getElementById("content_gallery").style.display = "none";
         document.getElementById("content_main").style.display = "flex";
+        document.getElementById("content_teams").style.display = "none";
       break;
       case "draw":
+        socket.emit('mode', 'draw');
         document.getElementById("content_gallery").style.display = "block";
         document.getElementById("content_main").style.display = "none";
+        document.getElementById("content_teams").style.display = "none";
+        document.getElementById("content_gallery").style.opacity = "100%";
       break;
+      case "teams":
+        document.getElementById("content_gallery").style.display = "none";
+        document.getElementById("content_main").style.display = "none"; 
+        document.getElementById("content_teams").style.display = "flex";
+        break;
     }
   }
 

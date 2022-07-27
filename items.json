@@ -76,12 +76,6 @@
 		"effect": "recolor_1",
 		"value": "rgb(233, 30, 99)"
 	},
-	"50_portal_grass": {
-		"name": "Grass Portal",
-		"cost": 50,
-		"effect": "background",
-		"value": "grass"
-	},
 	"50_portal_sky": {
 		"name": "Sky Portal",
 		"cost": 50,

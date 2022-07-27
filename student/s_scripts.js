@@ -1,98 +1,133 @@
 var socket = io();
 
-var currentContent = "login";
+var currentContent;
+
+var mouseDownElement;
+var mouseUpElement;
 
 var userID;
 var user = false;
 var team = false;
 var items = false;
+var mode = 'main';
 
 var pen = {
-  "test": "hello I'm working",
   "x":0,
   "y":0,
   "ink": 2500,
   "size": 20,
   "rate": 5,
-  "art": false,
   "down": false
 };
 
 window.onload = function() {
-  showContent(currentContent);
-  if(document.cookie != ""){
-    //userID = document.cookie;
-    //socket.emit('login', userID);
-  } 
-  
-  document.getElementById('login_submit').addEventListener('click', function(){
-    userID = document.getElementById('login_email').innerText;
-    socket.emit('login', userID);
-  }); 
-
-  document.getElementById('whiteboard_send').addEventListener('click', function(){
-    postWhiteboard();
-    clearWhiteboard();
-  }); 
-  document.getElementById('whiteboard_clear').addEventListener('click', function(){
-    clearWhiteboard();
-  }); 
-
   document.addEventListener('keydown', event => {
-    if (event.key === 'Enter' && currentContent == "login") {
-      userID = document.getElementById('login_email').innerText;
-      socket.emit('login', userID);
+    if (event.key === 'Enter') {
+      login_send();
       event.preventDefault()
     }
+
   });
 
+  /*
+    Set up canvas
+  */
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight; 
-
-  canvas.addEventListener('mousedown', onMouseDown, false);
-  canvas.addEventListener('mouseup', onMouseUp, false);
-  canvas.addEventListener('mouseout', onMouseUp, false);
-  canvas.addEventListener('mousemove', onMouseMove, false);
-  
-  canvas.addEventListener('touchstart', onMouseDown, false);
-  canvas.addEventListener('touchend', onMouseUp, false);
-  canvas.addEventListener('touchcancel', onMouseUp, false);
-  canvas.addEventListener('touchmove', onMouseMove, false);
+  window.addEventListener("pointerdown", function(e){mouseDown(e);});
+  window.addEventListener("pointerup", function(e){mouseUp(e);});
+  window.addEventListener("pointermove", function(e){mouseMove(e);});
 
   window.addEventListener('resize', function(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    clearWhiteboard();
+    whiteboardReset();
   }); 
+
+  //document.getElementById('login_email').innerText = "2022003";
+  //login_send();
+
+  switchMode("login");
+  setInterval(animation_frame, 10);
+}
+
+function mouseDown(e){
+  mouseDownElement = e.target;
+  if(mouseDownElement == null){
+    return;
+  }
+  switch(mouseDownElement.id){
+    case 'whiteboard':
+      penDown(e);
+      break;
+  }
+}
+
+function mouseMove(e){
+  switch(mouseDownElement.id){
+    case 'whiteboard':
+      penMove(e);
+      break;
+  }
+}
+
+function mouseUp(e){
+  mouseUpElement = e.target;
+  penUp();
+  //Click
+  if(mouseUpElement == mouseDownElement){
+    console.log("click:",mouseDownElement.id);
+    switch(mouseDownElement.id){
+      case "whiteboard_clear":
+        whiteboardReset();
+      break;
+      case "whiteboard_send":
+        postWhiteboard();
+      break;
+      case "login_submit":
+        login_send();
+      break;
+    }
+  }
+}
+
+function whiteboardReset(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  clearWhiteboard();
 }
 
 /*
   login
 */
-//console.log('login', userID, true);
+
+function login_send(){
+  userID = document.getElementById('login_email').innerText;
+  socket.emit('login', userID);
+}
+
 socket.on('login', function(success){
   if(success){
-    console.log("login OK");
-    document.cookie = "0; path=/; expires=000"
-    document.cookie = userID;
-    showContent("main");
-  } else {
-    console.log("login failed");
-    showContent("login");
+    user = true;
+    switchMode("main");
   }
 });
 
+/*
+logout
+*/
+
 socket.on('logout', function(ID){
   if(ID == userID || ID == "all"){
-    showContent("login");
-    document.cookie = "0000";
+    switchMode("login");
     document.getElementById('login_email').innerText = "";
     user = false;
     team = false;
     items = false;
   }
 });
+
+/*
+Update User
+Update Name, points & cards
+*/
 
 socket.on('updateUser', function(ID, userInfo){
   if(ID == userID){
@@ -124,51 +159,58 @@ socket.on('updateUser', function(ID, userInfo){
   }
 });
 
-function showContent(newContent){
-  currentContent = newContent;
-  switch(newContent){
-    case "main":
-      document.getElementById("content_login").style.display = "none";
-      document.getElementById("content_draw").style.display = "none";
-      document.getElementById("content").style.display = "flex";
+/*
+  Update XP
+  Update XP bar & level
+*/
+
+socket.on('updateXP', function(team, xp, level){
+  if(!user || team != user.team){return};
+  let xpFill = document.getElementById("xp_fill");
+  let teamLevel = document.getElementById("team_level");
+  teamLevel.innerText = level;
+  //xpFill.style.height = xp%100 + "%";
+  new_animation(xpFill, "height", xp%100, 0.3, "linear");
+  level.innerHTML = level;
+  switch(level){
+    case 0:
+    case 1:
+    case 2:
+        teamLevel.style.background = "white";
     break;
-    case "login":
-      document.getElementById("content_login").style.display = "block";
-      document.getElementById("content_draw").style.display = "none";
-      document.getElementById("content").style.display = "none";
+    case 3:
+    case 4:
+        teamLevel.style.background = "rgb(51, 167, 255)";
+        break;
     break;
-    case "draw":
-      document.getElementById("content_login").style.display = "none";
-      document.getElementById("content_draw").style.display = "block";
-      document.getElementById("content").style.display = "none";
-    break;
-    case "quiz":
-      document.getElementById("content_login").style.display = "none";
-      document.getElementById("content_draw").style.display = "none";
-      document.getElementById("content").style.display = "none";
-    break;
-  }
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+        teamLevel.style.background = "rgb(106, 241, 119)";
+        break;
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+        teamLevel.style.background = "rgb(255, 87, 98)";
+        break;
+    default:
+        teamLevel.style.background = "rgb(255, 231, 77)"
 }
+});
 
 
 /*
-  Update XP
+  Update background, dragon moon,  dragon name, dragon size, dragon image
 */
-
-socket.on('updateXP', function(team, xp){
-  if(!user || team != user.team){return};
-  let xpFill = document.getElementById("xp_fill");
-  let level = document.getElementById("team_level");
-  xpFill.style.height = xp%100 + "%";
-  level.innerHTML = Math.ceil(xp/100);
-});
-
 socket.on('updateTeam', function(teamID, teamInfo){
   if(!user || teamID != user.team){return};
   team = teamInfo;
   let dragon = document.getElementById("dragon");
-//background-image: ;
-  let background = document.getElementById("background");
+  let background = document.getElementById("panel_mid");
   background.style.backgroundImage = "url(\"../images/background_"+team.background+".png\")";
 
   for(let i=0; i<5; i++){
@@ -184,7 +226,8 @@ socket.on('updateTeam', function(teamID, teamInfo){
 
   document.getElementById("dragon_name").innerHTML = team.dragon_name;
 
-  dragon.style.maxWidth = team.level*5 + team.dragon_size+"%";
+  //dragon.style.maxWidth = team.level*5 + team.dragon_size+"%";
+  new_animation(dragon, "maxWidth", team.level*5 + team.dragon_size, 1, "linear");
 
   let newData = "../images/dragons/"+team.dragon_type+"/"+team.dragon_evol+".svg";
   if(dragon.getAttribute("data") != newData){
@@ -192,9 +235,14 @@ socket.on('updateTeam', function(teamID, teamInfo){
       dragon.addEventListener('load', function(){
           updateColors(teamID);
       });
+  } else{
+    updateColors(teamID);
   }
-  updateColors(teamID);
 });
+
+/*
+Update dragon colors (called after svg loads)
+*/
 
 function updateColors(teamID){
   let svg = document.getElementById("dragon").contentDocument;
@@ -256,7 +304,6 @@ function addItem(itemID, cost, name){
   newItem.appendChild(newItemCost);
   newItem.appendChild(newItemName);
   newItem.appendChild(newItemImg);
-
   itemlist.appendChild(newItem);
 
   newItem.addEventListener('click', function(){
@@ -278,20 +325,40 @@ socket.on('itemRename', function(){
   Whiteboard
 */
 
-socket.on('openWhiteboard', function(){
-  if(user == false){
-    return;
-  }
-  showContent("draw");
+
+socket.on('mode', (newMode) =>{
+  switchMode(newMode);
 })
 
-socket.on('closeWhiteboard', function(){
-  if(user == false){
-    return;
+function switchMode(newMode){
+  if(user){
+    mode = newMode;
+  } else {mode='login'}
+  console.log("Mode: "+mode);
+  switch(mode){
+    case "main":
+      document.getElementById("content_login").style.display = "none";
+      document.getElementById("content_draw").style.display = "none";
+      document.getElementById("content").style.display = "flex";
+    break;
+    case "login":
+      document.getElementById("content_login").style.display = "block";
+      document.getElementById("content_draw").style.display = "none";
+      document.getElementById("content").style.display = "none";
+    break;
+    case "draw":
+      document.getElementById("content_login").style.display = "none";
+      document.getElementById("content_draw").style.display = "block";
+      document.getElementById("content").style.display = "none";
+      whiteboardReset();
+    break;
+    case "quiz":
+      document.getElementById("content_login").style.display = "none";
+      document.getElementById("content_draw").style.display = "none";
+      document.getElementById("content").style.display = "none";
+    break;
   }
-  showContent("main");
-  clearWhiteboard();
-})
+}
 
 var canvas = document.getElementsByClassName('whiteboard')[0];
 var context = canvas.getContext('2d');
@@ -325,41 +392,37 @@ function drawLine(e, dot = false){
   document.getElementById("whiteboard_ink").style.opacity = pen.ink/2500;
 }
 
-function onMouseDown(e){
+function penDown(e){
   pen.x = e.clientX||e.touches[0].clientX;
   pen.y = e.clientY||e.touches[0].clientY;
   pen.down = true;
   drawLine(e, true);
 }
 
-function onMouseUp(e){
-  pen.art = canvas.toDataURL();
+function penUp(e){
   pen.down = false;
 }
 
-function onMouseMove(e){  
+function penMove(e){  
   drawLine(e);
 }
 
 function clearWhiteboard(){
   context.clearRect(0, 0, canvas.width, canvas.height);
   pen.ink = 5000;
-  pen.art = false;
   pen.down = false;
 }
 
 function postWhiteboard(){
-  if(!pen.art){return};
-  socket.emit('postWhiteboard', userID, pen.art);
-  showContent("main");
+  socket.emit('postWhiteboard', userID, canvas.toDataURL());
 }
 
 
 socket.on('toggleShop', function(open){
   if(!open){
-    document.getElementById("content_itemlist").style.opacity = 0.2;
+    document.getElementById("panel_left").style.display = 'none';
   } else{
-    document.getElementById("content_itemlist").style.opacity = 1;
+    document.getElementById("panel_left").style.display = 'flex';
   }
 });
 
@@ -380,6 +443,6 @@ function parseJwt (token) {
 function myCallback(response){
   console.log("logged in");
   const responsePayload = parseJwt(response.credential);
-  console.log("Email: " + responsePayload.email);
+  console.log("Name: " + responsePayload.name);
   socket.emit('login', responsePayload.email.split('@')[0]);
 } 

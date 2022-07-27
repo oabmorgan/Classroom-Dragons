@@ -25,6 +25,31 @@ body{
 }
 
 /*
+    Timer
+*/
+
+#content_timer{
+    flex: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(237, 255, 254);
+    box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, .2);
+    margin:4px;
+    padding: 4px;
+    margin-bottom: 0px;
+  }
+  
+  #timer_fill{
+    width: 50%;
+    height: 40px;
+    background-color: rgb(248, 115, 38);
+    border-right: 5px solid rgb(248, 164, 38);
+  }
+
+/*
     Left Panel
 */
 
@@ -60,15 +85,6 @@ body{
     align-content:center;
     background-color: white;
     text-align: center;
-}
-
-#pointCount{
-    flex: 1;
-    width: 30px;
-    font-size: 1.8em;
-    border: none;
-    padding: 8px;
-    text-align: left;
 }
 
 .content_item{ 
@@ -110,43 +126,51 @@ body{
 #panel_mid{
     width: 50%;
     position: relative;
+    display: flex;
+    flex-direction: column;
     flex: 100;
+    background-image: url("../images/background_grass.png");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .content_cards{
-    height: 8%;
     position: relative;
     display: flex;
+    flex: 1;
     justify-content: space-evenly;
-    align-items: center;
+    align-items:center;
+    background-color: rgba(12, 207, 54, 0);
 }
 
 #name{
     position: relative;
     align-self: center;
     font-size: 2.8em;
-    height: 8%;
     text-align: center;
+    background-color: rgba(207, 204, 12, 0);
 }
 
 .content_card{
     font-size: 1.5em;
     display: flex;
     width: auto;
+    border: 0;
+    border-radius: 30px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 10px;
 }
 
   /*
     Dragon
   */
   .spacing_dragon{
+    position: relative;
+    top: 0;
+    flex: 10;
     width: 100%;
-    height: 74%;
     display: flex;
-    background-image: url("../images/background_grass.png");
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position-y: 150px;
   }
   
   #content_dragon{
@@ -154,7 +178,8 @@ body{
     position: relative;
     align-self: flex-end;
     text-align: center;
-    padding-bottom: 20px;
+    padding-bottom: 5%;
+    overflow: hidden;
   }
   
   .dragon{
@@ -169,6 +194,7 @@ body{
     margin-top: -20px;
     margin-bottom: -20px;
     width: auto;
+    z-index: 1;
   }
   
   .moodIcon{
@@ -180,8 +206,8 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10%;
-    font-size: 2vw;
+    flex: 2;
+    font-size: 1.8em;
     background-color: #E8F5E9;
     text-overflow: ellipsis;
 }
@@ -325,7 +351,7 @@ body{
 }
 
 .whiteboard{
-    height: 80vh;
+    height: 100vh;
     width: 100%;
     position: absolute;
     left: 0;
@@ -342,9 +368,8 @@ body{
     position: absolute;
     display: flex;
     width: 100%;
-    height: 100vh;
     justify-content: flex-end;
-    pointer-events:none;
+    pointer-events:all;
 }
 .roundButton{
     border: 3px solid black;

@@ -6,26 +6,20 @@
     </head>
     <body>
         <div id="g_id_onload"
-                data-client_id="962020932017-6ievr5uml2qfs8nbfmli3m4vbnvcjqgu.apps.googleusercontent.com"
+                data-client_id="962020932017-fv5lk1nqdn1l5i4bs8fa9vqq2mhatql8.apps.googleusercontent.com"
                 data-context="use"
                 data-callback="myCallback"
                 data-auto_select="true"
                 data-close_on_tap_outside="false">
             </div>
-        <div id="content_login">
+        <div id="content_login" style="display: none">
             <div contenteditable="true" id="login_email"></div>@seto-solan.ed.jp
             <div id="login_submit">Login</div>
             </div>
         </div>
-        <div id='content'>
+        <div id='content' style="display: none">
             <div class="panel" id='panel_left'>
                 <div id="content_shop">
-                    <div id="shop_title">
-                        <div style="flex: 1; text-align: right;">
-                            <img class="icon" id="coin" src="../images/coin.png">
-                        </div>
-                        <div id="pointCount">0</div>
-                    </div>
                      <div class="content_itemlist" id="content_itemlist">
                     </div>
                 </div>
@@ -34,14 +28,16 @@
                 <div id="name">Oliver</div>
                 <div class="content_cards">
                     <div class="content_card">
+                        <img class="icon" src="../images/coin.png">
+                        <div id="pointCount">0</div>
+                    </div>
+                    <div class="content_card">
                         <img class="icon" src="../images/green_card.png">
                         <div id="cardCount_green">000</div>
-                    </div>
-                    <div class="content_card">
+                        &emsp;
                         <img class="icon" src="../images/yellow_card.png">
                         <div id="cardCount_yellow">000</div>
-                    </div>
-                    <div class="content_card">
+                        &emsp;
                         <img class="icon" src="../images/red_card.png">
                         <div id="cardCount_red">000</div>
                     </div>
@@ -75,9 +71,9 @@
             </div>
         </div>
     </div>
-    <div id="content_draw">
+    <div id="content_draw" style="display: none">
         <div id="content_whiteboard">
-            <canvas class="whiteboard"></canvas>
+            <canvas class="whiteboard" id="whiteboard"></canvas>
         </div>
         <div id="content_buttons">
             <div class="roundButton" id="whiteboard_ink" src="" style="background-color:black"></div>
@@ -87,6 +83,7 @@
     </div>
         <script src="/socket.io/socket.io.js"></script>
         <script src="s_scripts.js"></script>
+        <script src="../shared/animation.js"></script>
         <script src="https://accounts.google.com/gsi/client" async defer></script>
     </body>
 </html> 
