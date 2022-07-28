@@ -88,6 +88,12 @@
 		"effect": "background",
 		"value": "forest"
 	},
+	"50_portal_fire": {
+		"name": "Fire Portal",
+		"cost": 50,
+		"effect": "background",
+		"value": "fire"
+	},
 	"100_paint_rainbow": {
 		"name": "Rainbow Paint",
 		"cost": 100,

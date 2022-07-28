@@ -98,6 +98,15 @@ io.on('connection', (socket) => {
 		updateTeam();
 	});
 
+	socket.on('random', () => {
+		let userNames = Object.keys(users);
+		let currentUser;
+		do{
+			currentUser = users[userNames[Math.floor(Math.random()*userNames.length)]];
+		}while(currentUser.team < 0)
+		io.emit('random', currentUser.name);
+	});
+
 	socket.on('changeTeam', (id, team) => {
 		console.log(id, team);
 		let user = users[id];
@@ -149,6 +158,9 @@ io.on('connection', (socket) => {
 		io.emit('mode', currentMode);
 		if(currentMode == "draw"){
 			gallery = [];
+		}
+		if(currentMode == "main"){
+			updateXP();
 		}
 	})
 

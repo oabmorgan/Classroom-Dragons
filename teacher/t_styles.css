@@ -61,7 +61,7 @@ div{
   box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, .2);
   margin:4px;
   padding: 4px;
-  margin-bottom: 0px;
+  margin-top: 0px;
 }
 
 #timer_fill{
@@ -69,6 +69,17 @@ div{
   height: 40px;
   background-color: rgb(248, 115, 38);
   border-right: 5px solid rgb(248, 164, 38);
+}
+
+#timer_disp{
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  text-align: center;
+  line-height: 40px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.6em;
 }
 
 #content_footer{
@@ -149,9 +160,14 @@ div{
 }
 
 .dragon{
-  flex: 1;
-  pointer-events: none;
+  flex:1;
+  max-width: 0%;
+  pointer-events:none;
+  width: 100%;
+  margin:0 auto;
 }
+
+
 
 .dragon_mood{
   text-align: center;
@@ -258,11 +274,59 @@ div{
   align-self: flex-end;
   border: 2px solid black;
   border-radius: 100%;
-  background-color: grey;
+  background-color: rgb(158, 162, 165);
   height: 35px;
   margin-right: 8px;
 }
 
+#yellow_button{
+  border-color: rgba(231,196,35,255);
+}
+
+#green_button{
+  border-color: rgba(123,231,36,255);
+}
+
+#red_button{
+  border-color: rgba(231,69,37,255);
+}
+
 .roundButton:active, .roundButton:hover{
   border-color: rgb(255, 231, 94);
+}
+
+
+#content_end{
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  text-align: left;
+  overflow-y: scroll;
+  background-image: url("/images/background_sky.png");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#popup{
+  position: fixed;
+  width: fit-content;
+  z-index: 10;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: rgb(234, 246, 252);
+  box-shadow: 4px 4px 1px 0px rgba(0, 0, 0, .2);
+  padding: 50px;
+  visibility: hidden;
+}
+
+#popupImg{
+  width: 50%;
+}
+
+#popupText{
+  font-size: 3em;
 }

@@ -16,13 +16,14 @@ var selected = [];
 var shop = true;
 var hide = false;
 
-var timer;
+const timerStep = 5;
+var timerDuration = timerStep;
 
 window.onload = function() {    
 
     window.addEventListener("pointerdown", function(e){mouseDown(e);});
     window.addEventListener("pointerup", function(e){mouseUp(e);});
-    document.getElementById("qr").src = "https://chart.googleapis.com/chart?chs=250x250&chld=L|0&cht=qr&chl=http://whiteboard.omorgan.net:3030";
+    document.getElementById("qr").src = "https://chart.googleapis.com/chart?chs=250x250&chld=L|0&cht=qr&chl=http://dragons.omorgan.net:3030";
 
     //history.pushState(null, "", "/");
 
@@ -31,7 +32,6 @@ window.onload = function() {
     showContent("main");
     updateShop();
     setInterval(animation_frame, 10);
-    setInterval(timer_tick, 100);
 }
 
 
@@ -50,7 +50,7 @@ function mouseUp(e){
                 toggleHide();
                 break;
             case "timer_button":
-                timer_start(10);
+                timer_start();
                 break;
             case "shop_button":
                 console.log("shop");
@@ -73,10 +73,15 @@ function mouseUp(e){
                 showContent("teams");
             break;
             case "main_button":
-                showContent("main");
+                timer_end();
             break;
-            case "send_button":
-                showContent("main");
+            case "random_button":
+                document.getElementById("popup").style.visibility = "visible";
+                socket.emit('random');
+                break;
+            case "qr":
+                window.open("https://chart.googleapis.com/chart?chs=500x500&chld=L|3&cht=qr&chl=http://dragons.omorgan.net:3030", '_blank');
+                break;
         }
         switch(mouseDownElement.classList[0]){
             case "spacing_dragon":
@@ -99,18 +104,23 @@ function mouseUp(e){
     }
 }
 
-function timer_tick(){
-    if(timer != null){
-        let pct = (timer.end - Date.now())/timer.duration;
-        if(pct > 0){   
-            //console.log(pct);
-        } else if (pct < -0.2){
-            timer = null;
-            document.getElementById("content_timer").style.display = "none";
-            showContent("main");
-        }
-    }
+socket.on('random', function(name){
+    new_animation(document.getElementById("popupText"), "opacity", 100, 2 + Math.random(), "easeIn", 2, true, spin_end, spin_tick);
+    document.getElementById("popupText").innerHTML = name;
+    document.getElementById("popupText").style.opacity = "0%";
+});
+
+function spin_tick(_,v){
+    let offset = document.getElementById("popupText").innerHTML.charCodeAt(0);
+    document.getElementById("popupImg").style.transform = "rotate("+(offset*70 + (v*v)*0.0005)+"deg)";
 }
+
+function spin_end(){
+    document.getElementById("popupText").style.opacity = "100%";
+    document.getElementById("popup").style.visibility = "hidden";
+    document.getElementById("popupText").innerHTML = "";
+}
+
 
 function toggleHide(){
     hide = !hide;
@@ -121,17 +131,23 @@ function toggleHide(){
     }
 }
 
+function timer_tick(pct, dur){
+    document.getElementById("timer_disp").innerHTML = Math.max(Math.ceil(dur/1000), 0);
+}
 
-function timer_start(duration){
+function timer_end(){
+    document.getElementById("content_timer").style.display = "none";
+    showContent("main");
+    timerDuration = timerStep;
+}
+
+function timer_start(){
+    document.getElementById("timer_disp").innerHTML = "";
     let timer_fill = document.getElementById("timer_fill");
     document.getElementById("content_timer").style.display = "flex";
     timer_fill.style.width = "100%";
-    new_animation(timer_fill, "width", 0, duration, "linear");
-    timer = {
-        "start":Date.now(),
-        "end":Date.now()+duration*1000,
-        "duration":duration*1000
-    }
+    new_animation(timer_fill, "width", 0, timerDuration, "linear", 1.1, true, timer_end, timer_tick);
+    timerDuration += timerStep;
 }
 
 function select(userID, teamID){
@@ -185,6 +201,9 @@ function addMember(team, id, name, color){
 };
 
 socket.on('updateXP', function(team, xp, level){
+    if(currentContent != "main"){
+        return;
+    }
     let xpFill = document.getElementById("xp_fill"+team);
     let teamLevel = document.getElementById("team_level"+team);
     new_animation(xpFill, "height", xp%100, 0.3, "linearWrap");
@@ -240,7 +259,7 @@ socket.on('updateTeam', function(teamID, teamInfo){
   
     document.getElementById("dragon_name"+teamID).innerHTML = team.dragon_name;
   
-    new_animation(dragon, "maxWidth", team.level*5 + teams[teamID].dragon_size, 1, "linear");
+    new_animation(dragon, "maxWidth", team.level*4 + teams[teamID].dragon_size, 1, "linear");
 
     //dragon.style.maxWidth = team.level*5 + teams[teamID].dragon_size+"%";
 
@@ -322,6 +341,7 @@ function showContent(newContent){
     }
     currentContent = newContent;
     document.getElementById("content_gallery").innerHTML = "";
+    document.getElementById("popup").style.visibility = "hidden";
     switch(newContent){
       case "main":
         socket.emit('mode', 'main');
@@ -346,9 +366,11 @@ function showContent(newContent){
 
 function updateShop(){
     if(shop){
-        document.getElementById("shop_button").src = "../images/close.png";
-    } else {
         document.getElementById("shop_button").src = "../images/open.png";
+        document.getElementById("shop_button").style.borderColor = greencard;
+    } else {
+        document.getElementById("shop_button").src = "../images/close.png";
+        document.getElementById("shop_button").style.borderColor = redcard;
     }
     socket.emit('toggleShop', shop);
 }

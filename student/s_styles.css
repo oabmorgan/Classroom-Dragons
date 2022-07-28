@@ -171,21 +171,22 @@ body{
     flex: 10;
     width: 100%;
     display: flex;
+    text-align: center;
   }
   
   #content_dragon{
     width: 100%;
     position: relative;
     align-self: flex-end;
-    text-align: center;
-    padding-bottom: 5%;
-    overflow: hidden;
+    margin:0 auto;
   }
   
   .dragon{
+    flex:1;
     max-width: 0%;
-    max-height: 60vh;
     pointer-events:none;
+    width: 100%;
+    margin:0 auto;
   }
   
   .dragon_mood{
@@ -369,7 +370,7 @@ body{
     display: flex;
     width: 100%;
     justify-content: flex-end;
-    pointer-events:all;
+    pointer-events:none;
 }
 .roundButton{
     border: 3px solid black;

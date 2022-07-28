@@ -17,7 +17,8 @@ var pen = {
   "ink": 2500,
   "size": 20,
   "rate": 5,
-  "down": false
+  "down": false,
+  "lock": false
 };
 
 window.onload = function() {
@@ -41,8 +42,8 @@ window.onload = function() {
     whiteboardReset();
   }); 
 
-  //document.getElementById('login_email').innerText = "2022003";
-  //login_send();
+  document.getElementById('login_email').innerText = "2022003";
+  login_send();
 
   switchMode("login");
   setInterval(animation_frame, 10);
@@ -76,10 +77,14 @@ function mouseUp(e){
     console.log("click:",mouseDownElement.id);
     switch(mouseDownElement.id){
       case "whiteboard_clear":
-        whiteboardReset();
+        if(!pen.lock){
+          whiteboardReset();
+        }
       break;
       case "whiteboard_send":
-        postWhiteboard();
+        if(!pen.lock){
+          postWhiteboard();
+        }
       break;
       case "login_submit":
         login_send();
@@ -170,7 +175,7 @@ socket.on('updateXP', function(team, xp, level){
   let teamLevel = document.getElementById("team_level");
   teamLevel.innerText = level;
   //xpFill.style.height = xp%100 + "%";
-  new_animation(xpFill, "height", xp%100, 0.3, "linear");
+  new_animation(xpFill, "height", xp%100, 0.3, "linearWrap");
   level.innerHTML = level;
   switch(level){
     case 0:
@@ -227,7 +232,7 @@ socket.on('updateTeam', function(teamID, teamInfo){
   document.getElementById("dragon_name").innerHTML = team.dragon_name;
 
   //dragon.style.maxWidth = team.level*5 + team.dragon_size+"%";
-  new_animation(dragon, "maxWidth", team.level*5 + team.dragon_size, 1, "linear");
+  new_animation(dragon, "maxWidth", team.level*4 + team.dragon_size, 1, "linear");
 
   let newData = "../images/dragons/"+team.dragon_type+"/"+team.dragon_evol+".svg";
   if(dragon.getAttribute("data") != newData){
@@ -364,7 +369,7 @@ var canvas = document.getElementsByClassName('whiteboard')[0];
 var context = canvas.getContext('2d');
 
 function drawLine(e, dot = false){
-  if(pen.ink <= 0 || !pen.down){
+  if(pen.ink <= 0 || !pen.down || pen.lock){
     return;
   }
   context.beginPath();
@@ -411,9 +416,14 @@ function clearWhiteboard(){
   context.clearRect(0, 0, canvas.width, canvas.height);
   pen.ink = 5000;
   pen.down = false;
+  pen.lock = false;
+  document.getElementById("whiteboard").style.background = "white";
+
 }
 
 function postWhiteboard(){
+  pen.lock = true;
+  document.getElementById("whiteboard").style.background = "grey";
   socket.emit('postWhiteboard', userID, canvas.toDataURL());
 }
 
