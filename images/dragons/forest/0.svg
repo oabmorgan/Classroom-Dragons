@@ -39,26 +39,25 @@
    inkscape:current-layer="layer1" />
 	<defs
    id="defs2" />
-   <linearGradient
-   id="rainbow"
-   gradientUnits="userSpaceOnUse">
-      <stop
-   offset="20%"
-   stop-color="rgb(255,0,0)"
-   id="stop4" />
-      <stop
-   offset="40%"
-   stop-color="rgb(255,255,0)"
-   id="stop6" />
-      <stop
-   offset="60%"
-   stop-color="rgb(0,192,255)"
-   id="stop8" />
-      <stop
-   offset="80%"
-   stop-color="rgb(192,0,255)"
-   id="stop10" />
+   <linearGradient id="rainbow" gradientUnits="userSpaceOnUse">
+      <stop offset="20%" stop-color="rgb(255,0,0)" id="stop4" />
+      <stop offset="40%" stop-color="rgb(255,255,0)" id="stop6" />
+      <stop offset="60%" stop-color="rgb(0,192,255)" id="stop8" />
+      <stop offset="80%" stop-color="rgb(192,0,255)" id="stop10" />
     </linearGradient>
+    <linearGradient id="gold" gradientUnits="userSpaceOnUse" gradientTransform="rotate(60)">						
+		<stop offset="0" stop-color="#BF953F" />						
+		<stop offset="0.25" stop-color="#FCF6BA" />						
+		<stop offset="0.5" stop-color="#B38728" />
+      <stop offset="0.75" stop-color="#FBF5B7" />
+      <stop offset="1" stop-color="#AA771C" />
+   </linearGradient>
+   <linearGradient id="silver" gradientUnits="userSpaceOnUse" gradientTransform="rotate(10)">						
+		<stop offset="1%" stop-color="#f7fafc"/>
+      <stop offset="35.33%" stop-color="#8d8d8d"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="82%" stop-color="#b8a9b3"/>
+   </linearGradient>
 	<g
    inkscape:groupmode="layer"
    id="layer3"

@@ -25,7 +25,7 @@ window.onload = function() {
     window.addEventListener("pointerup", function(e){mouseUp(e);});
     document.getElementById("qr").src = "https://chart.googleapis.com/chart?chs=250x250&chld=L|0&cht=qr&chl=http://dragons.omorgan.net:3030";
 
-    //history.pushState(null, "", "/");
+    history.pushState(null, "", "/");
 
     socket.emit('login', "", true);
 
@@ -276,14 +276,25 @@ socket.on('updateTeam', function(teamID, teamInfo){
 function updateColors(teamID){
     let svg = document.getElementById("dragon"+teamID).contentDocument;
     team = teams[teamID];
-    if(team.primary == "url(#rainbow)"){
-        document.getElementById("xp_fill"+teamID).style.background = "linear-gradient(to top, rgb(255,0,0),rgb(255,255,0),rgb(0,192,255),rgb(192,0,255))";
+    switch(team.primary){
+        case "url(#silver)":
+            document.getElementById("xp_fill"+teamID).style.background = "linear-gradient(358deg, rgba(184,169,179,1) 4%, rgba(247,250,252,1) 31%, rgba(141,141,141,1) 87%)";
+        document.getElementById("xp_fill"+teamID).style.borderTopColor = "rgba(184,169,179,1)";
+            break;
+        case "url(#gold)":
+            document.getElementById("xp_fill"+teamID).style.background = "linear-gradient(2deg, rgba(222,183,103,1) 45%, rgba(252,246,186,1) 57%, rgba(193,135,32,1) 91%)";
+        document.getElementById("xp_fill"+teamID).style.borderTopColor = "rgba(222,183,103,1)";
+            break;
+        case "url(#rainbow)":
+            document.getElementById("xp_fill"+teamID).style.background = "linear-gradient(to top, rgb(255,0,0),rgb(255,255,0),rgb(0,192,255),rgb(192,0,255))";
         document.getElementById("xp_fill"+teamID).style.borderTopColor = "white";
-      } else{
-        document.getElementById("xp_fill"+teamID).style.background = team.primary;
-        document.getElementById("xp_fill"+teamID).style.borderTopColor = team.secondary;
-      }
-  
+            break;
+        default:
+            document.getElementById("xp_fill"+teamID).style.background = team.primary;
+            document.getElementById("xp_fill"+teamID).style.borderTopColor = team.secondary;
+            break;
+    }
+ 
       var paths = svg.getElementsByTagName("path");
       for(let i=0; i<paths.length; i++){
         switch(paths[i].getAttribute("class")){

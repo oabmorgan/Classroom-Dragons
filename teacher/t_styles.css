@@ -330,3 +330,7 @@ div{
 #popupText{
   font-size: 3em;
 }
+
+.gradient{
+  visibility: hidden;
+}

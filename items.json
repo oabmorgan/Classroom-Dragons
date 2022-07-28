@@ -94,11 +94,25 @@
 		"effect": "background",
 		"value": "fire"
 	},
+	"80_paint_silver": {
+		"name": "Silver Paint",
+		"cost": 80,
+		"effect": "recolor_1",
+		"value": "url(#silver)",
+		"value2": "rgba(155, 155, 155, 0.5)"
+	},
 	"100_paint_rainbow": {
 		"name": "Rainbow Paint",
 		"cost": 100,
 		"effect": "recolor_1",
 		"value": "url(#rainbow)",
+		"value2": "rgba(155, 155, 155, 0.5)"
+	},	
+	"150_paint_gold": {
+		"name": "Gold Paint",
+		"cost": 150,
+		"effect": "recolor_1",
+		"value": "url(#gold)",
 		"value2": "rgba(155, 155, 155, 0.5)"
 	}
 }
