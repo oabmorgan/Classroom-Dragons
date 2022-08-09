@@ -3,6 +3,8 @@
    <head>
       <title>Teacher</title>
       <link rel="stylesheet" type="text/css" href="t_styles.css">
+      <link rel="shortcut icon" type="image/png" href="../images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
    </head>
    <body>
       <div id="popup">
@@ -152,10 +154,21 @@
          </div>
          <div id="content_footer">
             <div class="panel" id="panel_footer">
+               <img id="goal_button" class="roundButton" src="../images/target.png">
                <div id="content_goal">
-                  Today's Goal: Clean your locker
+                  <select>
+                     <option>① がっこうの　ものを　たいせつに　する。</option>
+                     <option>② ろっかーを　きれいにする。</option>
+                     <option>③ ひとを　ばかに　しない。</option>
+                     <option>④ ひとに　てを　ださない。　おさない。</option>
+                     <option>⑤ ちらかさないように　する。　おちていたら　ひろう。</option>
+                     <option>⑥ だれかが　はなしているときは　きく。</option>
+                     <option>⑦ ひとの　ものを　さわらない。</option>
+                     <option>⑧ ものを　たいせつにする。</option>
+                     <option>⑨ ちくちくことばを　いわない。</option>
+                     <option>⑩ ひとが　いやがることを　しない。</option>
+                  </select>
                </div>
-               <div id="content_ui">
                   <img class="roundButton" id="green_button" src="../images/green_card.png">
                   <img class="roundButton" id="yellow_button" src="../images/yellow_card.png">
                   <img class="roundButton" id="red_button" src="../images/red_card.png">
@@ -167,13 +180,13 @@
                   <img class="roundButton" id="draw_button" src="../images/whiteboard.png">
                   <img class="roundButton" id="main_button" src="../images/home.png">
                   <img id="qr" class="qr" src="https://chart.googleapis.com/chart?chs=500x500&cht=qr&chld=L|0">
-               </div>
             </div>
          </div>
       </div>
       <script src="../socket.io/socket.io.js"></script>
       <script src="t_scripts.js"></script>
       <script src="../shared/animation.js"></script>
+      <script src="../shared/cookies.js"></script>
 
       <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
          <linearGradient id="gold" x2="1" y2="1">

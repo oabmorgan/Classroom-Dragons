@@ -74,7 +74,7 @@
 		"name": "Pink Paint",
 		"cost": 40,
 		"effect": "recolor_1",
-		"value": "rgb(233, 30, 99)"
+		"value": "rgb(255, 77, 178)"
 	},
 	"50_portal_sky": {
 		"name": "Sky Portal",

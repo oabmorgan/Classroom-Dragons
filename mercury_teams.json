@@ -7,9 +7,9 @@
     "background": "grass",
     "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 100,
-    "primary": "rgb(201, 199, 236)",
-    "secondary": "rgb(214, 225, 233)"
+    "dragon_mood": 97,
+    "primary": "rgb(208, 244, 222)",
+    "secondary": "rgb(252, 246, 189)"
   },
   "1": {
     "xp": 0,
@@ -19,9 +19,9 @@
     "background": "grass",
     "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 100,
-    "primary": "rgb(238, 255, 204)",
-    "secondary": "rgb(174, 186, 137)"
+    "dragon_mood": 97,
+    "primary": "rgb(255, 153, 200)",
+    "secondary": "rgb(169, 222, 249)"
   },
   "2": {
     "xp": 0,
@@ -31,20 +31,20 @@
     "background": "grass",
     "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 100,
-    "primary": "rgb(201, 199, 236)",
-    "secondary": "rgb(249, 216, 161)"
+    "dragon_mood": 97,
+    "primary": "rgb(255, 153, 200)",
+    "secondary": "rgb(208, 244, 222)"
   },
   "3": {
     "xp": 0,
     "level": 0,
     "dragon_name": "Team 4",
-    "dragon_type": "forest",
+    "dragon_type": "normal",
     "background": "grass",
     "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 100,
-    "secondary": "rgb(207, 232, 183)",
-    "primary": "rgb(255, 212, 163)"
+    "dragon_mood": 97,
+    "secondary": "rgb(208, 244, 222)",
+    "primary": "rgb(228, 193, 249)"
   }
 }

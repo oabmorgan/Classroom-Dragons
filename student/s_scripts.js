@@ -22,6 +22,13 @@ var pen = {
 };
 
 window.onload = function() {
+
+  let savedID = getCookie('userID');
+  console.log(savedID);
+  if (savedID) {
+    document.getElementById('login_email').innerText = savedID;
+    login_send();
+  }
   document.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
       login_send();
@@ -29,6 +36,13 @@ window.onload = function() {
     }
 
   });
+
+
+  document.getElementById("dragon").addEventListener('load', function(){
+    updateColors();
+  });
+
+  //document.getElementById("dragon").style["maxWidth"] = "25%";
 
   /*
     Set up canvas
@@ -42,11 +56,11 @@ window.onload = function() {
     whiteboardReset();
   }); 
 
-  document.getElementById('login_email').innerText = "2022003";
-  login_send();
+  //document.getElementById('login_email').innerText = "2022003";
+  //login_send();
 
   switchMode("login");
-  setInterval(animation_frame, 10);
+  setInterval(animation_frame, 20);
 }
 
 function mouseDown(e){
@@ -76,6 +90,9 @@ function mouseUp(e){
   if(mouseUpElement == mouseDownElement){
     console.log("click:",mouseDownElement.id);
     switch(mouseDownElement.id){
+      case "name":
+        logout();
+        break;
       case "whiteboard_clear":
         if(!pen.lock){
           whiteboardReset();
@@ -88,6 +105,7 @@ function mouseUp(e){
       break;
       case "login_submit":
         login_send();
+        document.getElementById('login_email').innerText = "";
       break;
     }
   }
@@ -108,26 +126,24 @@ function login_send(){
   socket.emit('login', userID);
 }
 
-socket.on('login', function(success){
-  if(success){
-    user = true;
-    switchMode("main");
-  }
-});
-
 /*
 logout
 */
 
 socket.on('logout', function(ID){
   if(ID == userID || ID == "all"){
+    logout();
+  }
+});
+
+function logout(){
+  eraseCookie("userID");
     switchMode("login");
     document.getElementById('login_email').innerText = "";
     user = false;
     team = false;
     items = false;
-  }
-});
+}
 
 /*
 Update User
@@ -137,6 +153,7 @@ Update Name, points & cards
 socket.on('updateUser', function(ID, userInfo){
   if(ID == userID){
     user = userInfo;
+    setCookie('userID', userID, 360);
     if(user.team == -1){
       window.location.href = window.location + "teacher";
       return;
@@ -155,7 +172,6 @@ socket.on('updateUser', function(ID, userInfo){
         itemCosts[i].style.background = "rgb(255, 230, 107)";
         itemCosts[i].parentElement.style.opacity = "1";
       } else {
-        console.log(cost, user.points);
         itemCosts[i].style.color = "rgb(109, 135, 151)";
         itemCosts[i].style.background = "rgb(159, 177, 188)";
         itemCosts[i].parentElement.style.opacity = "0.7";
@@ -237,9 +253,6 @@ socket.on('updateTeam', function(teamID, teamInfo){
   let newData = "../images/dragons/"+team.dragon_type+"/"+team.dragon_evol+".svg";
   if(dragon.getAttribute("data") != newData){
       dragon.setAttribute("data", newData);
-      dragon.addEventListener('load', function(){
-          updateColors(teamID);
-      });
   } else{
     updateColors(teamID);
   }
@@ -251,8 +264,6 @@ Update dragon colors (called after svg loads)
 
 function updateColors(teamID){
   let svg = document.getElementById("dragon").contentDocument;
-
-
   switch(team.primary){
     case "url(#silver)":
         document.getElementById("xp_fill").style.background = "linear-gradient(358deg, rgba(184,169,179,1) 4%, rgba(247,250,252,1) 31%, rgba(141,141,141,1) 87%)";

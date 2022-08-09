@@ -7,8 +7,13 @@ body{
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  touch-action: none;
+  touch-action:none;
 }
+
+*{
+  touch-action:none;
+}
+
 /*
     vh fix
 */
@@ -25,9 +30,29 @@ div{
   flex-direction: column;
 }
 
+:root {
+  --app-height: 100%;
+}
+
+.item{
+  width: 60px;
+  height: 60px;
+}
+
+.itemName{
+  position:absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+}
+
+
 @supports (-webkit-touch-callout: none) {
   #content{
     height: -webkit-fill-available;
+    height: 95vh;
   }
 }
 
@@ -93,19 +118,32 @@ div{
   height: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background-color: white;
   box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, .2);
-  padding: 4px;
+  padding: 8px;
 }
 
-.content_goal{
+#content_goal{
   flex:1;
+  font-size: 0.72em;
+  overflow: hidden;
+}
+
+select{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  background: none;
+  font-size: 2em;
 }
 
 .content_ui{
   flex:1;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .teampanel{
@@ -162,12 +200,11 @@ div{
 .dragon{
   flex:1;
   max-width: 0%;
-  pointer-events:none;
-  width: 100%;
+  min-width: 10%;
   margin:0 auto;
+  touch-action: none;
+  pointer-events: none;
 }
-
-
 
 .dragon_mood{
   text-align: center;
@@ -271,7 +308,6 @@ div{
 }
 
 .roundButton{
-  align-self: flex-end;
   border: 2px solid black;
   border-radius: 100%;
   background-color: rgb(158, 162, 165);
