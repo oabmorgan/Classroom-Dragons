@@ -7,7 +7,7 @@
     "background": "grass",
     "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 97,
+    "dragon_mood": 86,
     "primary": "rgb(208, 244, 222)",
     "secondary": "rgb(252, 246, 189)"
   },
@@ -19,7 +19,7 @@
     "background": "grass",
     "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 97,
+    "dragon_mood": 86,
     "primary": "rgb(255, 153, 200)",
     "secondary": "rgb(169, 222, 249)"
   },
@@ -31,7 +31,7 @@
     "background": "grass",
     "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 97,
+    "dragon_mood": 86,
     "primary": "rgb(255, 153, 200)",
     "secondary": "rgb(208, 244, 222)"
   },
@@ -43,7 +43,7 @@
     "background": "grass",
     "dragon_evol": 0,
     "dragon_size": 25,
-    "dragon_mood": 97,
+    "dragon_mood": 86,
     "secondary": "rgb(208, 244, 222)",
     "primary": "rgb(228, 193, 249)"
   }

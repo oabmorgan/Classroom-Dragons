@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <script src="https://apis.google.com/js/api.js"></script>
+        <script>
+        gapi.client.setApiKey("AIzaSyD4qenc1T4rxAnsYD6MCouMuKYZ8FJXo8c");
+        return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/analytics/v3/rest")
+            .then(function() {
+                    console.log("GAPI client loaded for API");
+                    addNameAndEmail();
+                    },
+                    function(err) { console.error("Error loading GAPI client for API", err); });
+        // Make sure the client is loaded and sign-in is complete before calling this method.
+            function addNameAndEmail() {
+            console.log( gapi.auth2.BasicProfile.getName() );
+        }
+            gapi.load("client:auth2", function() {
+            gapi.auth2.init({client_id: "962020932017-49j9m5e9ubbhh4eoicr67plrh8fehfr4.apps.googleusercontent.com"});
+        });
+    </script>
+    </head>
+    <body>
+    </body>
+</html>

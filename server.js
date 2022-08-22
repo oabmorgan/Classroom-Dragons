@@ -27,7 +27,7 @@ switch(args[0]){
 		break;
 }
 
-const decaySpeed = 100;
+const decaySpeed = 130;
 
 var currentMode = "main";
 var shop = true;
@@ -45,6 +45,9 @@ app.get('/', (req, res) => {
 });
 app.get('/teacher', (req, res) => {
 	res.sendFile(__dirname + '/teacher/teacher.html');
+});
+app.get('/email', (req, res) => {
+	res.sendFile(__dirname + '/email.html');
 });
 app.get('/reset', (req, res) => {
 	resetTeams();
@@ -167,6 +170,37 @@ io.on('connection', (socket) => {
 			updateXP();
 		}
 	})
+//socket.emit('getBonus', "mood");
+//socket.on('getBonus', function(newBonus){
+	socket.on('getBonus', (bonusType) =>{
+		let returnBonus = [];
+		let userNames = Object.keys(users);
+		for (let i = 0; i < userNames.length; i++) {
+			let currentUser = users[userNames[i]];
+			for(let b = 0; b < currentUser.cards[0]/4; b++){
+				returnBonus.push({
+					"name":currentUser.name,
+					"teamID":currentUser.team,
+					"type":"green card"
+				});
+			}
+			for(let b = 0; b < currentUser.cards[1]; b++){
+				returnBonus.push({
+					"name":currentUser.name,
+					"teamID":currentUser.team,
+					"type":"yellow card"
+				});
+			}
+			for(let b = 0; b < currentUser.cards[2]; b++){
+				returnBonus.push({
+					"name":currentUser.name,
+					"teamID":currentUser.team,
+					"type":"red card"
+				});
+			}
+		}
+		socket.emit('getBonus', returnBonus);
+	});
 
 	socket.on('toggleShop', (open) =>{
 		shop = open;
@@ -256,17 +290,14 @@ function giveCard(teamID, userID, card) {
 			break;
 		case 3:
 				points = 3;
-				mood = 1;
 				card = 0;
 				break;
 		case 4:
 				points = -3;
-				mood = -2;
 				card = 1;
 				break;
 		case 5:
 				points = -5;
-				mood = -5;
 				card = 2;
 				break;		
 	}
@@ -278,7 +309,7 @@ function giveCard(teamID, userID, card) {
 			users[userID].cards[card]++;
 			users[userID].points += clamp(points, 0);
 		}
-		teams[teamID].xp += clamp(xp, 0);
+		teams[teamID].xp = Math.max(teams[teamID].xp + xp, 0);
 		console.log("XP Change:", teams[teamID].dragon_name, teams[teamID].xp, '(' + xp + ')');
 
 	updateXP(teamID);
@@ -365,6 +396,7 @@ function resetTeams(all=false) {
 	for (let i = 0; i < 4; i++) {
 		let currentTeam = teams[i];
 		currentTeam.xp = 0;
+		currentTeam.score = 0;
 		currentTeam.level = 1;
 		currentTeam.dragon_name = "Team " + (i+1);
 		let random = Math.random();
@@ -399,6 +431,7 @@ function resetTeams(all=false) {
 }
 
 server.listen(port, () => {
+
 	console.log(ip.address() + ':'+port);
 	let url = 'https://LTMhHIN3L4bFhDi0:ORsTMAFKlSuVVBiw@domains.google.com/nic/update?hostname=dragons.omorgan.net&myip='+ip.address();
 	require('https').get(url, (res) => {

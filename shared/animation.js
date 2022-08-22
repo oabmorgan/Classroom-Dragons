@@ -37,7 +37,7 @@ function animation_frame(){
                     break;
                     //wrap over 100%
                 case "increase":
-                    let value = parseInt(anim.element.style[anim.attribute]);
+                    let value = parseFloat(anim.element.style[anim.attribute]);
                     if(value >= 100){
                         value = 0;
                     }
@@ -46,10 +46,10 @@ function animation_frame(){
                 case "decrease":
                     break;
                 case "linearWrap":
-                    if(range < 0 && parseInt(anim.element.style[anim.attribute]) < 100){
+                    if(range < 0 && parseFloat(anim.element.style[anim.attribute]) < 100){
                         let fakeRange = anim.to + 100 - anim.from;
                         anim.element.style[anim.attribute] = anim.from + (fakeRange*(progressPct)) + "%";
-                        if(parseInt(anim.element.style[anim.attribute]) > 100){
+                        if(parseFloat(anim.element.style[anim.attribute]) > 100){
                             anim.from = 0;
                             anim.end += 1000;
                             anim.element.style[anim.attribute] = "0%";
@@ -69,7 +69,7 @@ function animation_frame(){
 
 function new_animation(element, attribute, to, duration, type, endPct=1, overwrite=false, onComplete=null, onFrame=null){
     let index = animation.findIndex(anim => anim.element === element && anim.attribute === attribute);
-    let from = parseInt(element.style[attribute]);
+    let from = parseFloat(element.style[attribute]);
     if(isNaN(from)){
         from = 0;
     }

@@ -1,6 +1,8 @@
 var socket = io();
 
 //Colors
+const black = "rgb(70, 68, 75)"; 
+const green = "rgb(222, 242, 200)"; 
 const blue = "rgb(179, 229, 252)";
 const greencard = "rgba(123,231,36,255)";
 const yellowcard = "rgba(231,196,35,255)";
@@ -26,6 +28,10 @@ var timer_length = 0;
 
 var address;
 
+var mode = "main";
+
+var bonusInterval;
+var bonusScale = 1;
 
 window.onload = function() {
     //click listeners
@@ -78,20 +84,21 @@ function mouseUp(e) {
             case "draw_button":
                 setMode("draw");
                 break;
-            case "green_button":
-                selectedCard = 0;
-                document.body.style.background = greencard;
-                setMode("teams");
-                break;
-            case "yellow_button":
-                selectedCard = 1;
-                document.body.style.background = yellowcard;
-                setMode("teams");
-                break;
-            case "red_button":
-                selectedCard = 2;
-                document.body.style.background = redcard;
-                setMode("teams");
+            case "card_button":
+                if(mode != "teams" || selectedCard == 2){
+                    selectedCard = 0;
+                    document.body.style.background = greencard;
+                    mouseDownElement.src = "../images/green_card.png";
+                } else if(selectedCard == 0){
+                    selectedCard = 1;
+                    document.body.style.background = yellowcard;
+                    mouseDownElement.src = "../images/yellow_card.png";
+                } else if(selectedCard == 1){
+                    selectedCard = 2;
+                    document.body.style.background = redcard;
+                    mouseDownElement.src = "../images/red_card.png";
+                }
+                setMode("teams", false);                
                 break;
             case "main_button":
                 timer_end();
@@ -104,11 +111,13 @@ function mouseUp(e) {
                 window.open("https://chart.googleapis.com/chart?chs=500x500&chld=H|2&cht=qr&chl="+address, '_blank');
                 break;
             case "goal_button":
+                item("Oliver", "green card", 2);
                 break;
         }
         switch (mouseDownElement.classList[0]) {
             case "spacing_dragon":
             case "content_dragon":
+            case "dragon_name":
                 socket.emit('card', teamID, 0, 0);
                 break;
             case "member":
@@ -130,6 +139,9 @@ function mouseUp(e) {
         if(mouseDownElement.id == "goal_button" && mouseUpElement.id=="qr"){
             eraseCookie("userID");
             location.reload();
+        }
+        if(mouseDownElement.id == "card_button" && mouseUpElement.id=="main_button"){
+         setMode("end");
         }
     }
 }
@@ -233,8 +245,8 @@ function item(userName, name, team){
     let newName = document.createElement("div");
     newName.innerHTML = userName;
     newName.classList.add("itemName");
-    newName.style.left = (screen.width/100)*((team*25) + 10 + 5 - (Math.random()*5))-(60/2) + "px";
-    newName.style.top = "5%";
+    newName.style.left = (team*25) + 5 + (Math.random() * 10)+"%";
+    newName.style.top = "1%";
 
     let newItem = document.createElement("img");
     let src = name.replace(/ /g,"_")
@@ -243,26 +255,45 @@ function item(userName, name, team){
 
     newName.appendChild(newItem);
     document.body.appendChild(newName);
-    new_animation(newName, "top", 65, 5, "easeOut", 1, false, removeItem, spinItem);
+    new_animation(newName, "top", 60, 5, "easeOut", 1, false, function(){return removeItem(newName, name, team)}, spinItem);
 }
 
-function removeItem(){
-    const items = document.getElementsByClassName("itemName");
-    for(let i=0; i<items.length; i++){
-        let item = items[i];
-        if(parseInt(item.style.top) > 60){
-            item.remove();
+function removeItem(ele, name, teamID){
+    ele.remove();
+    switch(name){
+        case "green card":
+            scoreFill = document.getElementById("xp_end_fill" + teamID);
+            teams[teamID].score++;
+            scoreFill.style["height"] = teams[teamID].score*bonusScale+"%";
+            if(teams[teamID].score*bonusScale > 70){
+                bonusScale*=0.99;
+                bonusInterval = setInterval(addBonus, 50*bonusScale);
+            }
+            scoreFill.innerText = teams[teamID].score;
+            break;
+        case "yellow card":
+            scoreFill = document.getElementById("xp_end_fill" + teamID);
+            teams[teamID].score--;
+            scoreFill.style["height"] = teams[teamID].score*bonusScale+"%";
+            scoreFill.innerText = teams[teamID].score;
+        break;
+        case "green card":
+            scoreFill = document.getElementById("xp_end_fill" + teamID);
+            teams[teamID].score-=5;
+            scoreFill.style["height"] = teams[teamID].score*bonusScale+"%";
+            scoreFill.innerText = teams[teamID].score;
+        break;
+        default:
             socket.emit("forceTeamUpdate");
-            i--;
-        }
+            break;
     }
 }
 
 function spinItem(){
     const items = document.getElementsByClassName("itemName");
     for(let i=0; i<items.length; i++){
-        let item = items[i];
-        item.style.transform = "rotate(" + ((parseInt(item.style.top)-5)*15)  + "deg)";
+        let item = items[i].childNodes[1];
+        item.style.transform = "rotate(" + ((parseInt(items[i].style.top))*15)  + "deg)";
     }
 }
 
@@ -330,6 +361,8 @@ socket.on('updateTeam', function(teamID, teamInfo) {
     let newData = "../images/dragons/" + team.dragon_type + "/" + team.dragon_evol + ".svg";
 
     document.getElementById("dragon_name" + teamID).innerHTML = team.dragon_name;
+    document.getElementById("dragon_end_name" + teamID).innerHTML = team.dragon_name;
+    
     new_animation(dragon, "maxWidth", team.level * 4 + teams[teamID].dragon_size, 1, "linear");
     background.style.backgroundImage = "url(\"../images/background_" + team.background + ".png\")";
     updateColors(teamID);
@@ -360,18 +393,26 @@ function updateColors(teamID) {
         case "url(#silver)":
             document.getElementById("xp_fill" + teamID).style.background = "linear-gradient(358deg, rgba(184,169,179,1) 4%, rgba(247,250,252,1) 31%, rgba(141,141,141,1) 87%)";
             document.getElementById("xp_fill" + teamID).style.borderTopColor = "rgba(184,169,179,1)";
+            document.getElementById("xp_end_fill" + teamID).style.background = "linear-gradient(358deg, rgba(184,169,179,1) 4%, rgba(247,250,252,1) 31%, rgba(141,141,141,1) 87%)";
+            document.getElementById("xp_end_fill" + teamID).style.borderTopColor = "rgba(184,169,179,1)";
             break;
         case "url(#gold)":
             document.getElementById("xp_fill" + teamID).style.background = "linear-gradient(2deg, rgba(222,183,103,1) 45%, rgba(252,246,186,1) 57%, rgba(193,135,32,1) 91%)";
             document.getElementById("xp_fill" + teamID).style.borderTopColor = "rgba(222,183,103,1)";
+            document.getElementById("xp_end_fill" + teamID).style.background = "linear-gradient(2deg, rgba(222,183,103,1) 45%, rgba(252,246,186,1) 57%, rgba(193,135,32,1) 91%)";
+            document.getElementById("xp_end_fill" + teamID).style.borderTopColor = "rgba(222,183,103,1)";
             break;
         case "url(#rainbow)":
             document.getElementById("xp_fill" + teamID).style.background = "linear-gradient(to top, rgb(255,0,0),rgb(255,255,0),rgb(0,192,255),rgb(192,0,255))";
             document.getElementById("xp_fill" + teamID).style.borderTopColor = "white";
+            document.getElementById("xp_end_fill" + teamID).style.background = "linear-gradient(to top, rgb(255,0,0),rgb(255,255,0),rgb(0,192,255),rgb(192,0,255))";
+            document.getElementById("xp_end_fill" + teamID).style.borderTopColor = "white";
             break;
         default:
             document.getElementById("xp_fill" + teamID).style.background = team.primary;
             document.getElementById("xp_fill" + teamID).style.borderTopColor = team.secondary;
+            document.getElementById("xp_end_fill" + teamID).style.background = team.primary;
+            document.getElementById("xp_end_fill" + teamID).style.borderTopColor = team.secondary;
             break;
     }
 
@@ -421,26 +462,43 @@ function addArt(userID, name, team, art) {
     newFrame.appendChild(newName);
 };
 
-function setMode(newMode) {
+function setMode(newMode, force=true) {
+    if(newMode == mode && !force){
+        return;
+    }
     //give cards to anyone selected
     selected.forEach(s => {
         console.log(s.userID, s.teamID, s.card);
         socket.emit('card', s.teamID, s.userID, s.card);
         document.getElementById(s.userID).style.background = document.getElementById(s.userID).style.borderColor;
     });
+    selectedCard = 0;
+    document.getElementById("card_button").src = "../images/green_card.png";
     selected = [];
 
     switch (newMode) {
+        case "end":
+            document.body.style.background = black;
+            socket.emit('mode', 'end');
+            document.getElementById("content_end").style.display = "flex";
+            document.getElementById("content_gallery").style.display = "none";
+            document.getElementById("content_main").style.display = "none";
+            document.getElementById("content_teams").style.display = "none";
+            socket.emit("getBonus");
+            break;
         case "main":
             document.body.style.background = blue;
             socket.emit('mode', 'main');
+            document.getElementById("content_end").style.display = "none";
             document.getElementById("popup").style.visibility = "hidden";
             document.getElementById("content_gallery").style.display = "none";
             document.getElementById("content_main").style.display = "flex";
             document.getElementById("content_teams").style.display = "none";
             break;
         case "draw":
+            document.body.style.background = green;
             socket.emit('mode', 'draw');
+            document.getElementById("content_end").style.display = "none";
             document.getElementById("content_gallery").innerHTML = "";
             document.getElementById("content_gallery").style.display = "block";
             document.getElementById("content_main").style.display = "none";
@@ -448,12 +506,31 @@ function setMode(newMode) {
             document.getElementById("content_gallery").style.opacity = "100%";
             break;
         case "teams":
+            document.getElementById("content_end").style.display = "none";
             document.getElementById("content_gallery").style.display = "none";
             document.getElementById("content_main").style.display = "none";
             document.getElementById("content_teams").style.display = "flex";
             break;
     }
+    mode = newMode;
 }
+
+function addBonus(){
+    if(bonus.length > 0){
+        let rando = Math.floor(Math.random()*bonus.length);
+        item(bonus[rando].name, bonus[rando].type, bonus[rando].teamID);
+        bonus.splice(rando, 1);
+    } else {
+        clearInterval(bonusInterval);
+    }
+}
+
+var bonus = [];
+
+socket.on('getBonus', function(newBonus){
+    bonus = newBonus;
+    bonusInterval = setInterval(addBonus, 50);
+});
 
 function updateShop() {
     if (shop) {
